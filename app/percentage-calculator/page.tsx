@@ -1,276 +1,220 @@
-"use client";
-
-import React, { useState } from "react";
-import ToolLayout from "@/components/tools/ToolLayout";
-import ToolOutput from "@/components/tools/ToolOutput";
+import React from "react";
+import Link from "next/link";
+import Container from "@/components/ui/Container";
 import Card from "@/components/ui/Card";
-import Input from "@/components/ui/Input";
-import Select from "@/components/ui/Select";
-import Button from "@/components/ui/Button";
-import { RotateCcw, Calculator as CalcIcon, AlertCircle } from "lucide-react";
-import {
-  calculatePercentageOf,
-  calculateWhatPercentage,
-  calculatePercentageIncrease,
-  calculatePercentageDecrease,
-  calculatePercentageDifference,
-  calculateOriginalValue,
-  calculateDiscount,
-  CalculationResult,
-} from "@/lib/tools/percentage";
+import Breadcrumbs from "@/components/seo/Breadcrumbs";
+import JsonLd from "@/components/seo/JsonLd";
+import PercentageCalculatorForm from "@/components/tools/percentage-calculator/PercentageCalculatorForm";
+import { constructMetadata, BASE_URL } from "@/lib/seo/metadata";
+import { getToolBySlug, getRelatedTools } from "@/lib/tools/registry";
+import { FAQS_BY_TOOL_ID } from "@/data/faqs";
 
-export type ModeKey =
-  | "percentage_of"
-  | "what_percentage"
-  | "percentage_increase"
-  | "percentage_decrease"
-  | "percentage_difference"
-  | "original_value"
-  | "discount";
-
-const MODE_OPTIONS = [
-  { value: "percentage_of", label: "What is X% of Y?" },
-  { value: "what_percentage", label: "What percentage is X of Y?" },
-  { value: "percentage_increase", label: "Percentage increase (from X to Y)" },
-  { value: "percentage_decrease", label: "Percentage decrease (from X to Y)" },
-  { value: "percentage_difference", label: "Percentage difference (between X and Y)" },
-  { value: "original_value", label: "Find original value (before % change)" },
-  { value: "discount", label: "Discount calculator (Price & Discount %)" },
-];
+// 1. Next.js Metadata API
+export const metadata = constructMetadata({
+  title: "Percentage Calculator — Free Online Calculator",
+  description:
+    "Fast, accurate free percentage calculator. Calculate percentage of a value, percentage increase, percentage decrease, percentage difference, and store discounts.",
+  canonicalPath: "/percentage-calculator",
+  keywords: [
+    "percentage calculator",
+    "calculate percentage",
+    "percent change",
+    "percentage increase",
+    "percentage decrease",
+    "percentage difference",
+    "discount calculator",
+  ],
+});
 
 export default function PercentageCalculatorPage() {
-  const [mode, setMode] = useState<ModeKey>("percentage_of");
-  const [input1, setInput1] = useState<string>("");
-  const [input2, setInput2] = useState<string>("");
-  const [changeType, setChangeType] = useState<"increase" | "decrease">("increase");
-  
-  const [result, setResult] = useState<CalculationResult | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const tool = getToolBySlug("percentage-calculator");
+  const faqs = FAQS_BY_TOOL_ID["percentage-calculator"] || [];
+  const relatedTools = getRelatedTools("percentage-calculator");
 
-  const handleModeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newMode = e.target.value as ModeKey;
-    setMode(newMode);
-    setInput1("");
-    setInput2("");
-    setResult(null);
-    setErrorMessage(null);
+  // 2. Structured Data: WebApplication Schema
+  const webAppSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Percentage Calculator",
+    url: `${BASE_URL}/percentage-calculator`,
+    applicationCategory: "UtilityApplication",
+    operatingSystem: "All",
+    browserRequirements: "Requires JavaScript",
+    description: tool?.description || "Free online percentage calculator by IJMM System.",
+    publisher: {
+      "@type": "Organization",
+      name: "IJMM System",
+      url: BASE_URL,
+    },
   };
 
-  const handleReset = () => {
-    setMode("percentage_of");
-    setInput1("");
-    setInput2("");
-    setChangeType("increase");
-    setResult(null);
-    setErrorMessage(null);
+  // 3. Structured Data: FAQPage Schema (Matches visible page content)
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: `${faq.answer} ${faq.formula ? `Formula: ${faq.formula}` : ""}`,
+      },
+    })),
   };
 
-  const handleCalculate = (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-
-    setErrorMessage(null);
-
-    if (input1.trim() === "" || input2.trim() === "") {
-      setErrorMessage("Please fill in both input fields to perform calculation.");
-      setResult(null);
-      return;
-    }
-
-    const num1 = Number(input1);
-    const num2 = Number(input2);
-
-    if (isNaN(num1) || isNaN(num2)) {
-      setErrorMessage("Please enter valid numerical values.");
-      setResult(null);
-      return;
-    }
-
-    let calcRes: CalculationResult;
-
-    // Dispatch to pure domain functions in lib/tools/percentage.ts
-    switch (mode) {
-      case "percentage_of":
-        calcRes = calculatePercentageOf(num1, num2);
-        break;
-      case "what_percentage":
-        calcRes = calculateWhatPercentage(num1, num2);
-        break;
-      case "percentage_increase":
-        calcRes = calculatePercentageIncrease(num1, num2);
-        break;
-      case "percentage_decrease":
-        calcRes = calculatePercentageDecrease(num1, num2);
-        break;
-      case "percentage_difference":
-        calcRes = calculatePercentageDifference(num1, num2);
-        break;
-      case "original_value":
-        calcRes = calculateOriginalValue(num1, num2, changeType);
-        break;
-      case "discount":
-        calcRes = calculateDiscount(num1, num2);
-        break;
-      default:
-        calcRes = calculatePercentageOf(num1, num2);
-    }
-
-    if (!calcRes.success) {
-      setErrorMessage(calcRes.error);
-      setResult(null);
-    } else {
-      setResult(calcRes);
-    }
-  };
-
-  // Dynamic input label mapping based on mode
-  const getInputLabels = () => {
-    switch (mode) {
-      case "percentage_of":
-        return { label1: "Percentage (X%)", label2: "Total Amount (Y)", placeholder1: "e.g. 15", placeholder2: "e.g. 250" };
-      case "what_percentage":
-        return { label1: "Part Amount (X)", label2: "Total Whole (Y)", placeholder1: "e.g. 30", placeholder2: "e.g. 150" };
-      case "percentage_increase":
-      case "percentage_decrease":
-        return { label1: "Original Value (X)", label2: "New Value (Y)", placeholder1: "e.g. 100", placeholder2: "e.g. 125" };
-      case "percentage_difference":
-        return { label1: "First Value (X)", label2: "Second Value (Y)", placeholder1: "e.g. 10", placeholder2: "e.g. 20" };
-      case "original_value":
-        return { label1: "Final Value", label2: "Percentage Change (%)", placeholder1: "e.g. 120", placeholder2: "e.g. 20" };
-      case "discount":
-        return { label1: "Original Price ($)", label2: "Discount Percentage (%)", placeholder1: "e.g. 80", placeholder2: "e.g. 20" };
-    }
-  };
-
-  const labels = getInputLabels();
-
-  // Unit suffix for output result display
-  const getOutputUnit = (): string | undefined => {
-    if (mode === "what_percentage" || mode === "percentage_increase" || mode === "percentage_decrease" || mode === "percentage_difference") {
-      return "%";
-    }
-    return undefined;
-  };
+  const breadcrumbItems = [
+    { label: "Home", href: "/" },
+    { label: "Calculators", href: "/categories/calculators" },
+    { label: "Percentage Calculator" },
+  ];
 
   return (
-    <ToolLayout
-      title="Percentage Calculator"
-      description="Calculate percentages, percentage increases, decreases, percentage differences, and store discounts quickly and accurately."
-      breadcrumbs={[
-        { label: "Calculators", href: "/categories" },
-        { label: "Percentage Calculator" },
-      ]}
-    >
-      <div className="mx-auto max-w-2xl space-y-6">
-        {/* Main Calculator Form Card */}
-        <Card padding="lg" className="border-[var(--border)] shadow-sm">
-          <form onSubmit={handleCalculate} className="space-y-5">
-            {/* Calculation Mode Selector */}
-            <Select
-              label="Select Calculation Mode"
-              options={MODE_OPTIONS}
-              value={mode}
-              onChange={handleModeChange}
-            />
+    <>
+      {/* Schema.org Structured Data */}
+      <JsonLd data={webAppSchema} />
+      {faqs.length > 0 && <JsonLd data={faqSchema} />}
 
-            {/* Mode 6 Additional Option: Increase / Decrease */}
-            {mode === "original_value" && (
-              <Select
-                label="Percentage Change Type"
-                options={[
-                  { value: "increase", label: "After a percentage INCREASE" },
-                  { value: "decrease", label: "After a percentage DECREASE" },
-                ]}
-                value={changeType}
-                onChange={(e) => setChangeType(e.target.value as "increase" | "decrease")}
-              />
-            )}
+      <Container size="md" className="py-8 sm:py-12">
+        {/* Breadcrumb Navigation */}
+        <Breadcrumbs items={breadcrumbItems} className="mb-6" />
 
-            {/* Dynamic Inputs */}
+        {/* Page Header */}
+        <div className="mb-8 space-y-2 text-left">
+          <h1 className="text-2xl font-extrabold tracking-tight text-[var(--text)] sm:text-3xl lg:text-4xl">
+            Percentage Calculator
+          </h1>
+          <p className="text-sm text-[var(--text-muted)] sm:text-base max-w-2xl leading-relaxed">
+            Free, fast, and privacy-focused percentage calculator by IJMM System.
+            Calculate percentage of a number, percentage increase, decrease, percentage difference, and store discounts.
+          </p>
+        </div>
+
+        {/* Interactive Client Calculator Form */}
+        <section aria-label="Percentage Calculator Tool" className="mb-12">
+          <PercentageCalculatorForm />
+        </section>
+
+        {/* AEO / GEO Educational Content Section */}
+        <article className="space-y-10 border-t border-[var(--border)] pt-10 text-left">
+          {/* Section: How to Calculate a Percentage */}
+          <section className="space-y-3">
+            <h2 className="text-xl font-bold text-[var(--text)] sm:text-2xl">
+              How to Calculate a Percentage
+            </h2>
+            <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+              A percentage represents a fraction of 100. Calculating percentages is an essential daily skill
+              used in finance, retail discounts, data analysis, and academic statistics.
+            </p>
+          </section>
+
+          {/* Section: Percentage Formulas */}
+          <section className="space-y-4">
+            <h2 className="text-xl font-bold text-[var(--text)] sm:text-2xl">
+              Percentage Formulas
+            </h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Input
-                label={labels.label1}
-                type="number"
-                step="any"
-                placeholder={labels.placeholder1}
-                value={input1}
-                onChange={(e) => setInput1(e.target.value)}
-              />
-              <Input
-                label={labels.label2}
-                type="number"
-                step="any"
-                placeholder={labels.placeholder2}
-                value={input2}
-                onChange={(e) => setInput2(e.target.value)}
-              />
-            </div>
+              <Card padding="md" variant="outline">
+                <h3 className="text-sm font-bold text-[var(--text)] mb-1">Percentage of a Value</h3>
+                <code className="block bg-[var(--surface-secondary)] p-2 text-xs font-mono rounded-xs text-[var(--primary)] mb-2">
+                  Result = Total × (Percentage / 100)
+                </code>
+                <p className="text-xs text-[var(--text-muted)]">
+                  Multiplies the total value by the percentage rate divided by 100.
+                </p>
+              </Card>
 
-            {/* Form Validation Error Message */}
-            {errorMessage && (
-              <div
-                role="alert"
-                className="flex items-center gap-2 rounded-(--radius-md) border border-[var(--error)] bg-[var(--error-bg)] p-3 text-xs font-medium text-[var(--error)]"
-              >
-                <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <span>{errorMessage}</span>
+              <Card padding="md" variant="outline">
+                <h3 className="text-sm font-bold text-[var(--text)] mb-1">Percentage Relationship</h3>
+                <code className="block bg-[var(--surface-secondary)] p-2 text-xs font-mono rounded-xs text-[var(--primary)] mb-2">
+                  Percentage = (Part / Whole) × 100
+                </code>
+                <p className="text-xs text-[var(--text-muted)]">
+                  Divides the part by the total whole and multiplies by 100.
+                </p>
+              </Card>
+
+              <Card padding="md" variant="outline">
+                <h3 className="text-sm font-bold text-[var(--text)] mb-1">Percentage Increase</h3>
+                <code className="block bg-[var(--surface-secondary)] p-2 text-xs font-mono rounded-xs text-[var(--primary)] mb-2">
+                  Increase % = ((New - Original) / Original) × 100
+                </code>
+                <p className="text-xs text-[var(--text-muted)]">
+                  Measures the growth percentage relative to the original value.
+                </p>
+              </Card>
+
+              <Card padding="md" variant="outline">
+                <h3 className="text-sm font-bold text-[var(--text)] mb-1">Percentage Decrease</h3>
+                <code className="block bg-[var(--surface-secondary)] p-2 text-xs font-mono rounded-xs text-[var(--primary)] mb-2">
+                  Decrease % = ((Original - New) / Original) × 100
+                </code>
+                <p className="text-xs text-[var(--text-muted)]">
+                  Measures the drop percentage relative to the original value.
+                </p>
+              </Card>
+            </div>
+          </section>
+
+          {/* Section: Real-World Examples */}
+          <section className="space-y-3">
+            <h2 className="text-xl font-bold text-[var(--text)] sm:text-2xl">
+              Real-World Examples
+            </h2>
+            <div className="space-y-3 text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed">
+              <Card padding="md" variant="flat">
+                <p className="font-semibold text-[var(--text)] mb-1">Example 1: Calculating a 15% Tip on a $250 Bill</p>
+                <p className="mb-2">Formula substitution: $250 × (15 / 100) = $250 × 0.15 = $37.50</p>
+                <p className="text-[var(--primary)] font-medium">Result: The tip amount is $37.50.</p>
+              </Card>
+
+              <Card padding="md" variant="flat">
+                <p className="font-semibold text-[var(--text)] mb-1">Example 2: Price Increase from $100 to $125</p>
+                <p className="mb-2">Formula substitution: ((125 - 100) / 100) × 100 = (25 / 100) × 100 = 25%</p>
+                <p className="text-[var(--primary)] font-medium">Result: A 25% price increase.</p>
+              </Card>
+            </div>
+          </section>
+
+          {/* Section: Frequently Asked Questions */}
+          {faqs.length > 0 && (
+            <section className="space-y-4">
+              <h2 className="text-xl font-bold text-[var(--text)] sm:text-2xl">
+                Frequently Asked Questions
+              </h2>
+              <div className="space-y-3">
+                {faqs.map((faq, idx) => (
+                  <Card key={idx} padding="md" variant="outline" className="space-y-2">
+                    <h3 className="text-sm font-bold text-[var(--text)]">{faq.question}</h3>
+                    <p className="text-xs text-[var(--text-muted)] leading-relaxed">{faq.answer}</p>
+                    {faq.formula && (
+                      <div className="text-xs bg-[var(--surface-secondary)] p-2 rounded-xs text-[var(--text)] font-mono">
+                        Formula: {faq.formula}
+                      </div>
+                    )}
+                  </Card>
+                ))}
               </div>
-            )}
+            </section>
+          )}
 
-            {/* Actions: Calculate & Reset */}
-            <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-3 pt-2">
-              <Button
-                type="button"
-                variant="ghost"
-                size="md"
-                onClick={handleReset}
-                className="w-full sm:w-auto"
-              >
-                <RotateCcw className="mr-1.5 h-4 w-4" aria-hidden="true" />
-                <span>Reset</span>
-              </Button>
-
-              <Button
-                type="submit"
-                variant="primary"
-                size="md"
-                className="w-full sm:w-auto"
-              >
-                <CalcIcon className="mr-1.5 h-4 w-4" aria-hidden="true" />
-                <span>Calculate</span>
-              </Button>
-            </div>
-          </form>
-        </Card>
-
-        {/* Result Area */}
-        {result && result.success && (
-          <ToolOutput
-            label={
-              mode === "discount"
-                ? "Final Price After Discount"
-                : mode === "original_value"
-                ? "Original Value Before Change"
-                : "Calculation Result"
-            }
-            value={result.formatted}
-            unit={getOutputUnit()}
-            details={
-              mode === "discount" && result.metadata
-                ? [
-                    {
-                      label: "Original Price",
-                      value: `$${result.metadata.originalPrice}`,
-                    },
-                    {
-                      label: "Discount Amount Saved",
-                      value: `$${result.metadata.discountAmount}`,
-                    },
-                  ]
-                : undefined
-            }
-          />
-        )}
-      </div>
-    </ToolLayout>
+          {/* Section: Related Tools (Only Active Tools via Tool Registry) */}
+          {relatedTools.length > 0 && (
+            <section className="space-y-4 pt-6 border-t border-[var(--border)]">
+              <h2 className="text-lg font-bold text-[var(--text)]">Related Tools</h2>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {relatedTools.map((relTool) => (
+                  <Link key={relTool.id} href={`/${relTool.slug}`}>
+                    <Card padding="md" hoverEffect variant="outline" className="h-full">
+                      <h3 className="text-sm font-bold text-[var(--text)] mb-1">{relTool.name}</h3>
+                      <p className="text-xs text-[var(--text-muted)]">{relTool.shortDescription}</p>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+        </article>
+      </Container>
+    </>
   );
 }

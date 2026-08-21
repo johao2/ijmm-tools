@@ -1,44 +1,69 @@
-# SEO, AEO & GEO Strategy — IJMM TOOLS
+# SEO, AEO & GEO Technical Strategy — IJMM TOOLS
 
 **Owner:** IJMM SYSTEM  
-**Product:** IJMM Tools
+**Product:** IJMM Tools  
+**Version:** 1.0.0
 
 ---
 
-## 1. Overview & Objectives
+## 1. Overview & Core Principles
 
-IJMM Tools is optimized for three modern search discovery paradigms:
-1. **Traditional SEO (Search Engine Optimization):** High-ranking organic web search visibility.
-2. **AEO (Answer Engine Optimization):** Direct answer extraction by engines like Google Search SGE, Bing Copilot, and Perplexity.
-3. **GEO (Generative Engine Optimization):** Contextual citation and understanding by LLM-powered assistants (ChatGPT, Gemini, Claude).
+IJMM Tools is architected to be technically discoverable, semantically structured, and genuinely useful across three discovery paradigms:
+1. **Search Engine Optimization (SEO):** Traditional organic web search visibility.
+2. **Answer Engine Optimization (AEO):** Direct answer extraction for conversational search features.
+3. **Generative Engine Optimization (GEO):** Factual clarity for LLM-based assistants (ChatGPT, Gemini, Perplexity, Claude).
 
 ---
 
-## 2. Technical SEO Principles
+## 2. Canonical & URL Strategy
 
-### 2.1 URL Hierarchy
-- Primary tools use clean root-level URLs (e.g., `ijmmtools.com/percentage-calculator`).
-- Category pages use `/categories/[slug]`.
-- Directory URL `/tools` lists all tools.
-- No duplicate indexable routes.
+### 2.1 Single Canonical URL per Tool
+- **Primary SEO Tools:** Primary tools reside at top-level root URLs (e.g. `https://ijmmtools.com/percentage-calculator`).
+- **No Duplicate Indexable URLs:** The route `/tools` serves exclusively as the tools directory. Routes such as `/tools/percentage-calculator` do NOT exist and must NOT be created.
 
-### 2.2 Structured Data (Schema.org)
-Implemented semantically with zero manipulative markup:
-- **`WebSite`:** Site name, URL, search action.
-- **`WebApplication`:** Tool name, operating system, application category, browser requirement.
-- **`BreadcrumbList`:** Visual and programmatic path (`Home > Calculators > Percentage Calculator`).
+### 2.2 Status Lifecycle Indexing Policy
+- **`status: "active"`:** Publicly accessible, indexed in `sitemap.ts`, `robots.ts`, directory, and search engines.
+- **`status: "planned"`:** Registered in catalog for internal roadmap tracking. **MUST NOT** generate public routes, sitemap entries, or thin placeholder content.
+- **`status: "deprecated"`:** Excluded from primary search directories.
+
+---
+
+## 3. Metadata Architecture (`lib/seo/metadata.ts`)
+
+Metadata is generated server-side using Next.js Metadata API and `constructMetadata()`:
+- **`title`:** Concise, natural title (e.g. `Percentage Calculator — Free Online Calculator | IJMM Tools`).
+- **`description`:** Factual description explaining utility, free access, and key calculations. Zero keyword lists.
+- **`alternates.canonical`:** Absolute canonical URL pointing to `https://ijmmtools.com/percentage-calculator`.
+- **`openGraph`:** Clean OG metadata (title, description, url, siteName: "IJMM Tools", type: "website").
+- **`robots`:** Standard `index: true, follow: true` for active pages.
+
+---
+
+## 4. Structured Data (Schema.org) Policy (`components/seo/JsonLd.tsx`)
+
+Structured data MUST represent visible page content accurately with zero manipulative markup:
+- **`WebSite`:** Represents the platform root, search action, and publisher ("IJMM System").
+- **`WebApplication`:** Describes tool operating system ("All"), browser requirements, and category.
+- **`BreadcrumbList`:** Programs visual and semantic path (`Home > Calculators > Percentage Calculator`).
 - **`FAQPage`:** Included ONLY when visible FAQs exist on the page to provide immediate utility.
 
-### 2.3 Sitemap & Robots Configuration
-- `sitemap.ts` dynamically scans `ToolRegistry` and outputs only `status: "active"` URLs.
-- `robots.ts` allows legitimate search crawlers (`Googlebot`, `Bingbot`, `OAI-SearchBot`).
+---
+
+## 5. AEO & GEO Content Guidelines
+
+### 5.1 Answer-Engine Optimization (AEO)
+- **Direct Definitions:** Clear answers to real queries ("What is a percentage?", "How do you calculate X% of Y?").
+- **Explicit Formulas:** Formatted math formulas matching `lib/tools/percentage.ts`.
+- **Step-by-step Examples:** Real-world examples with numerical substitutions.
+
+### 5.2 Generative Engine Optimization (GEO)
+- **Factual Language:** Clear headings (H1, H2), concise paragraphs, no fluff.
+- **No Manipulative AI Claims:** Zero fake endorsements ("Google recommends..."), zero artificial keyword stuffing.
+- **Entity Distinction:** Product is **IJMM Tools**; Owner/Publisher is **IJMM System**.
 
 ---
 
-## 3. AEO & GEO Principles
+## 6. Sitemap & Robots Configuration
 
-### 3.1 Content Standards
-- **Direct Mathematical Formulas:** Clear representation of formulas (e.g., $Y \times X / 100$).
-- **Concise Direct Answers:** Concise H2 and paragraph explanations answering user intent immediately.
-- **Real-World Examples:** Concrete step-by-step calculation examples with numbers.
-- **No Thin Content:** Zero placeholder or low-value pages.
+- **`app/sitemap.ts`:** Dynamically pulls `getActiveTools()` from `lib/tools/registry.ts`. Includes ONLY active tools and static public pages.
+- **`app/robots.ts`:** Permits crawling of public routes for all legitimate engines and links to `https://ijmmtools.com/sitemap.xml`.
