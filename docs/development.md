@@ -70,14 +70,41 @@ Use these deterministic functions to query data:
 - **`MobileMenu` (Client Component):** Accessible slide-over menu for mobile viewports (`<768px`). Manages `aria-expanded`, `aria-controls`, `Escape` key listeners, and backdrop interactions.
 - **`Footer` (Server Component):** Renders semantic `<footer>` with brand ownership (`A product by IJMM System`), platform directory links, legal links (`/privacy`, `/terms`), and copyright (`© 2026 IJMM System`).
 
-### 3.2 Accessibility & Responsive Rules
-- Semantic markup: `<header>`, `<nav>`, `<main>`, `<footer>`.
-- Keyboard focus visible state on all links and buttons (`focus-visible:ring-2`).
-- Mobile-first breakpoints: tested cleanly at `320px`, `375px`, `430px`, `768px`, `1024px`, `1280px+`.
+---
+
+## 4. Percentage Calculator Engine Specification (`lib/tools/percentage.ts`)
+
+Pure, framework-independent domain logic for percentage calculations. Returns `CalculationResult` (`CalculationSuccess` | `CalculationError`).
+
+### 4.1 Six Core Calculation Operations
+1. **`calculatePercentageOf(percentage, total)`:**
+   - Formula: `total * (percentage / 100)`
+2. **`calculateWhatPercentage(part, whole)`:**
+   - Formula: `(part / whole) * 100`
+   - Validation: `whole === 0` yields `DIVISION_BY_ZERO` error.
+3. **`calculatePercentageIncrease(originalValue, newValue)`:**
+   - Formula: `((newValue - originalValue) / originalValue) * 100`
+   - Validation: `originalValue === 0` yields `DIVISION_BY_ZERO` error.
+4. **`calculatePercentageDecrease(originalValue, newValue)`:**
+   - Formula: `((originalValue - newValue) / originalValue) * 100`
+   - Validation: `originalValue === 0` yields `DIVISION_BY_ZERO` error.
+5. **`calculatePercentageDifference(value1, value2)`:**
+   - Formula: `|value1 - value2| / ((|value1| + |value2|) / 2) * 100`
+   - Validation: `(|value1| + |value2|) / 2 === 0` (both zero) yields `DIVISION_BY_ZERO` error.
+6. **`calculateOriginalValue(finalValue, percentageChange, changeType)`:**
+   - Formula (Increase): `finalValue / (1 + percentageChange / 100)`
+   - Formula (Decrease): `finalValue / (1 - percentageChange / 100)`
+   - Validation: Denominator zero yields `DIVISION_BY_ZERO` error.
+
+### 4.2 Precision Policy & Error Handling
+- **Floating Point Rounding:** Internal results rounded using `roundToPrecision(value, 6)` (`Math.round((value + Number.EPSILON) * 10^6) / 10^6`).
+- **Display Formatting:** `formatNumericResult(value)` formats numbers up to 4 decimal places with trailing zeros stripped.
+- **Non-Finite Shielding:** Returns `NON_FINITE_RESULT` error if calculation results in `NaN` or `Infinity`.
+- **Negative Values:** Supported wherever mathematically valid (e.g. negative percentage of a number, negative part/whole relationships).
 
 ---
 
-## 4. How to Add a New Tool (Standard Workflow)
+## 5. How to Add a New Tool (Standard Workflow)
 
 To create a new tool in IJMM Tools, follow these exact 4 steps:
 
@@ -103,7 +130,7 @@ Create `app/<tool-slug>/page.tsx`:
 
 ---
 
-## 5. Quality & Build Commands
+## 6. Quality & Build Commands
 
 Run the following commands before submitting any PR or completing a feature phase:
 
