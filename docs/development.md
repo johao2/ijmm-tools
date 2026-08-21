@@ -62,7 +62,22 @@ Use these deterministic functions to query data:
 
 ---
 
-## 3. How to Add a New Tool (Standard Workflow)
+## 3. Global Layout Architecture (`components/layout/`)
+
+### 3.1 Layout Composition
+- **`Header` (Server Component):** Renders text brand `IJMM Tools`, desktop navigation, and slot for search trigger (`/tools`).
+- **`Navigation` (Server Component):** Renders semantic `<nav>` with active desktop links (`/tools`, `/categories`, `/about`, `/contact`).
+- **`MobileMenu` (Client Component):** Accessible slide-over menu for mobile viewports (`<768px`). Manages `aria-expanded`, `aria-controls`, `Escape` key listeners, and backdrop interactions.
+- **`Footer` (Server Component):** Renders semantic `<footer>` with brand ownership (`A product by IJMM System`), platform directory links, legal links (`/privacy`, `/terms`), and copyright (`© 2026 IJMM System`).
+
+### 3.2 Accessibility & Responsive Rules
+- Semantic markup: `<header>`, `<nav>`, `<main>`, `<footer>`.
+- Keyboard focus visible state on all links and buttons (`focus-visible:ring-2`).
+- Mobile-first breakpoints: tested cleanly at `320px`, `375px`, `430px`, `768px`, `1024px`, `1280px+`.
+
+---
+
+## 4. How to Add a New Tool (Standard Workflow)
 
 To create a new tool in IJMM Tools, follow these exact 4 steps:
 
@@ -88,7 +103,7 @@ Create `app/<tool-slug>/page.tsx`:
 
 ---
 
-## 4. Quality & Build Commands
+## 5. Quality & Build Commands
 
 Run the following commands before submitting any PR or completing a feature phase:
 
