@@ -19,26 +19,43 @@ graph TD
     NextRouter --> CategoryRoute["/categories/[slug] (Dynamic Category)"]
     
     PilotTool --> PureLogic["lib/tools/percentage.ts (Pure Logic)"]
-    PilotTool --> ToolRegistry["lib/tools/registry.ts (Tool Registry)"]
+    PilotTool --> ToolRegistry["lib/tools/registry.ts (Tool Registry API)"]
     
     CategoryRoute --> ToolRegistry
     DirectoryRoute --> ToolRegistry
     HomeRoute --> ToolRegistry
     
-    ToolRegistry --> DataTools["data/tools.ts (Master Registry Data)"]
-    ToolRegistry --> DataCategories["data/categories.ts (Categories Data)"]
+    ToolRegistry --> DataTools["data/tools.ts (Master Tool Catalog)"]
+    ToolRegistry --> DataCategories["data/categories.ts (Master Category Catalog)"]
+    ToolRegistry --> DataFaqs["data/faqs.ts (Separated FAQ Dataset)"]
 ```
 
 ---
 
 ## 2. Key Architecture Pillars
 
-### 2.1 Tool Registry System
-The `ToolRegistry` serves as the single source of truth for tool definitions.
-- **Master Data Location:** `data/tools.ts`
-- **Registry API:** `lib/tools/registry.ts`
-- **Tool Statuses:** `active`, `planned`, `deprecated`.
-- **Enforcement:** Tools marked with `status: "planned"` are visible in registry metadata for internal mapping, but do NOT render public indexable pages.
+### 2.1 Tool Registry Architecture & Single Source of Truth
+The `ToolRegistry` (`lib/tools/registry.ts`) serves as the **Single Source of Truth** for the entire platform.
+- **Master Data Files:** `data/tools.ts` (Tools), `data/categories.ts` (Categories), `data/faqs.ts` (FAQs).
+- **Separation of Concerns:** Data datasets contain zero UI JSX, raw mathematical logic, or long-form articles.
+
+#### Status Lifecycle Rules:
+- **`active`:** Fully implemented tools. Render public indexable pages (e.g. `/percentage-calculator`). Included in sitemaps, homepage, directory, and search results.
+- **`planned`:** Registered MVP candidates for roadmap tracking. **MUST NOT** generate public indexable pages or thin placeholder routes.
+- **`deprecated`:** Legacy tools no longer promoted.
+
+#### Slug & Category Rules:
+- **Slugs:** Lowercase, hyphenated, URL-safe (`/^[a-z0-9]+(?:-[a-z0-9]+)*$/`). Stable once published.
+- **Categories:** 8 official categories (`calculators`, `developer-tools`, `pdf-tools`, `image-tools`, `generators`, `converters`, `security-tools`, `ecuador-tools`). Category IDs are mandatory and validated.
+
+#### In-Memory Search Engine:
+- `searchTools(query)` operates 100% in-memory without database dependencies.
+- Case-insensitive and accent-tolerant NFD normalization over `name`, `shortDescription`, `description`, `keywords`, and `categoryId`.
+
+#### Relationship Safety (`getRelatedTools`):
+- `getRelatedTools(toolId)` returns ONLY `status: "active"` tools to prevent broken internal links.
+
+---
 
 ### 2.2 Routing & URL Strategy
 - **Primary SEO Tools:** Mounted as root-level routes (e.g., `/percentage-calculator`).
@@ -46,16 +63,22 @@ The `ToolRegistry` serves as the single source of truth for tool definitions.
 - **Directory:** `/tools` lists active tools with search and filter capabilities.
 - **Categories:** `/categories/[slug]` dynamically renders tools belonging to a specific category.
 
+---
+
 ### 2.3 Separation of Logic & UI
 - Pure functions in `lib/tools/<tool>.ts`.
 - Zero UI references or DOM manipulations inside mathematical/processing logic.
 - Automated unit testing target `lib/tools/` directly.
 
+---
+
 ### 2.4 Design System & Styling Architecture
-- **Token System (`app/globals.css`):** Centralized CSS variables (`--primary`, `--surface`, `--text`, `--border`, `--error`, `--radius-md`, etc.) mapped to Tailwind CSS v4 `@theme inline`.
+- **Token System (`app/globals.css`):** Centralized CSS variables mapped to Tailwind CSS v4 `@theme inline`.
 - **Base Component Library (`components/ui/`):** Lightweight, zero-dependency reusable components (`Container`, `Button`, `Input`, `Select`, `Card`).
 - **Mobile-First Responsive Support:** Tested across 320px, 375px, 430px, 768px, 1024px, 1280px+.
 - **Accessibility & Reduced Motion:** Native keyboard navigation, visible focus rings (`focus-visible:ring-2`), and `prefers-reduced-motion` compliance.
+
+---
 
 ### 2.5 Analytics & Advertising Abstraction
 - Vendor-agnostic event tracker: `trackEvent(eventName, payload)` in `lib/analytics/events.ts`.

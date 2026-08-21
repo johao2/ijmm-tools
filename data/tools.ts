@@ -1,0 +1,153 @@
+import { Tool } from "@/lib/tools/types";
+
+export const TOOLS: Tool[] = [
+  // Pilot Tool (Active)
+  {
+    id: "percentage-calculator",
+    name: "Percentage Calculator",
+    slug: "percentage-calculator",
+    categoryId: "calculators",
+    description: "Free online percentage calculator. Quickly calculate percentage of a number, percentage increase, percentage decrease, percentage difference, and discount amounts.",
+    shortDescription: "Calculate percentages, percentage change, difference, and discounts quickly.",
+    icon: "Percent",
+    status: "active",
+    seo: {
+      title: "Percentage Calculator — Free Online Percentage Calculation Tool",
+      description: "Fast, accurate free percentage calculator. Calculate percentage of a value, percentage increase, percentage decrease, percentage difference, and store discounts.",
+      keywords: ["percentage calculator", "calculate percentage", "percent change", "percentage increase", "percentage decrease", "discount calculator"],
+      canonicalPath: "/percentage-calculator",
+    },
+    relatedToolIds: [
+      "calculadora-iva-ecuador",
+      "unit-converter"
+    ],
+  },
+
+  // Planned MVP Candidates (status: "planned" - DO NOT generate public pages)
+  {
+    id: "json-formatter",
+    name: "JSON Formatter",
+    slug: "json-formatter",
+    categoryId: "developer-tools",
+    description: "Format, validate, beautify, and minify JSON data online.",
+    shortDescription: "Format, validate, and beautify JSON data effortlessly.",
+    icon: "Code",
+    status: "planned",
+    seo: {
+      title: "JSON Formatter & Validator — IJMM Tools",
+      description: "Format and validate JSON online.",
+    },
+  },
+  {
+    id: "password-generator",
+    name: "Password Generator",
+    slug: "password-generator",
+    categoryId: "generators",
+    description: "Generate ultra-secure, random passwords with custom parameters.",
+    shortDescription: "Generate strong, secure, customized passwords.",
+    icon: "Key",
+    status: "planned",
+    seo: {
+      title: "Password Generator — IJMM Tools",
+      description: "Generate secure random passwords.",
+    },
+  },
+  {
+    id: "qr-code-generator",
+    name: "QR Code Generator",
+    slug: "qr-code-generator",
+    categoryId: "generators",
+    description: "Generate custom high-resolution QR codes for URLs, text, and Wi-Fi.",
+    shortDescription: "Create free custom QR codes instantly.",
+    icon: "QrCode",
+    status: "planned",
+    seo: {
+      title: "QR Code Generator — IJMM Tools",
+      description: "Create custom QR codes online.",
+    },
+  },
+  {
+    id: "image-compressor",
+    name: "Image Compressor",
+    slug: "image-compressor",
+    categoryId: "image-tools",
+    description: "Compress WebP, PNG, and JPG images right in your browser without quality loss.",
+    shortDescription: "Compress images locally in your browser.",
+    icon: "Image",
+    status: "planned",
+    seo: {
+      title: "Image Compressor — IJMM Tools",
+      description: "Compress images online fast.",
+    },
+  },
+  {
+    id: "pdf-compressor",
+    name: "PDF Compressor",
+    slug: "pdf-compressor",
+    categoryId: "pdf-tools",
+    description: "Reduce PDF file size quickly and securely.",
+    shortDescription: "Reduce PDF file sizes safely.",
+    icon: "FileText",
+    status: "planned",
+    seo: {
+      title: "PDF Compressor — IJMM Tools",
+      description: "Compress PDF files online.",
+    },
+  },
+  {
+    id: "pdf-merger",
+    name: "PDF Merger",
+    slug: "pdf-merger",
+    categoryId: "pdf-tools",
+    description: "Combine multiple PDF files into one single document.",
+    shortDescription: "Merge multiple PDF files into one.",
+    icon: "Files",
+    status: "planned",
+    seo: {
+      title: "PDF Merger — IJMM Tools",
+      description: "Combine PDF documents easily.",
+    },
+  },
+  {
+    id: "unit-converter",
+    name: "Unit Converter",
+    slug: "unit-converter",
+    categoryId: "converters",
+    description: "Convert length, weight, area, volume, and temperature units.",
+    shortDescription: "Convert measurement units quickly.",
+    icon: "RefreshCw",
+    status: "planned",
+    seo: {
+      title: "Unit Converter — IJMM Tools",
+      description: "Convert measurement units online.",
+    },
+  },
+  {
+    id: "regex-tester",
+    name: "Regex Tester",
+    slug: "regex-tester",
+    categoryId: "developer-tools",
+    description: "Test and debug Regular Expressions in real-time.",
+    shortDescription: "Test regular expressions with real-time feedback.",
+    icon: "Terminal",
+    status: "planned",
+    seo: {
+      title: "Regex Tester — IJMM Tools",
+      description: "Test regular expressions online.",
+    },
+  },
+  {
+    id: "calculadora-iva-ecuador",
+    name: "Calculadora IVA Ecuador",
+    slug: "calculadora-iva-ecuador",
+    categoryId: "ecuador-tools",
+    description: "Calcula el IVA (15%) en Ecuador, valor subtotal y monto total.",
+    shortDescription: "Calcula subtotal, IVA y total para facturas en Ecuador.",
+    icon: "Calculator",
+    status: "planned",
+    seo: {
+      title: "Calculadora IVA Ecuador 15% — IJMM Tools",
+      description: "Calculadora de IVA 15% para Ecuador.",
+    },
+  },
+];
