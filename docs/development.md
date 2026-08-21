@@ -77,56 +77,28 @@ Use these deterministic functions to query data:
 Pure, framework-independent domain logic for percentage calculations. Returns `CalculationResult` (`CalculationSuccess` | `CalculationError`).
 
 ### 4.1 Six Core Calculation Operations
-1. **`calculatePercentageOf(percentage, total)`:**
-   - Formula: `total * (percentage / 100)`
-2. **`calculateWhatPercentage(part, whole)`:**
-   - Formula: `(part / whole) * 100`
-   - Validation: `whole === 0` yields `DIVISION_BY_ZERO` error.
-3. **`calculatePercentageIncrease(originalValue, newValue)`:**
-   - Formula: `((newValue - originalValue) / originalValue) * 100`
-   - Validation: `originalValue === 0` yields `DIVISION_BY_ZERO` error.
-4. **`calculatePercentageDecrease(originalValue, newValue)`:**
-   - Formula: `((originalValue - newValue) / originalValue) * 100`
-   - Validation: `originalValue === 0` yields `DIVISION_BY_ZERO` error.
-5. **`calculatePercentageDifference(value1, value2)`:**
-   - Formula: `|value1 - value2| / ((|value1| + |value2|) / 2) * 100`
-   - Validation: `(|value1| + |value2|) / 2 === 0` (both zero) yields `DIVISION_BY_ZERO` error.
-6. **`calculateOriginalValue(finalValue, percentageChange, changeType)`:**
-   - Formula (Increase): `finalValue / (1 + percentageChange / 100)`
-   - Formula (Decrease): `finalValue / (1 - percentageChange / 100)`
-   - Validation: Denominator zero yields `DIVISION_BY_ZERO` error.
-
-### 4.2 Precision Policy & Error Handling
-- **Floating Point Rounding:** Internal results rounded using `roundToPrecision(value, 6)` (`Math.round((value + Number.EPSILON) * 10^6) / 10^6`).
-- **Display Formatting:** `formatNumericResult(value)` formats numbers up to 4 decimal places with trailing zeros stripped.
-- **Non-Finite Shielding:** Returns `NON_FINITE_RESULT` error if calculation results in `NaN` or `Infinity`.
-- **Negative Values:** Supported wherever mathematically valid (e.g. negative percentage of a number, negative part/whole relationships).
+1. **`calculatePercentageOf(percentage, total)`:** Formula: `total * (percentage / 100)`
+2. **`calculateWhatPercentage(part, whole)`:** Formula: `(part / whole) * 100` (validates `whole !== 0`).
+3. **`calculatePercentageIncrease(originalValue, newValue)`:** Formula: `((newValue - originalValue) / originalValue) * 100`.
+4. **`calculatePercentageDecrease(originalValue, newValue)`:** Formula: `((originalValue - newValue) / originalValue) * 100`.
+5. **`calculatePercentageDifference(value1, value2)`:** Formula: `|v1 - v2| / ((|v1| + |v2|) / 2) * 100`.
+6. **`calculateOriginalValue(finalValue, percentageChange, changeType)`:** Calculates original value before change.
+7. **`calculateDiscount(originalPrice, discountPercentage)`:** Bonus helper for store discount calculation.
 
 ---
 
-## 5. How to Add a New Tool (Standard Workflow)
+## 5. Tool UI Architecture Patterns (`components/tools/`)
 
-To create a new tool in IJMM Tools, follow these exact 4 steps:
+All tool UIs follow a strict input-to-domain flow:
 
-### Step 1: Write Pure Business Logic
-Create `lib/tools/<tool-name>.ts`:
-- Define input types, output types, and validation errors.
-- Export pure functions.
-- Write unit tests in `lib/tools/__tests__/<tool-name>.test.ts`.
+```text
+User Input ──> React Controlled Form ──> Pure Domain Logic (lib/tools/) ──> CalculationResult ──> ToolOutput
+```
 
-### Step 2: Register the Tool in Data Registry
-Update `data/tools.ts`:
-- Set `status: "planned"` during development.
-- Change `status: "active"` ONLY when the tool page and logic are 100% complete and tested.
-
-### Step 3: Create UI Components
-Use shared components (`ToolLayout`, `ToolInput`, `ToolOutput`, `CopyButton`):
-- Place specific tool components inside `components/tools/<tool-name>/`.
-
-### Step 4: Add Page Route
-Create `app/<tool-slug>/page.tsx`:
-- Render server-side metadata using `generateMetadata`.
-- Render `ToolLayout` with JSON-LD, Breadcrumbs, FAQs, and calculation UI.
+### 5.1 Reusable Tool Components
+- **`ToolLayout`:** Responsive tool shell with breadcrumbs, H1 title, and description.
+- **`ToolOutput`:** Prominent result box with `aria-live="polite"`, unit formatting, metadata breakdown, and integrated `CopyButton`.
+- **`CopyButton`:** Clipboard API button providing accessible visual and screen-reader copy feedback ("Copied!").
 
 ---
 
