@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "vitest run"
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "audit": "npm audit",
+    "verify": "npm run typecheck && npm test && npm run build && npm run audit"
   },
   "dependencies": {
     "clsx": "^2.1.1",

@@ -106,27 +106,23 @@ User Input ──> React Controlled Form ──> Pure Domain Logic (lib/tools/) 
 
 Centralized, provider-agnostic event tracking abstraction. Components call `trackEvent(eventName, payload)` without importing vendor SDKs directly.
 
-### 6.1 Standard Event Taxonomy
-- **`tool_view`:** Tracked when a tool page is mounted (`{ toolId, categoryId }`).
-- **`tool_start`:** Tracked when a calculation operation is initiated (`{ toolId, mode }`).
-- **`tool_complete`:** Tracked upon successful calculation (`{ toolId, mode, value }`).
-- **`tool_error`:** Tracked when validation or calculation fails (`{ toolId, mode, errorCode }`).
-- **`result_copy`:** Tracked when user copies calculation result (`{ toolId, valueLength }`).
-- **`search_perform`:** Tracked when user queries search bar (`{ searchQuery }`).
-
 ---
 
-## 7. Quality & Build Commands
+## 7. Quality & Verification Commands
 
-Run the following commands before submitting any PR or completing a feature phase:
+Run the unified verification command before committing code or opening a Pull Request:
 
 ```bash
-# Type check
-npx tsc --noEmit
-
-# Run unit tests
-npm test
-
-# Production build test
-npm run build
+# Unified Release & Quality Verification (Typecheck + Test + Build + Audit)
+npm run verify
 ```
+
+For individual checks:
+```bash
+npm run typecheck   # npx tsc --noEmit
+npm test            # vitest run
+npm run build       # next build
+npm run audit       # npm audit
+```
+
+For production deployment instructions, consult [`docs/deployment.md`](file:///c:/Users/Johao%20Montero/OneDrive/Documentos/IJMM/ijmm-tools/docs/deployment.md).

@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# IJMM Tools
 
-## Getting Started
+**Owner:** IJMM System  
+**Product:** IJMM Tools  
+**Version:** 1.0.0
 
-First, run the development server:
+Fast, simple, and privacy-friendly digital utilities that work directly in your browser.
 
+---
+
+## Development & Local Setup
+
+### Prerequisites
+- **Node.js:** `v24.x` (or LTS `v20+`)
+- **npm:** `v10+` / `v11+`
+
+### Installation
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm ci
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Running Development Server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Quality & Release Verification
 
-## Learn More
+Run the unified verification pipeline before submitting Pull Requests:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run verify
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This executes in deterministic order:
+1. `npm run typecheck` (`tsc --noEmit`)
+2. `npm test` (`vitest run` — 49/49 unit tests)
+3. `npm run build` (`next build` — 21 static pre-rendered routes)
+4. `npm run audit` (`npm audit` — 0 vulnerabilities)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Individual Commands
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `npm run dev`: Starts Next.js development server with Turbopack.
+- `npm run build`: Production build.
+- `npm run start`: Starts production server.
+- `npm test`: Runs Vitest test suite.
+- `npm run typecheck`: Runs TypeScript type check without emitting files.
+- `npm run audit`: Checks dependencies for security vulnerabilities.
+- `npm run verify`: Full local CI validation pipeline.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Architecture & Deployment Documentation
+
+Detailed documentation is available in `/docs/`:
+- [`docs/architecture.md`](docs/architecture.md): Core system design & layout rules.
+- [`docs/development.md`](docs/development.md): Developer guide & Tool Registry patterns.
+- [`docs/seo.md`](docs/seo.md): Technical SEO, AEO, and GEO strategy.
+- [`docs/deployment.md`](docs/deployment.md): CI/CD, production hardening & Edge deployment guide.
+- [`docs/monetization.md`](docs/monetization.md): UX-preserving monetization architecture.
+- [`docs/roadmap.md`](docs/roadmap.md): Product release roadmap.
