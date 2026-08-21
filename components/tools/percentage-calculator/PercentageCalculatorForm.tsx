@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ToolOutput from "@/components/tools/ToolOutput";
 import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
@@ -17,6 +17,7 @@ import {
   calculateDiscount,
   CalculationResult,
 } from "@/lib/tools/percentage";
+import { trackEvent } from "@/lib/analytics/events";
 
 export type ModeKey =
   | "percentage_of"
@@ -26,6 +27,8 @@ export type ModeKey =
   | "percentage_difference"
   | "original_value"
   | "discount";
+
+const TOOL_ID = "percentage-calculator";
 
 const MODE_OPTIONS = [
   { value: "percentage_of", label: "What is X% of Y?" },
@@ -45,6 +48,11 @@ export const PercentageCalculatorForm: React.FC = () => {
 
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Track tool view on mount
+  useEffect(() => {
+    trackEvent("tool_view", { toolId: TOOL_ID, categoryId: "calculators" });
+  }, []);
 
   const handleModeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newMode = e.target.value as ModeKey;
@@ -68,10 +76,13 @@ export const PercentageCalculatorForm: React.FC = () => {
     if (e) e.preventDefault();
 
     setErrorMessage(null);
+    trackEvent("tool_start", { toolId: TOOL_ID, mode });
 
     if (input1.trim() === "" || input2.trim() === "") {
-      setErrorMessage("Please fill in both input fields to perform calculation.");
+      const err = "Please fill in both input fields to perform calculation.";
+      setErrorMessage(err);
       setResult(null);
+      trackEvent("tool_error", { toolId: TOOL_ID, mode, errorCode: "INVALID_INPUT" });
       return;
     }
 
@@ -79,8 +90,10 @@ export const PercentageCalculatorForm: React.FC = () => {
     const num2 = Number(input2);
 
     if (isNaN(num1) || isNaN(num2)) {
-      setErrorMessage("Please enter valid numerical values.");
+      const err = "Please enter valid numerical values.";
+      setErrorMessage(err);
       setResult(null);
+      trackEvent("tool_error", { toolId: TOOL_ID, mode, errorCode: "INVALID_INPUT" });
       return;
     }
 
@@ -115,8 +128,10 @@ export const PercentageCalculatorForm: React.FC = () => {
     if (!calcRes.success) {
       setErrorMessage(calcRes.error);
       setResult(null);
+      trackEvent("tool_error", { toolId: TOOL_ID, mode, errorCode: calcRes.code });
     } else {
       setResult(calcRes);
+      trackEvent("tool_complete", { toolId: TOOL_ID, mode, value: calcRes.value });
     }
   };
 
@@ -231,6 +246,7 @@ export const PercentageCalculatorForm: React.FC = () => {
 
       {result && result.success && (
         <ToolOutput
+          toolId={TOOL_ID}
           label={
             mode === "discount"
               ? "Final Price After Discount"

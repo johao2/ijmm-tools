@@ -102,7 +102,21 @@ User Input ──> React Controlled Form ──> Pure Domain Logic (lib/tools/) 
 
 ---
 
-## 6. Quality & Build Commands
+## 6. Analytics Event Architecture (`lib/analytics/events.ts`)
+
+Centralized, provider-agnostic event tracking abstraction. Components call `trackEvent(eventName, payload)` without importing vendor SDKs directly.
+
+### 6.1 Standard Event Taxonomy
+- **`tool_view`:** Tracked when a tool page is mounted (`{ toolId, categoryId }`).
+- **`tool_start`:** Tracked when a calculation operation is initiated (`{ toolId, mode }`).
+- **`tool_complete`:** Tracked upon successful calculation (`{ toolId, mode, value }`).
+- **`tool_error`:** Tracked when validation or calculation fails (`{ toolId, mode, errorCode }`).
+- **`result_copy`:** Tracked when user copies calculation result (`{ toolId, valueLength }`).
+- **`search_perform`:** Tracked when user queries search bar (`{ searchQuery }`).
+
+---
+
+## 7. Quality & Build Commands
 
 Run the following commands before submitting any PR or completing a feature phase:
 

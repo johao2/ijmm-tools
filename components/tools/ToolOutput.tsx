@@ -8,6 +8,7 @@ export interface ToolOutputProps {
   value: string;
   unit?: string;
   copyableValue?: string;
+  toolId?: string;
   details?: { label: string; value: string }[];
   className?: string;
 }
@@ -17,6 +18,7 @@ export const ToolOutput: React.FC<ToolOutputProps> = ({
   value,
   unit,
   copyableValue,
+  toolId,
   details,
   className,
 }) => {
@@ -35,7 +37,7 @@ export const ToolOutput: React.FC<ToolOutputProps> = ({
         <span className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
           {label}
         </span>
-        {value && <CopyButton value={textToCopy} size="sm" />}
+        {value && <CopyButton value={textToCopy} size="sm" toolId={toolId} />}
       </div>
 
       {/* Screen reader live region for calculation result updates */}

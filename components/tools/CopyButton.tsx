@@ -3,17 +3,20 @@
 import React, { useState } from "react";
 import { Copy, Check } from "lucide-react";
 import Button, { ButtonProps } from "@/components/ui/Button";
+import { trackEvent } from "@/lib/analytics/events";
 
 export interface CopyButtonProps extends Omit<ButtonProps, "onClick"> {
   value: string;
   label?: string;
   copiedLabel?: string;
+  toolId?: string;
 }
 
 export const CopyButton: React.FC<CopyButtonProps> = ({
   value,
   label = "Copy result",
   copiedLabel = "Copied!",
+  toolId,
   variant = "outline",
   size = "sm",
   className,
@@ -39,6 +42,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
         document.body.removeChild(textarea);
       }
       setCopied(true);
+      trackEvent("result_copy", { toolId, valueLength: value.length });
       setTimeout(() => setCopied(false), 2000);
     } catch {
       // Graceful fallback if copy fails

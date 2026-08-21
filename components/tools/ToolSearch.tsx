@@ -8,6 +8,7 @@ import Card from "@/components/ui/Card";
 import { searchTools } from "@/lib/tools/registry";
 import { Tool } from "@/lib/tools/types";
 import { cn } from "@/lib/utils/cn";
+import { trackEvent } from "@/lib/analytics/events";
 
 export interface ToolSearchProps {
   placeholder?: string;
@@ -42,6 +43,8 @@ export const ToolSearch: React.FC<ToolSearchProps> = ({
     const mathingTools = searchTools(trimmed, false);
     setResults(mathingTools);
     setIsOpen(true);
+
+    trackEvent("search_perform", { searchQuery: trimmed });
 
     if (onSearchChange) {
       onSearchChange(trimmed, mathingTools);
