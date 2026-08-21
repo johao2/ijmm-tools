@@ -1,26 +1,87 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand Colors - IJMM System Tech Palette */
+  --primary: #1d4ed8;            /* Blue 700 - Professional tech blue */
+  --primary-hover: #1e40af;      /* Blue 800 */
+  --primary-light: #eff6ff;      /* Blue 50 */
+
+  /* Neutral Slate Palette */
+  --background: #f8fafc;         /* Slate 50 - Very subtle off-white tech background */
+  --surface: #ffffff;            /* Pure white surface for cards and tool containers */
+  --surface-secondary: #f1f5f9;  /* Slate 100 - Secondary surface/accent */
+
+  /* Typography Colors */
+  --text: #0f172a;               /* Slate 900 - Deep crisp slate text */
+  --text-muted: #64748b;         /* Slate 500 - Secondary text */
+  --text-inverse: #ffffff;       /* Pure white text on dark background */
+
+  /* Border & Dividers */
+  --border: #e2e8f0;             /* Slate 200 */
+  --border-focus: #2563eb;       /* Blue 600 */
+
+  /* Feedback States */
+  --success: #15803d;            /* Green 700 */
+  --success-bg: #f0fdf4;         /* Green 50 */
+  --warning: #b45309;            /* Amber 700 */
+  --warning-bg: #fffbeb;         /* Amber 50 */
+  --error: #dc2626;              /* Red 600 */
+  --error-bg: #fef2f2;           /* Red 50 */
+
+  /* Focus & Focus Visible */
+  --focus-ring: #2563eb;
+
+  /* Border Radius Tokens */
+  --radius-sm: 0.375rem;         /* 6px */
+  --radius-md: 0.5rem;           /* 8px */
+  --radius-lg: 0.75rem;          /* 12px */
+
+  /* Shadows */
+  --shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
 }
 
 @theme inline {
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-surface-secondary: var(--surface-secondary);
+
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-inverse: var(--text-inverse);
+
+  --color-border: var(--border);
+  --color-border-focus: var(--border-focus);
+
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-error: var(--error);
+  --color-error-bg: var(--error-bg);
+
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Accessibility: Support prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--background);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

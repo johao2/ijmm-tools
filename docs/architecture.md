@@ -51,9 +51,11 @@ The `ToolRegistry` serves as the single source of truth for tool definitions.
 - Zero UI references or DOM manipulations inside mathematical/processing logic.
 - Automated unit testing target `lib/tools/` directly.
 
-### 2.4 Design System & Styling
-- Color tokens defined in `globals.css` using CSS variables mapped to Tailwind CSS.
-- Complete responsive support across 320px, 375px, 768px, 1024px, 1440px.
+### 2.4 Design System & Styling Architecture
+- **Token System (`app/globals.css`):** Centralized CSS variables (`--primary`, `--surface`, `--text`, `--border`, `--error`, `--radius-md`, etc.) mapped to Tailwind CSS v4 `@theme inline`.
+- **Base Component Library (`components/ui/`):** Lightweight, zero-dependency reusable components (`Container`, `Button`, `Input`, `Select`, `Card`).
+- **Mobile-First Responsive Support:** Tested across 320px, 375px, 430px, 768px, 1024px, 1280px+.
+- **Accessibility & Reduced Motion:** Native keyboard navigation, visible focus rings (`focus-visible:ring-2`), and `prefers-reduced-motion` compliance.
 
 ### 2.5 Analytics & Advertising Abstraction
 - Vendor-agnostic event tracker: `trackEvent(eventName, payload)` in `lib/analytics/events.ts`.
