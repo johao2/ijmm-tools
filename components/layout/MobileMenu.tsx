@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Search } from "lucide-react";
+import Image from "next/image";
+import { Menu, X } from "lucide-react";
 import { NAV_LINKS } from "./Navigation";
 
 export const MobileMenu: React.FC = () => {
@@ -34,6 +35,8 @@ export const MobileMenu: React.FC = () => {
     };
   }, [isOpen]);
 
+  const currentYear = new Date().getFullYear();
+
   return (
     <div className="md:hidden">
       {/* Menu Toggle Button */}
@@ -42,7 +45,7 @@ export const MobileMenu: React.FC = () => {
         onClick={toggleMenu}
         aria-expanded={isOpen}
         aria-controls="mobile-menu"
-        aria-label={isOpen ? "Close main menu" : "Open main menu"}
+        aria-label={isOpen ? "Cerrar menú principal" : "Abrir menú principal"}
         className="inline-flex items-center justify-center rounded-(--radius-md) p-2 text-[var(--text-muted)] hover:bg-[var(--surface-secondary)] hover:text-[var(--text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 transition-colors cursor-pointer"
       >
         {isOpen ? <X className="h-6 w-6" aria-hidden="true" /> : <Menu className="h-6 w-6" aria-hidden="true" />}
@@ -64,14 +67,21 @@ export const MobileMenu: React.FC = () => {
               <Link
                 href="/"
                 onClick={closeMenu}
-                className="text-lg font-bold text-[var(--text)] tracking-tight"
+                className="flex items-center gap-2 text-base font-bold text-[var(--text)] tracking-tight"
               >
-                IJMM <span className="text-[var(--primary)]">Tools</span>
+                <Image
+                  src="/Logo_IJMM_SYSTEM.png"
+                  alt="IJMM SYSTEM"
+                  width={90}
+                  height={30}
+                  className="h-6 w-auto object-contain"
+                />
+                <span>IJMM <span className="text-[var(--primary)]">Tools</span></span>
               </Link>
               <button
                 type="button"
                 onClick={closeMenu}
-                aria-label="Close menu"
+                aria-label="Cerrar menú"
                 className="rounded-(--radius-md) p-1.5 text-[var(--text-muted)] hover:bg-[var(--surface-secondary)] hover:text-[var(--text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] cursor-pointer"
               >
                 <X className="h-5 w-5" aria-hidden="true" />
@@ -79,7 +89,7 @@ export const MobileMenu: React.FC = () => {
             </div>
 
             {/* Navigation links */}
-            <nav className="mt-6 flex-1" aria-label="Mobile Navigation">
+            <nav className="mt-6 flex-1" aria-label="Navegación móvil">
               <ul className="space-y-4 text-base font-medium">
                 {NAV_LINKS.map((link) => (
                   <li key={link.href}>
@@ -97,7 +107,7 @@ export const MobileMenu: React.FC = () => {
 
             {/* Footer inside drawer */}
             <div className="border-t border-[var(--border)] pt-4 text-xs text-[var(--text-muted)]">
-              <p>© 2026 IJMM System</p>
+              <p>© {currentYear} IJMM SYSTEM. Todos los derechos reservados.</p>
             </div>
           </div>
         </div>

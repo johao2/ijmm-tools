@@ -31,14 +31,22 @@ export type ModeKey =
 const TOOL_ID = "percentage-calculator";
 
 const MODE_OPTIONS = [
-  { value: "percentage_of", label: "What is X% of Y?" },
-  { value: "what_percentage", label: "What percentage is X of Y?" },
-  { value: "percentage_increase", label: "Percentage increase (from X to Y)" },
-  { value: "percentage_decrease", label: "Percentage decrease (from X to Y)" },
-  { value: "percentage_difference", label: "Percentage difference (between X and Y)" },
-  { value: "original_value", label: "Find original value (before % change)" },
-  { value: "discount", label: "Discount calculator (Price & Discount %)" },
+  { value: "percentage_of", label: "1. ¿Cuánto es X % de Y?" },
+  { value: "what_percentage", label: "2. ¿Qué porcentaje es X de Y?" },
+  { value: "percentage_increase", label: "3. Porcentaje de incremento (de X a Y)" },
+  { value: "percentage_decrease", label: "4. Porcentaje de decremento (de X a Y)" },
+  { value: "percentage_difference", label: "5. Diferencia porcentual (entre X e Y)" },
+  { value: "original_value", label: "6. Encontrar el valor original (antes de % de cambio)" },
+  { value: "discount", label: "7. Calculadora de descuentos (Precio & % Descuento)" },
 ];
+
+// Error Code to Friendly Spanish Message Translator
+const SPANISH_ERROR_MESSAGES: Record<string, string> = {
+  INVALID_INPUT: "Introduce valores numéricos válidos en ambos campos.",
+  DIVISION_BY_ZERO: "No es posible realizar este cálculo porque el divisor no puede ser cero.",
+  NON_FINITE_RESULT: "El resultado está fuera de un rango numérico válido.",
+  MATHEMATICALLY_INVALID: "Los valores introducidos no son válidos para este cálculo matemático.",
+};
 
 export const PercentageCalculatorForm: React.FC = () => {
   const [mode, setMode] = useState<ModeKey>("percentage_of");
@@ -79,7 +87,7 @@ export const PercentageCalculatorForm: React.FC = () => {
     trackEvent("tool_start", { toolId: TOOL_ID, mode });
 
     if (input1.trim() === "" || input2.trim() === "") {
-      const err = "Please fill in both input fields to perform calculation.";
+      const err = "Por favor, completa ambos campos para realizar el cálculo.";
       setErrorMessage(err);
       setResult(null);
       trackEvent("tool_error", { toolId: TOOL_ID, mode, errorCode: "INVALID_INPUT" });
@@ -90,7 +98,7 @@ export const PercentageCalculatorForm: React.FC = () => {
     const num2 = Number(input2);
 
     if (isNaN(num1) || isNaN(num2)) {
-      const err = "Please enter valid numerical values.";
+      const err = "Introduce valores numéricos válidos.";
       setErrorMessage(err);
       setResult(null);
       trackEvent("tool_error", { toolId: TOOL_ID, mode, errorCode: "INVALID_INPUT" });
@@ -126,7 +134,8 @@ export const PercentageCalculatorForm: React.FC = () => {
     }
 
     if (!calcRes.success) {
-      setErrorMessage(calcRes.error);
+      const spanishErr = SPANISH_ERROR_MESSAGES[calcRes.code] || calcRes.error;
+      setErrorMessage(spanishErr);
       setResult(null);
       trackEvent("tool_error", { toolId: TOOL_ID, mode, errorCode: calcRes.code });
     } else {
@@ -138,18 +147,18 @@ export const PercentageCalculatorForm: React.FC = () => {
   const getInputLabels = () => {
     switch (mode) {
       case "percentage_of":
-        return { label1: "Percentage (X%)", label2: "Total Amount (Y)", placeholder1: "e.g. 15", placeholder2: "e.g. 250" };
+        return { label1: "Porcentaje (X%)", label2: "Monto Total (Y)", placeholder1: "ej. 15", placeholder2: "ej. 250" };
       case "what_percentage":
-        return { label1: "Part Amount (X)", label2: "Total Whole (Y)", placeholder1: "e.g. 30", placeholder2: "e.g. 150" };
+        return { label1: "Monto Parte (X)", label2: "Monto Total (Y)", placeholder1: "ej. 30", placeholder2: "ej. 150" };
       case "percentage_increase":
       case "percentage_decrease":
-        return { label1: "Original Value (X)", label2: "New Value (Y)", placeholder1: "e.g. 100", placeholder2: "e.g. 125" };
+        return { label1: "Valor Original (X)", label2: "Nuevo Valor (Y)", placeholder1: "ej. 100", placeholder2: "ej. 125" };
       case "percentage_difference":
-        return { label1: "First Value (X)", label2: "Second Value (Y)", placeholder1: "e.g. 10", placeholder2: "e.g. 20" };
+        return { label1: "Primer Valor (X)", label2: "Segundo Valor (Y)", placeholder1: "ej. 10", placeholder2: "ej. 20" };
       case "original_value":
-        return { label1: "Final Value", label2: "Percentage Change (%)", placeholder1: "e.g. 120", placeholder2: "e.g. 20" };
+        return { label1: "Valor Final", label2: "Cambio Porcentual (%)", placeholder1: "ej. 120", placeholder2: "ej. 20" };
       case "discount":
-        return { label1: "Original Price ($)", label2: "Discount Percentage (%)", placeholder1: "e.g. 80", placeholder2: "e.g. 20" };
+        return { label1: "Precio Original ($)", label2: "Porcentaje de Descuento (%)", placeholder1: "ej. 80", placeholder2: "ej. 20" };
     }
   };
 
@@ -172,7 +181,7 @@ export const PercentageCalculatorForm: React.FC = () => {
       <Card padding="lg" className="border-[var(--border)] shadow-sm">
         <form onSubmit={handleCalculate} className="space-y-5">
           <Select
-            label="Select Calculation Mode"
+            label="Selecciona la Modalidad de Cálculo"
             options={MODE_OPTIONS}
             value={mode}
             onChange={handleModeChange}
@@ -180,10 +189,10 @@ export const PercentageCalculatorForm: React.FC = () => {
 
           {mode === "original_value" && (
             <Select
-              label="Percentage Change Type"
+              label="Tipo de Cambio Porcentual"
               options={[
-                { value: "increase", label: "After a percentage INCREASE" },
-                { value: "decrease", label: "After a percentage DECREASE" },
+                { value: "increase", label: "Después de un INCREMENTO porcentual" },
+                { value: "decrease", label: "Después de un DECREMENTO porcentual" },
               ]}
               value={changeType}
               onChange={(e) => setChangeType(e.target.value as "increase" | "decrease")}
@@ -228,7 +237,7 @@ export const PercentageCalculatorForm: React.FC = () => {
               className="w-full sm:w-auto"
             >
               <RotateCcw className="mr-1.5 h-4 w-4" aria-hidden="true" />
-              <span>Reset</span>
+              <span>Restablecer</span>
             </Button>
 
             <Button
@@ -238,7 +247,7 @@ export const PercentageCalculatorForm: React.FC = () => {
               className="w-full sm:w-auto"
             >
               <CalcIcon className="mr-1.5 h-4 w-4" aria-hidden="true" />
-              <span>Calculate</span>
+              <span>Calcular</span>
             </Button>
           </div>
         </form>
@@ -249,10 +258,10 @@ export const PercentageCalculatorForm: React.FC = () => {
           toolId={TOOL_ID}
           label={
             mode === "discount"
-              ? "Final Price After Discount"
+              ? "Precio Final con Descuento"
               : mode === "original_value"
-              ? "Original Value Before Change"
-              : "Calculation Result"
+              ? "Valor Original Antes del Cambio"
+              : "Resultado del Cálculo"
           }
           value={result.formatted}
           unit={getOutputUnit()}
@@ -260,11 +269,11 @@ export const PercentageCalculatorForm: React.FC = () => {
             mode === "discount" && result.metadata
               ? [
                   {
-                    label: "Original Price",
+                    label: "Precio Original",
                     value: `$${result.metadata.originalPrice}`,
                   },
                   {
-                    label: "Discount Amount Saved",
+                    label: "Monto Ahorrado por Descuento",
                     value: `$${result.metadata.discountAmount}`,
                   },
                 ]

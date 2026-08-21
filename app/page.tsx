@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Zap,
   ShieldCheck,
@@ -23,11 +24,10 @@ import JsonLd from "@/components/seo/JsonLd";
 import { constructMetadata, BASE_URL } from "@/lib/seo/metadata";
 import { getActiveTools, getAllCategories, getToolsByCategory } from "@/lib/tools/registry";
 
-// 1. Next.js Metadata API
 export const metadata = constructMetadata({
-  title: "Free Online Tools for Everyday Tasks",
+  title: "Herramientas online gratuitas para tus tareas diarias",
   description:
-    "Fast, simple, and privacy-friendly online tools that work directly in your browser. Free calculators, converters, and developer utilities by IJMM System.",
+    "Calcula, convierte, genera y resuelve tareas rápidamente con herramientas gratuitas, rápidas y privadas en tu navegador. Desarrollado por IJMM SYSTEM.",
   canonicalPath: "/",
 });
 
@@ -47,16 +47,16 @@ export default function HomePage() {
   const activeTools = getActiveTools();
   const categories = getAllCategories();
 
-  // WebSite Schema.org JSON-LD
+  // WebSite Schema.org JSON-LD in Spanish
   const webSiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "IJMM Tools",
     url: BASE_URL,
-    description: "Free online digital tools, calculators, converters, and developer utilities.",
+    description: "Plataforma de herramientas digitales gratuitas, calculadoras, conversores y utilidades para desarrolladores.",
     publisher: {
       "@type": "Organization",
-      name: "IJMM System",
+      name: "IJMM SYSTEM",
       url: BASE_URL,
     },
   };
@@ -69,25 +69,30 @@ export default function HomePage() {
       <section className="bg-gradient-to-b from-[var(--surface)] to-[var(--background)] py-12 sm:py-20 border-b border-[var(--border)]">
         <Container size="md" className="space-y-8 text-center">
           <div className="space-y-4 max-w-3xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--primary-light)] px-3 py-1 text-xs font-semibold text-[var(--primary)] border border-blue-200">
-              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>A product by IJMM System</span>
-            </span>
+            <div className="inline-flex items-center gap-2 rounded-full bg-[var(--primary-light)] px-3.5 py-1.5 text-xs font-semibold text-[var(--primary)] border border-blue-200">
+              <Image
+                src="/Logo_IJMM_SYSTEM.png"
+                alt="IJMM SYSTEM"
+                width={20}
+                height={20}
+                className="h-4 w-auto object-contain"
+              />
+              <span>Un producto de IJMM SYSTEM</span>
+            </div>
 
             <h1 className="text-3xl font-extrabold tracking-tight text-[var(--text)] sm:text-5xl lg:text-6xl leading-tight">
-              Free Online Tools for <br className="hidden sm:inline" />
-              <span className="text-[var(--primary)]">Everyday Tasks</span>
+              Herramientas online gratuitas <br className="hidden sm:inline" />
+              <span className="text-[var(--primary)]">para tus tareas diarias</span>
             </h1>
 
             <p className="mx-auto max-w-2xl text-sm sm:text-base text-[var(--text-muted)] leading-relaxed">
-              Fast, simple, and privacy-friendly digital utilities that process directly in your browser.
-              No installation or registration required.
+              Calcula, convierte, genera y resuelve tareas rápidamente con utilidades gratuitas y privadas que se ejecutan directamente en tu navegador.
             </p>
           </div>
 
           {/* Prominent Global Search Bar */}
           <div className="mx-auto max-w-xl">
-            <ToolSearch placeholder="Search free online tools (e.g. percentage, calculators)..." />
+            <ToolSearch placeholder="Buscar herramienta gratuita (ej. porcentaje, calculadoras)..." />
           </div>
         </Container>
       </section>
@@ -98,17 +103,17 @@ export default function HomePage() {
           <div className="flex items-end justify-between gap-4 border-b border-[var(--border)] pb-4 text-left">
             <div>
               <h2 className="text-xl font-bold tracking-tight text-[var(--text)] sm:text-2xl">
-                Featured Tools
+                Herramientas destacadas
               </h2>
               <p className="text-xs sm:text-sm text-[var(--text-muted)] mt-1">
-                Explore our popular, production-ready digital calculators and utilities.
+                Explora nuestras calculadoras y utilidades digitales listas para usar en producción.
               </p>
             </div>
             <Link
               href="/tools"
               className="text-xs sm:text-sm font-semibold text-[var(--primary)] hover:underline flex items-center gap-1 shrink-0"
             >
-              <span>View all tools</span>
+              <span>Ver todas las herramientas</span>
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
@@ -127,10 +132,10 @@ export default function HomePage() {
         <Container size="lg" className="space-y-8">
           <div className="text-left space-y-1">
             <h2 className="text-xl font-bold tracking-tight text-[var(--text)] sm:text-2xl">
-              Browse by Category
+              Explora por categoría
             </h2>
             <p className="text-xs sm:text-sm text-[var(--text-muted)]">
-              Find specialized utilities organized by domain and task type.
+              Encuentra utilidades especializadas organizadas por área de uso.
             </p>
           </div>
 
@@ -151,7 +156,7 @@ export default function HomePage() {
                         <IconComp className="h-4 w-4" aria-hidden="true" />
                       </div>
                       <span className="text-[11px] font-medium text-[var(--text-muted)] bg-[var(--background)] px-2 py-0.5 rounded-full border border-[var(--border)]">
-                        {activeCount} {activeCount === 1 ? "tool" : "tools"}
+                        {activeCount} {activeCount === 1 ? "herramienta" : "herramientas"}
                       </span>
                     </div>
 
@@ -176,10 +181,10 @@ export default function HomePage() {
         <Container size="lg" className="space-y-8 text-center">
           <div className="space-y-2 max-w-xl mx-auto">
             <h2 className="text-xl font-bold tracking-tight text-[var(--text)] sm:text-2xl">
-              Why IJMM Tools?
+              ¿Por qué elegir IJMM Tools?
             </h2>
             <p className="text-xs sm:text-sm text-[var(--text-muted)]">
-              Built on core software engineering principles prioritizing user experience and speed.
+              Diseñado bajo principios de ingeniería enfocados en velocidad, privacidad y facilidad de uso.
             </p>
           </div>
 
@@ -188,9 +193,9 @@ export default function HomePage() {
               <div className="flex h-8 w-8 items-center justify-center rounded-(--radius-sm) bg-blue-100 text-[var(--primary)]">
                 <Sparkles className="h-4 w-4" />
               </div>
-              <h3 className="text-sm font-bold text-[var(--text)]">100% Free to Use</h3>
+              <h3 className="text-sm font-bold text-[var(--text)]">100% Gratis</h3>
               <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-                All essential calculation and formatting utilities are free with zero hidden paywalls.
+                Todas nuestras calculadoras y utilidades son gratuitas y sin cobros ocultos.
               </p>
             </Card>
 
@@ -198,9 +203,9 @@ export default function HomePage() {
               <div className="flex h-8 w-8 items-center justify-center rounded-(--radius-sm) bg-emerald-100 text-emerald-700">
                 <Zap className="h-4 w-4" />
               </div>
-              <h3 className="text-sm font-bold text-[var(--text)]">Browser Speed</h3>
+              <h3 className="text-sm font-bold text-[var(--text)]">Velocidad de Navegador</h3>
               <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-                Tools execute client-side in your browser for instant results without server delay.
+                Los cálculos se realizan de forma instantánea en tu navegador sin demoras de servidor.
               </p>
             </Card>
 
@@ -208,9 +213,9 @@ export default function HomePage() {
               <div className="flex h-8 w-8 items-center justify-center rounded-(--radius-sm) bg-purple-100 text-purple-700">
                 <ShieldCheck className="h-4 w-4" />
               </div>
-              <h3 className="text-sm font-bold text-[var(--text)]">Privacy Focused</h3>
+              <h3 className="text-sm font-bold text-[var(--text)]">Privacidad Garantizada</h3>
               <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-                Your data stays local in your browser. Calculations do not upload private numbers.
+                Tus datos permanecen locales. Tus números no se envían a servidores ni se almacenan.
               </p>
             </Card>
 
@@ -218,9 +223,9 @@ export default function HomePage() {
               <div className="flex h-8 w-8 items-center justify-center rounded-(--radius-sm) bg-amber-100 text-amber-700">
                 <UserX className="h-4 w-4" />
               </div>
-              <h3 className="text-sm font-bold text-[var(--text)]">No Registration</h3>
+              <h3 className="text-sm font-bold text-[var(--text)]">Sin Registro</h3>
               <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-                Get things done immediately without signing up for accounts or remembering passwords.
+                Resuelve tus necesidades al instante sin crear cuentas ni ingresar contraseñas.
               </p>
             </Card>
           </div>
@@ -231,15 +236,15 @@ export default function HomePage() {
       <section className="bg-[var(--surface)] border-t border-[var(--border)] py-12">
         <Container size="md" className="text-center space-y-4">
           <h2 className="text-lg font-bold text-[var(--text)] sm:text-xl">
-            Need more tools?
+            ¿Buscas más herramientas?
           </h2>
           <p className="text-xs sm:text-sm text-[var(--text-muted)] max-w-md mx-auto">
-            Browse our full catalog of active tools and upcoming roadmap utilities.
+            Explora nuestro catálogo completo de utilidades activas y en desarrollo.
           </p>
           <div>
             <Link href="/tools">
               <Button variant="primary" size="md">
-                <span>Explore All Tools</span>
+                <span>Explorar Todas las Herramientas</span>
                 <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
               </Button>
             </Link>

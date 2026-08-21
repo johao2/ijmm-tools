@@ -14,8 +14,8 @@ export interface CopyButtonProps extends Omit<ButtonProps, "onClick"> {
 
 export const CopyButton: React.FC<CopyButtonProps> = ({
   value,
-  label = "Copy result",
-  copiedLabel = "Copied!",
+  label = "Copiar resultado",
+  copiedLabel = "¡Copiado!",
   toolId,
   variant = "outline",
   size = "sm",

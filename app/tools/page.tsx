@@ -6,11 +6,11 @@ import { constructMetadata } from "@/lib/seo/metadata";
 import { getActiveTools, getAllCategories } from "@/lib/tools/registry";
 
 export const metadata = constructMetadata({
-  title: "All Tools — Directory",
+  title: "Directorio de Herramientas",
   description:
-    "Browse all free online tools, calculators, converters, and digital utilities available on IJMM Tools by IJMM System.",
+    "Explora todas las herramientas online gratuitas, calculadoras y utilidades digitales disponibles en IJMM Tools por IJMM SYSTEM.",
   canonicalPath: "/tools",
-  keywords: ["tools directory", "all online tools", "free calculators list", "utility directory"],
+  keywords: ["directorio de herramientas", "herramientas gratis", "calculadoras online", "utilidades digitales"],
 });
 
 export default function ToolsDirectoryPage() {
@@ -18,8 +18,8 @@ export default function ToolsDirectoryPage() {
   const categories = getAllCategories();
 
   const breadcrumbItems = [
-    { label: "Home", href: "/" },
-    { label: "Tools" },
+    { label: "Inicio", href: "/" },
+    { label: "Herramientas" },
   ];
 
   return (
@@ -28,11 +28,11 @@ export default function ToolsDirectoryPage() {
 
       <div className="mb-8 space-y-2 text-left">
         <h1 className="text-2xl font-extrabold tracking-tight text-[var(--text)] sm:text-3xl lg:text-4xl">
-          All Tools
+          Todas las Herramientas
         </h1>
         <p className="text-sm text-[var(--text-muted)] sm:text-base max-w-2xl leading-relaxed">
-          Discover our full collection of free, privacy-focused online calculators and utilities.
-          Filter by category or search by task.
+          Descubre nuestra colección completa de calculadoras y utilidades online gratuitas y respetuosas con tu privacidad.
+          Filtra por categoría o busca por tarea.
         </p>
       </div>
 

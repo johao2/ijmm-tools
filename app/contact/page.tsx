@@ -5,13 +5,13 @@ import Card from "@/components/ui/Card";
 import { constructMetadata } from "@/lib/seo/metadata";
 
 export const metadata = constructMetadata({
-  title: "Contact Us",
-  description: "Get in touch with the IJMM System engineering team behind IJMM Tools.",
+  title: "Contacto",
+  description: "Ponte en contacto con el equipo de ingeniería de IJMM SYSTEM detrás de IJMM Tools.",
   canonicalPath: "/contact",
 });
 
 export default function ContactPage() {
-  const breadcrumbs = [{ label: "Home", href: "/" }, { label: "Contact" }];
+  const breadcrumbs = [{ label: "Inicio", href: "/" }, { label: "Contacto" }];
 
   return (
     <Container size="md" className="py-8 sm:py-12 text-left">
@@ -20,21 +20,21 @@ export default function ContactPage() {
       <div className="space-y-6">
         <div className="space-y-2">
           <h1 className="text-2xl font-extrabold tracking-tight text-[var(--text)] sm:text-3xl lg:text-4xl">
-            Contact Us
+            Contacto
           </h1>
           <p className="text-sm text-[var(--text-muted)] sm:text-base leading-relaxed">
-            Have feedback, bug reports, or feature suggestions for IJMM Tools?
+            ¿Tienes sugerencias, consultas o comentarios sobre IJMM Tools?
           </p>
         </div>
 
         <Card padding="lg" className="space-y-4 border-[var(--border)] text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed">
-          <h2 className="text-base font-bold text-[var(--text)]">IJMM System Engineering</h2>
+          <h2 className="text-base font-bold text-[var(--text)]">Equipo de Ingeniería IJMM SYSTEM</h2>
           <p>
-            IJMM Tools is actively maintained and engineered by <strong className="font-semibold text-[var(--text)]">IJMM System</strong>.
-            We appreciate user feedback as we expand our library of free digital tools.
+            IJMM Tools es mantenido activamente por el equipo de ingeniería de <strong className="font-semibold text-[var(--text)]">IJMM SYSTEM</strong>.
+            Apreciamos los comentarios de nuestros usuarios a medida que ampliamos nuestro catálogo de utilidades gratuitas.
           </p>
           <p className="pt-2">
-            For technical inquiries or platform suggestions, please contact our development team at:
+            Para consultas técnicas o sugerencias sobre la plataforma, contáctanos a través de:
             <br />
             <strong className="text-[var(--primary)] font-semibold">dev@ijmmsystem.com</strong>
           </p>

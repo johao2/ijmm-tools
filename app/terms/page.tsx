@@ -5,13 +5,14 @@ import Card from "@/components/ui/Card";
 import { constructMetadata } from "@/lib/seo/metadata";
 
 export const metadata = constructMetadata({
-  title: "Terms of Use",
-  description: "Terms of Use for IJMM Tools, owned and operated by IJMM System.",
+  title: "Términos de Uso",
+  description: "Términos de Uso de IJMM Tools, propiedad de IJMM SYSTEM.",
   canonicalPath: "/terms",
 });
 
 export default function TermsPage() {
-  const breadcrumbs = [{ label: "Home", href: "/" }, { label: "Terms of Use" }];
+  const breadcrumbs = [{ label: "Inicio", href: "/" }, { label: "Términos de Uso" }];
+  const currentYear = new Date().getFullYear();
 
   return (
     <Container size="md" className="py-8 sm:py-12 text-left">
@@ -20,22 +21,22 @@ export default function TermsPage() {
       <div className="space-y-6">
         <div className="space-y-2">
           <h1 className="text-2xl font-extrabold tracking-tight text-[var(--text)] sm:text-3xl">
-            Terms of Use
+            Términos de Uso
           </h1>
-          <p className="text-xs text-[var(--text-muted)]">Last updated: 2026</p>
+          <p className="text-xs text-[var(--text-muted)]">Última actualización: {currentYear}</p>
         </div>
 
         <Card padding="lg" className="space-y-4 border-[var(--border)] text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed">
           <p>
-            Welcome to <strong className="font-semibold text-[var(--text)]">IJMM Tools</strong>, owned and operated by <strong className="font-semibold text-[var(--text)]">IJMM System</strong>.
+            Bienvenido a <strong className="font-semibold text-[var(--text)]">IJMM Tools</strong>, una plataforma operada por <strong className="font-semibold text-[var(--text)]">IJMM SYSTEM</strong>.
           </p>
-          <h2 className="text-base font-bold text-[var(--text)]">1. Acceptance of Terms</h2>
+          <h2 className="text-base font-bold text-[var(--text)]">1. Aceptación de Términos</h2>
           <p>
-            By accessing and using IJMM Tools, you agree to comply with and be bound by these Terms of Use. If you do not agree, please do not use the platform.
+            Al acceder y utilizar IJMM Tools, aceptas cumplir con los presentes Términos de Uso. Si no estás de acuerdo con alguno de ellos, te solicitamos no hacer uso de la plataforma.
           </p>
-          <h2 className="text-base font-bold text-[var(--text)]">2. Disclaimer of Warranties</h2>
+          <h2 className="text-base font-bold text-[var(--text)]">2. Exención de Responsabilidad</h2>
           <p>
-            All tools and calculations are provided on an &quot;as is&quot; and &quot;as available&quot; basis for informational and convenience purposes only. While we strive for mathematical accuracy, IJMM System provides no warranty regarding calculations for critical financial or legal decisions.
+            Todas las herramientas y cálculos se ofrecen &quot;tal cual&quot; con fines informativos y de conveniencia. Aunque trabajamos continuamente para garantizar la máxima precisión matemática, IJMM SYSTEM no ofrece garantías legales sobre decisiones financieras o comerciales críticas basadas en estos cálculos.
           </p>
         </Card>
       </div>

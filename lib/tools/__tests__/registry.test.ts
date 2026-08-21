@@ -73,12 +73,12 @@ describe("Tool Registry API", () => {
   });
 
   it("should perform in-memory search case-insensitively and accent-tolerantly", () => {
-    // Search for "percentage"
-    const results1 = searchTools("percentage");
+    // Search for "porcentaje" (Spanish query)
+    const results1 = searchTools("porcentaje");
     expect(results1.some((t) => t.id === "percentage-calculator")).toBe(true);
 
-    // Search for "PERCENT" (case insensitive)
-    const results2 = searchTools("PERCENT");
+    // Search for "PORCENTAJE" (case insensitive)
+    const results2 = searchTools("PORCENTAJE");
     expect(results2.some((t) => t.id === "percentage-calculator")).toBe(true);
 
     // Search for empty string

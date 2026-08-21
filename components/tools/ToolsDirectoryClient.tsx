@@ -43,7 +43,7 @@ export const ToolsDirectoryClient: React.FC<ToolsDirectoryClientProps> = ({
       {/* Real-time search bar */}
       <div className="mx-auto max-w-xl">
         <ToolSearch
-          placeholder="Search tools by name, keyword, or description..."
+          placeholder="Buscar herramienta por nombre, palabras clave o descripción..."
           showResultsInline={false}
           onSearchChange={(q) => setSearchQuery(q)}
         />
@@ -58,7 +58,7 @@ export const ToolsDirectoryClient: React.FC<ToolsDirectoryClientProps> = ({
           onClick={() => setSelectedCategory("all")}
           className="rounded-full text-xs"
         >
-          All Categories ({initialTools.length})
+          Todas las categorías ({initialTools.length})
         </Button>
         {categories.map((cat) => (
           <Button
@@ -83,9 +83,9 @@ export const ToolsDirectoryClient: React.FC<ToolsDirectoryClientProps> = ({
         </div>
       ) : (
         <div className="rounded-(--radius-lg) border border-[var(--border)] bg-[var(--surface)] p-12 text-center space-y-3">
-          <p className="text-base font-bold text-[var(--text)]">No tools match your criteria</p>
+          <p className="text-base font-bold text-[var(--text)]">No se encontraron herramientas con esos criterios</p>
           <p className="text-xs text-[var(--text-muted)] max-w-md mx-auto">
-            Try clearing your search query or choosing a different category.
+            Intenta limpiar tu búsqueda o seleccionar otra categoría.
           </p>
           <Button
             type="button"
@@ -96,7 +96,7 @@ export const ToolsDirectoryClient: React.FC<ToolsDirectoryClientProps> = ({
               setSearchQuery("");
             }}
           >
-            Reset Filters
+            Restablecer Filtros
           </Button>
         </div>
       )}

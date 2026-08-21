@@ -9,10 +9,10 @@ export interface ConstructMetadataInput {
 }
 
 const SITE_NAME = "IJMM Tools";
-const COMPANY_NAME = "IJMM System";
-const DEFAULT_TITLE = "IJMM Tools — Free Online Digital Tools & Calculators";
+const COMPANY_NAME = "IJMM SYSTEM";
+const DEFAULT_TITLE = "IJMM Tools — Herramientas online gratuitas para tus tareas diarias";
 const DEFAULT_DESCRIPTION =
-  "Fast, free, and privacy-focused online tools, calculators, converters, and digital utilities by IJMM System.";
+  "Calcula, convierte, genera y resuelve tareas rápidamente con herramientas gratuitas, rápidas y privadas en tu navegador. Desarrollado por IJMM SYSTEM.";
 
 // Use environment URL or fallback domain
 export const BASE_URL =
@@ -20,7 +20,7 @@ export const BASE_URL =
 
 /**
  * Constructs production-grade Next.js Metadata objects with OpenGraph,
- * Canonical URL, and strict robots directives.
+ * Canonical URL, and strict robots directives in Spanish.
  */
 export function constructMetadata({
   title,
@@ -38,10 +38,10 @@ export function constructMetadata({
     description: fullDescription,
     keywords: [
       "IJMM Tools",
-      "IJMM System",
-      "free online tools",
-      "calculators",
-      "digital utilities",
+      "IJMM SYSTEM",
+      "herramientas online gratuitas",
+      "calculadoras gratis",
+      "utilidades digitales",
       ...keywords,
     ],
     authors: [{ name: COMPANY_NAME, url: BASE_URL }],
@@ -56,7 +56,7 @@ export function constructMetadata({
       description: fullDescription,
       url: canonicalUrl,
       siteName: SITE_NAME,
-      locale: "en_US",
+      locale: "es_ES",
       type: "website",
     },
     robots: {

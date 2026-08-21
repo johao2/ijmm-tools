@@ -19,7 +19,7 @@ export interface ToolSearchProps {
 }
 
 export const ToolSearch: React.FC<ToolSearchProps> = ({
-  placeholder = "Search tools (e.g., percentage, json, qr)...",
+  placeholder = "Buscar herramientas (ej. porcentaje, calculadoras)...",
   showResultsInline = true,
   autoFocus = false,
   className,
@@ -93,14 +93,14 @@ export const ToolSearch: React.FC<ToolSearchProps> = ({
           placeholder={placeholder}
           autoFocus={autoFocus}
           className="pl-10 pr-10 py-2.5 text-sm sm:text-base shadow-sm border-[var(--border)] focus:border-[var(--primary)]"
-          aria-label="Search digital tools"
+          aria-label="Buscar herramientas digitales"
         />
         {query && (
           <button
             type="button"
             onClick={handleClear}
             className="absolute right-3 p-1 text-[var(--text-muted)] hover:text-[var(--text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] rounded-xs cursor-pointer"
-            aria-label="Clear search"
+            aria-label="Limpiar búsqueda"
           >
             <X className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -141,8 +141,8 @@ export const ToolSearch: React.FC<ToolSearchProps> = ({
             </div>
           ) : (
             <div className="p-6 text-center text-xs text-[var(--text-muted)] space-y-1">
-              <p className="font-semibold text-[var(--text)]">No tools found matching &quot;{query}&quot;</p>
-              <p>Try searching for percentages, calculators, or browse by category.</p>
+              <p className="font-semibold text-[var(--text)]">No se encontraron herramientas para &quot;{query}&quot;</p>
+              <p>Intenta buscar porcentajes, calculadoras o navega por categoría.</p>
             </div>
           )}
         </Card>

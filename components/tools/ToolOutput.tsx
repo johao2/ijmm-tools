@@ -14,7 +14,7 @@ export interface ToolOutputProps {
 }
 
 export const ToolOutput: React.FC<ToolOutputProps> = ({
-  label = "Result",
+  label = "Resultado",
   value,
   unit,
   copyableValue,

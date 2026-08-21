@@ -11,18 +11,18 @@ import { FAQS_BY_TOOL_ID } from "@/data/faqs";
 
 // 1. Next.js Metadata API
 export const metadata = constructMetadata({
-  title: "Percentage Calculator — Free Online Calculator",
+  title: "Calculadora de Porcentajes Online Gratis",
   description:
-    "Fast, accurate free percentage calculator. Calculate percentage of a value, percentage increase, percentage decrease, percentage difference, and store discounts.",
+    "Calcula porcentajes, incrementos, decrementos, diferencias porcentuales y descuentos de forma rápida, gratuita y precisa.",
   canonicalPath: "/percentage-calculator",
   keywords: [
-    "percentage calculator",
-    "calculate percentage",
-    "percent change",
-    "percentage increase",
-    "percentage decrease",
-    "percentage difference",
-    "discount calculator",
+    "calculadora de porcentajes",
+    "calcular porcentaje",
+    "cambio porcentual",
+    "incremento porcentual",
+    "decremento porcentual",
+    "diferencia porcentual",
+    "calculadora de descuentos",
   ],
 });
 
@@ -35,15 +35,15 @@ export default function PercentageCalculatorPage() {
   const webAppSchema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Percentage Calculator",
+    name: "Calculadora de Porcentajes",
     url: `${BASE_URL}/percentage-calculator`,
     applicationCategory: "UtilityApplication",
     operatingSystem: "All",
-    browserRequirements: "Requires JavaScript",
-    description: tool?.description || "Free online percentage calculator by IJMM System.",
+    browserRequirements: "Requiere JavaScript",
+    description: tool?.description || "Calculadora de porcentajes gratuita por IJMM SYSTEM.",
     publisher: {
       "@type": "Organization",
-      name: "IJMM System",
+      name: "IJMM SYSTEM",
       url: BASE_URL,
     },
   };
@@ -57,15 +57,15 @@ export default function PercentageCalculatorPage() {
       name: faq.question,
       acceptedAnswer: {
         "@type": "Answer",
-        text: `${faq.answer} ${faq.formula ? `Formula: ${faq.formula}` : ""}`,
+        text: `${faq.answer} ${faq.formula ? `Fórmula: ${faq.formula}` : ""}`,
       },
     })),
   };
 
   const breadcrumbItems = [
-    { label: "Home", href: "/" },
-    { label: "Calculators", href: "/categories/calculators" },
-    { label: "Percentage Calculator" },
+    { label: "Inicio", href: "/" },
+    { label: "Calculadoras", href: "/categories/calculators" },
+    { label: "Calculadora de Porcentajes" },
   ];
 
   return (
@@ -81,16 +81,16 @@ export default function PercentageCalculatorPage() {
         {/* Page Header */}
         <div className="mb-8 space-y-2 text-left">
           <h1 className="text-2xl font-extrabold tracking-tight text-[var(--text)] sm:text-3xl lg:text-4xl">
-            Percentage Calculator
+            Calculadora de Porcentajes
           </h1>
           <p className="text-sm text-[var(--text-muted)] sm:text-base max-w-2xl leading-relaxed">
-            Free, fast, and privacy-focused percentage calculator by IJMM System.
-            Calculate percentage of a number, percentage increase, decrease, percentage difference, and store discounts.
+            Calculadora de porcentajes online gratuita, rápida y privada desarrollada por IJMM SYSTEM.
+            Calcula el porcentaje de un número, incrementos, decrementos, diferencias porcentuales y descuentos en tiendas.
           </p>
         </div>
 
         {/* Interactive Client Calculator Form */}
-        <section aria-label="Percentage Calculator Tool" className="mb-12">
+        <section aria-label="Herramienta Calculadora de Porcentajes" className="mb-12">
           <PercentageCalculatorForm />
         </section>
 
@@ -99,57 +99,57 @@ export default function PercentageCalculatorPage() {
           {/* Section: How to Calculate a Percentage */}
           <section className="space-y-3">
             <h2 className="text-xl font-bold text-[var(--text)] sm:text-2xl">
-              How to Calculate a Percentage
+              ¿Cómo calcular un porcentaje?
             </h2>
             <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-              A percentage represents a fraction of 100. Calculating percentages is an essential daily skill
-              used in finance, retail discounts, data analysis, and academic statistics.
+              Un porcentaje representa una fracción de 100. Calcular porcentajes es una habilidad matemática diaria esencial
+              utilizada en finanzas personales, descuentos comerciales, análisis de datos y estadísticas académicas.
             </p>
           </section>
 
           {/* Section: Percentage Formulas */}
           <section className="space-y-4">
             <h2 className="text-xl font-bold text-[var(--text)] sm:text-2xl">
-              Percentage Formulas
+              Fórmulas de porcentaje
             </h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Card padding="md" variant="outline">
-                <h3 className="text-sm font-bold text-[var(--text)] mb-1">Percentage of a Value</h3>
+                <h3 className="text-sm font-bold text-[var(--text)] mb-1">Porcentaje de un valor</h3>
                 <code className="block bg-[var(--surface-secondary)] p-2 text-xs font-mono rounded-xs text-[var(--primary)] mb-2">
-                  Result = Total × (Percentage / 100)
+                  Resultado = Total × (Porcentaje / 100)
                 </code>
                 <p className="text-xs text-[var(--text-muted)]">
-                  Multiplies the total value by the percentage rate divided by 100.
+                  Multiplica el valor total por la tasa porcentual dividida entre 100.
                 </p>
               </Card>
 
               <Card padding="md" variant="outline">
-                <h3 className="text-sm font-bold text-[var(--text)] mb-1">Percentage Relationship</h3>
+                <h3 className="text-sm font-bold text-[var(--text)] mb-1">Relación porcentual</h3>
                 <code className="block bg-[var(--surface-secondary)] p-2 text-xs font-mono rounded-xs text-[var(--primary)] mb-2">
-                  Percentage = (Part / Whole) × 100
+                  Porcentaje = (Parte / Total) × 100
                 </code>
                 <p className="text-xs text-[var(--text-muted)]">
-                  Divides the part by the total whole and multiplies by 100.
+                  Divide la parte entre el total completo y multiplica por 100.
                 </p>
               </Card>
 
               <Card padding="md" variant="outline">
-                <h3 className="text-sm font-bold text-[var(--text)] mb-1">Percentage Increase</h3>
+                <h3 className="text-sm font-bold text-[var(--text)] mb-1">Porcentaje de incremento</h3>
                 <code className="block bg-[var(--surface-secondary)] p-2 text-xs font-mono rounded-xs text-[var(--primary)] mb-2">
-                  Increase % = ((New - Original) / Original) × 100
+                  Incremento % = ((Nuevo - Original) / Original) × 100
                 </code>
                 <p className="text-xs text-[var(--text-muted)]">
-                  Measures the growth percentage relative to the original value.
+                  Mide el porcentaje de crecimiento respecto al valor inicial.
                 </p>
               </Card>
 
               <Card padding="md" variant="outline">
-                <h3 className="text-sm font-bold text-[var(--text)] mb-1">Percentage Decrease</h3>
+                <h3 className="text-sm font-bold text-[var(--text)] mb-1">Porcentaje de decremento</h3>
                 <code className="block bg-[var(--surface-secondary)] p-2 text-xs font-mono rounded-xs text-[var(--primary)] mb-2">
-                  Decrease % = ((Original - New) / Original) × 100
+                  Decremento % = ((Original - Nuevo) / Original) × 100
                 </code>
                 <p className="text-xs text-[var(--text-muted)]">
-                  Measures the drop percentage relative to the original value.
+                  Mide el porcentaje de reducción respecto al valor inicial.
                 </p>
               </Card>
             </div>
@@ -158,19 +158,19 @@ export default function PercentageCalculatorPage() {
           {/* Section: Real-World Examples */}
           <section className="space-y-3">
             <h2 className="text-xl font-bold text-[var(--text)] sm:text-2xl">
-              Real-World Examples
+              Ejemplos prácticos
             </h2>
             <div className="space-y-3 text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed">
               <Card padding="md" variant="flat">
-                <p className="font-semibold text-[var(--text)] mb-1">Example 1: Calculating a 15% Tip on a $250 Bill</p>
-                <p className="mb-2">Formula substitution: $250 × (15 / 100) = $250 × 0.15 = $37.50</p>
-                <p className="text-[var(--primary)] font-medium">Result: The tip amount is $37.50.</p>
+                <p className="font-semibold text-[var(--text)] mb-1">Ejemplo 1: Calcular una propina del 15% en una cuenta de $250</p>
+                <p className="mb-2">Sustitución en la fórmula: $250 × (15 / 100) = $250 × 0.15 = $37.50</p>
+                <p className="text-[var(--primary)] font-medium">Resultado: El monto de la propina es $37.50.</p>
               </Card>
 
               <Card padding="md" variant="flat">
-                <p className="font-semibold text-[var(--text)] mb-1">Example 2: Price Increase from $100 to $125</p>
-                <p className="mb-2">Formula substitution: ((125 - 100) / 100) × 100 = (25 / 100) × 100 = 25%</p>
-                <p className="text-[var(--primary)] font-medium">Result: A 25% price increase.</p>
+                <p className="font-semibold text-[var(--text)] mb-1">Ejemplo 2: Aumento de precio de $100 a $125</p>
+                <p className="mb-2">Sustitución en la fórmula: ((125 - 100) / 100) × 100 = (25 / 100) × 100 = 25%</p>
+                <p className="text-[var(--primary)] font-medium">Resultado: Un incremento de precio del 25%.</p>
               </Card>
             </div>
           </section>
@@ -179,7 +179,7 @@ export default function PercentageCalculatorPage() {
           {faqs.length > 0 && (
             <section className="space-y-4">
               <h2 className="text-xl font-bold text-[var(--text)] sm:text-2xl">
-                Frequently Asked Questions
+                Preguntas frecuentes
               </h2>
               <div className="space-y-3">
                 {faqs.map((faq, idx) => (
@@ -188,7 +188,7 @@ export default function PercentageCalculatorPage() {
                     <p className="text-xs text-[var(--text-muted)] leading-relaxed">{faq.answer}</p>
                     {faq.formula && (
                       <div className="text-xs bg-[var(--surface-secondary)] p-2 rounded-xs text-[var(--text)] font-mono">
-                        Formula: {faq.formula}
+                        Fórmula: {faq.formula}
                       </div>
                     )}
                   </Card>
@@ -200,7 +200,7 @@ export default function PercentageCalculatorPage() {
           {/* Section: Related Tools (Only Active Tools via Tool Registry) */}
           {relatedTools.length > 0 && (
             <section className="space-y-4 pt-6 border-t border-[var(--border)]">
-              <h2 className="text-lg font-bold text-[var(--text)]">Related Tools</h2>
+              <h2 className="text-lg font-bold text-[var(--text)]">Herramientas relacionadas</h2>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {relatedTools.map((relTool) => (
                   <Link key={relTool.id} href={`/${relTool.slug}`}>

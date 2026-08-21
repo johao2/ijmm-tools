@@ -87,7 +87,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool, className }) => {
 
         {/* Card CTA Footer */}
         <div className="mt-4 flex items-center gap-1 text-xs font-semibold text-[var(--primary)] transition-colors group-hover:text-[var(--primary-hover)]">
-          <span>Use Tool</span>
+          <span>Usar Herramienta</span>
           <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
         </div>
       </Card>

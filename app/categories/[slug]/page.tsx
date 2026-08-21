@@ -34,16 +34,16 @@ export async function generateMetadata({ params }: CategoryPageProps) {
 
   if (!category) {
     return constructMetadata({
-      title: "Category Not Found",
+      title: "Categoría No Encontrada",
       noIndex: true,
     });
   }
 
   return constructMetadata({
-    title: `${category.name} — Tools & Calculators`,
+    title: `${category.name} — Herramientas y Calculadoras`,
     description: category.description,
     canonicalPath: `/categories/${category.slug}`,
-    keywords: [category.name, `${category.name} tools`, `${category.name} calculators`],
+    keywords: [category.name, `herramientas de ${category.name}`, `calculadoras ${category.name}`],
   });
 }
 
@@ -58,8 +58,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const activeTools = getToolsByCategory(category.id, false);
 
   const breadcrumbItems = [
-    { label: "Home", href: "/" },
-    { label: "Categories", href: "/categories" },
+    { label: "Inicio", href: "/" },
+    { label: "Categorías", href: "/categories" },
     { label: category.name },
   ];
 
@@ -90,22 +90,22 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           </div>
           <div className="space-y-1">
             <h2 className="text-base font-bold text-[var(--text)] sm:text-lg">
-              Tools In Active Development
+              Herramientas en Desarrollo Activo
             </h2>
             <p className="text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed max-w-md mx-auto">
-              Utilities for <strong className="font-semibold text-[var(--text)]">{category.name}</strong> are currently being engineered on our product roadmap. Check back soon for new releases!
+              Las utilidades para la categoría <strong className="font-semibold text-[var(--text)]">{category.name}</strong> están siendo desarrolladas en nuestra hoja de ruta. ¡Vuelve pronto para nuevos lanzamientos!
             </p>
           </div>
           <div className="pt-2 flex items-center justify-center gap-3">
             <Link href="/categories">
               <Button variant="outline" size="sm">
                 <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
-                <span>All Categories</span>
+                <span>Todas las Categorías</span>
               </Button>
             </Link>
             <Link href="/tools">
               <Button variant="primary" size="sm">
-                <span>View Active Tools</span>
+                <span>Ver Herramientas Activas</span>
               </Button>
             </Link>
           </div>

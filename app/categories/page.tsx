@@ -18,9 +18,9 @@ import { constructMetadata } from "@/lib/seo/metadata";
 import { getAllCategories, getToolsByCategory } from "@/lib/tools/registry";
 
 export const metadata = constructMetadata({
-  title: "Tool Categories",
+  title: "Categorías de Herramientas",
   description:
-    "Explore all digital tool categories on IJMM Tools, including calculators, developer tools, PDF tools, image utilities, and Ecuador regional tools.",
+    "Explora todas las categorías de herramientas digitales en IJMM Tools: calculadoras, herramientas de desarrollo, PDF, imagen y utilidades tributarias.",
   canonicalPath: "/categories",
 });
 
@@ -39,8 +39,8 @@ export default function CategoriesOverviewPage() {
   const categories = getAllCategories();
 
   const breadcrumbItems = [
-    { label: "Home", href: "/" },
-    { label: "Categories" },
+    { label: "Inicio", href: "/" },
+    { label: "Categorías" },
   ];
 
   return (
@@ -49,10 +49,10 @@ export default function CategoriesOverviewPage() {
 
       <div className="mb-8 space-y-2 text-left">
         <h1 className="text-2xl font-extrabold tracking-tight text-[var(--text)] sm:text-3xl lg:text-4xl">
-          Tool Categories
+          Categorías de Herramientas
         </h1>
         <p className="text-sm text-[var(--text-muted)] sm:text-base max-w-2xl leading-relaxed">
-          Explore tools organized by domain. Choose a category to find specialized calculators and utilities.
+          Explora nuestras herramientas organizadas por categoría. Selecciona un área para encontrar calculadoras y utilidades especializadas.
         </p>
       </div>
 
@@ -74,7 +74,7 @@ export default function CategoriesOverviewPage() {
                       <IconComp className="h-5 w-5" aria-hidden="true" />
                     </div>
                     <span className="text-xs font-semibold text-[var(--text-muted)] bg-[var(--surface-secondary)] px-2.5 py-1 rounded-full border border-[var(--border)]">
-                      {activeCount} {activeCount === 1 ? "active tool" : "active tools"}
+                      {activeCount} {activeCount === 1 ? "herramienta activa" : "herramientas activas"}
                     </span>
                   </div>
 
@@ -89,7 +89,7 @@ export default function CategoriesOverviewPage() {
                 </div>
 
                 <div className="flex items-center gap-1 text-xs font-semibold text-[var(--primary)] group-hover:text-[var(--primary-hover)] pt-2 border-t border-[var(--border)]">
-                  <span>Explore category</span>
+                  <span>Explorar categoría</span>
                   <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                 </div>
               </Card>

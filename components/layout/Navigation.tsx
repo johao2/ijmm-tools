@@ -7,10 +7,10 @@ export interface NavLink {
 }
 
 export const NAV_LINKS: NavLink[] = [
-  { href: "/tools", label: "Tools" },
-  { href: "/categories", label: "Categories" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/tools", label: "Herramientas" },
+  { href: "/categories", label: "Categorías" },
+  { href: "/about", label: "Acerca de" },
+  { href: "/contact", label: "Contacto" },
 ];
 
 export interface NavigationProps {
@@ -19,7 +19,7 @@ export interface NavigationProps {
 
 export const Navigation: React.FC<NavigationProps> = ({ className }) => {
   return (
-    <nav aria-label="Main Navigation" className={className}>
+    <nav aria-label="Navegación principal" className={className}>
       <ul className="flex items-center space-x-6 text-sm font-medium">
         {NAV_LINKS.map((link) => (
           <li key={link.href}>
