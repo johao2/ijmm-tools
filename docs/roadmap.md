@@ -1,39 +1,45 @@
-# Product Roadmap — IJMM TOOLS
+# Product Roadmap — IJMM Tools
 
-**Owner:** IJMM SYSTEM  
-**Product:** IJMM Tools
+**Owner:** IJMM System
+**Current candidate:** 0.1.0
 
----
+## MVP foundation
 
-## Phase 1: MVP & Pilot Launch (Current Phase)
-- [x] Technical Constitution (`AGENTS.md`) and Technical Docs (`/docs/`)
-- [ ] Base Architecture Setup (Next.js 16+, TypeScript strict, Tailwind CSS v4)
-- [ ] UI Design System & Global Layout (Header, Footer, Nav, Mobile Menu)
-- [ ] Tool Registry System & Data Models (`data/tools.ts`, `data/categories.ts`)
-- [ ] Pure Percentage Calculator Business Logic (`lib/tools/percentage.ts`) & Automated Unit Tests
-- [ ] Interactive Percentage Calculator UI (`/percentage-calculator`)
-- [ ] SEO / AEO / GEO Infrastructure (`JsonLd`, `Breadcrumbs`, FAQs)
-- [ ] Dynamic Routing (`/tools`, `/categories/[slug]`)
-- [ ] Analytics Event Dispatcher (`lib/analytics/events.ts`)
+- [x] Project foundation: Next.js 16, strict TypeScript, Tailwind CSS v4, Vitest.
+- [x] Design system, responsive global layout, and tool UI foundation.
+- [x] Typed Tool Engine contracts.
+- [x] Tool Registry, categories, root-level routing, and integrity validation.
+- [x] Percentage Calculator domain logic, UI, content, and edge-case tests.
+- [x] SEO, AEO, GEO, sitemap, robots, metadata, breadcrumbs, and structured data.
+- [x] Vendor-independent, privacy-preserving analytics layer.
+- [x] Quality hardening across responsive behavior, accessibility, security, and code quality.
+- [x] Local production-readiness validation and deployment configuration.
+- [ ] Authorized production deployment and live-domain verification.
+- [ ] `v1.0.0` tag after live verification.
 
----
+## Next tools — not yet authorized for implementation
 
-## Phase 2: Core Developer & Productivity Tools
-- [ ] JSON Formatter / Validator / Minifier (`/json-formatter`)
-- [ ] Password Generator (`/password-generator`)
-- [ ] QR Code Generator (`/qr-code-generator`)
-- [ ] Calculadora IVA Ecuador (`/calculadora-iva-ecuador`)
+Candidates remain `status: "planned"` and must not receive public pages until complete:
 
----
+- JSON Formatter / Validator / Minifier.
+- Password Generator.
+- QR Code Generator.
+- Calculadora IVA Ecuador.
+- Unit Converter.
+- Image and PDF utilities.
 
-## Phase 3: Media & Document Utilities
-- [ ] Image Compressor & Converter
-- [ ] PDF Merger & Compressor
-- [ ] Unit Converter
+The next tool will be selected using demand, utility, SEO opportunity, complexity, monetization potential, and strategic fit. No candidate is automatically approved by appearing in the registry.
 
----
+## Monetization — deferred
 
-## Future Horizons (Post 100+ Tools)
-- Pro Workspaces / Accounts
-- Batch File Processing
-- AI-assisted Utility Tools
+Advertising is not active in the MVP. Monetization requires real traffic evidence, an explicit provider decision, privacy review, reserved layout slots, and separate implementation approval. It must never transmit calculation inputs or degrade tool usability.
+
+## Outside current scope
+
+- Accounts and login.
+- Database-backed workspaces.
+- Payments and subscriptions.
+- Public API.
+- Generative AI features.
+- Mobile applications.
+- Complex CMS.

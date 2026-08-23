@@ -1,8 +1,8 @@
 # IJMM Tools
 
-**Owner:** IJMM System  
-**Product:** IJMM Tools  
-**Version:** 1.0.0
+**Owner:** IJMM System
+**Product:** IJMM Tools
+**Version:** 0.1.0 (production candidate)
 
 Fast, simple, and privacy-friendly digital utilities that work directly in your browser.
 
@@ -37,7 +37,7 @@ npm run verify
 
 This executes in deterministic order:
 1. `npm run typecheck` (`tsc --noEmit`)
-2. `npm test` (`vitest run` — 49/49 unit tests)
+2. `npm test` (`vitest run` — 62/62 unit tests)
 3. `npm run build` (`next build` — 21 static pre-rendered routes)
 4. `npm run audit` (`npm audit` — 0 vulnerabilities)
 
@@ -65,6 +65,7 @@ Detailed documentation is available in `/docs/`:
 - [`docs/percentage-calculator.md`](docs/percentage-calculator.md): Percentage formulas, UI boundaries & tested edge cases.
 - [`docs/analytics.md`](docs/analytics.md): Provider-independent events and privacy allowlist.
 - [`docs/quality.md`](docs/quality.md): Functional, responsive, accessibility & security audit.
+- [`docs/production-readiness.md`](docs/production-readiness.md): MVP release status, verified routes & remaining external steps.
 - [`docs/development.md`](docs/development.md): Developer guide & Tool Registry patterns.
 - [`docs/seo.md`](docs/seo.md): Technical SEO, AEO, and GEO strategy.
 - [`docs/deployment.md`](docs/deployment.md): CI/CD, production hardening & Edge deployment guide.

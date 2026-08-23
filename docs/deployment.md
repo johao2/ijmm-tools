@@ -1,8 +1,8 @@
 # Production Deployment & Hardening Guide — IJMM TOOLS
 
-**Owner:** IJMM SYSTEM  
-**Product:** IJMM Tools  
-**Version:** 1.0.0
+**Owner:** IJMM System
+**Product:** IJMM Tools
+**Version:** 0.1.0 production candidate
 
 ---
 
@@ -43,7 +43,7 @@ npm run verify
 
 The `verify` script deterministically executes:
 1. `npm run typecheck` (`tsc --noEmit` — 0 errors)
-2. `npm test` (`vitest run` — 49/49 unit tests passed, including `validateRegistry()`)
+2. `npm test` (`vitest run` — 62/62 unit tests passed, including registry, domain, analytics, and structured-data safety)
 3. `npm run build` (`next build` — 21 static pre-rendered pages compiled via Turbopack)
 4. `npm run audit` (`npm audit` — 0 vulnerabilities)
 

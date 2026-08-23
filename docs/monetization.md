@@ -1,13 +1,15 @@
 # Monetization & Advertising Strategy — IJMM TOOLS
 
-**Owner:** IJMM SYSTEM  
+**Owner:** IJMM System
 **Product:** IJMM Tools
 
 ---
 
-## 1. Monetization Model
+## 1. Current Status
 
-IJMM Tools operates on an organic growth ad-supported model:
+Monetization and advertising are deferred. IJMM Tools currently loads no ad scripts, reserves no public ad slots, and sends no user calculation data to advertising providers.
+
+The possible future model is:
 
 ```text
 Free Online Tool ──> Organic Traffic (SEO/AEO/GEO) ──> Ad Impression ──> Revenue ──> R&D New Tools
@@ -15,10 +17,10 @@ Free Online Tool ──> Organic Traffic (SEO/AEO/GEO) ──> Ad Impression ─
 
 ---
 
-## 2. Advertising Architecture (`AdPlaceholder`)
+## 2. Future Advertising Architecture
 
-To ensure ads do not degrade Core Web Vitals or user experience:
-1. **Encapsulated Placement:** Advertising is managed exclusively via the `<AdPlaceholder placement="..." />` component.
+If advertising is explicitly approved after real traffic exists:
+1. **Encapsulated Placement:** Advertising must be managed exclusively through a future `<AdPlaceholder placement="..." />` component.
 2. **Fixed Layout Boundaries:** Ad slots reserve height and width before script injection to prevent Cumulative Layout Shift (CLS).
 3. **Strategic Placements:**
    - `top`: Banner placed above main tool interaction zone.
@@ -33,3 +35,4 @@ To ensure ads do not degrade Core Web Vitals or user experience:
 - Ads must never block tool input fields or calculation buttons.
 - No intrusive popups, interstitials, or forced delays.
 - Clean fallback rendering when ads are disabled or unavailable.
+- No implementation begins without a provider decision, privacy review, and separate approval.

@@ -1,7 +1,7 @@
 # System Architecture — IJMM TOOLS
 
-**Owner:** IJMM SYSTEM  
-**Product:** IJMM Tools  
+**Owner:** IJMM System
+**Product:** IJMM Tools
 **Version:** 1.0.0
 
 ---
@@ -17,14 +17,14 @@ graph TD
     NextRouter --> PilotTool["/percentage-calculator (Root URL Tool)"]
     NextRouter --> DirectoryRoute["/tools (Directory)"]
     NextRouter --> CategoryRoute["/categories/[slug] (Dynamic Category)"]
-    
+
     PilotTool --> PureLogic["lib/tools/percentage.ts (Pure Logic)"]
     PilotTool --> ToolRegistry["lib/tools/registry.ts (Tool Registry API)"]
-    
+
     CategoryRoute --> ToolRegistry
     DirectoryRoute --> ToolRegistry
     HomeRoute --> ToolRegistry
-    
+
     ToolRegistry --> DataTools["data/tools.ts (Master Tool Catalog)"]
     ToolRegistry --> DataCategories["data/categories.ts (Master Category Catalog)"]
     ToolRegistry --> DataFaqs["data/faqs.ts (Separated FAQ Dataset)"]
@@ -83,6 +83,6 @@ The `ToolRegistry` (`lib/tools/registry.ts`) serves as the **Single Source of Tr
 
 ---
 
-### 2.5 Analytics & Advertising Abstraction
+### 2.5 Analytics & Future Advertising Boundary
 - Vendor-agnostic event tracker: `trackEvent(eventName, payload)` in `lib/analytics/events.ts`.
-- Non-intrusive public advertisement placement via `AdPlaceholder.tsx`.
+- Advertising is not active. Any future integration must be isolated behind a shared `AdPlaceholder` only after explicit approval.

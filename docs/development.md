@@ -1,6 +1,6 @@
 # Developer Guide — IJMM TOOLS
 
-**Owner:** IJMM SYSTEM  
+**Owner:** IJMM System
 **Product:** IJMM Tools
 
 ---
@@ -125,4 +125,4 @@ npm run build       # next build
 npm run audit       # npm audit
 ```
 
-For production deployment instructions, consult [`docs/deployment.md`](file:///c:/Users/Johao%20Montero/OneDrive/Documentos/IJMM/ijmm-tools/docs/deployment.md).
+For production deployment instructions, consult [`docs/deployment.md`](deployment.md).

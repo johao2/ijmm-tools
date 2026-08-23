@@ -1,7 +1,7 @@
 # SEO, AEO & GEO Technical Strategy — IJMM TOOLS
 
-**Owner:** IJMM SYSTEM  
-**Product:** IJMM Tools  
+**Owner:** IJMM System
+**Product:** IJMM Tools
 **Version:** 1.0.0
 
 ---
