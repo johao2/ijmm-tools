@@ -6,7 +6,7 @@ import { constructMetadata } from "@/lib/seo/metadata";
 
 export const metadata = constructMetadata({
   title: "Políticas de Privacidad",
-  description: "Políticas de Privacidad de IJMM Tools, un producto desarrollado por IJMM SYSTEM.",
+  description: "Políticas de Privacidad de IJMM Tools, un producto desarrollado por IJMM System.",
   canonicalPath: "/privacy",
 });
 
@@ -28,7 +28,7 @@ export default function PrivacyPage() {
 
         <Card padding="lg" className="space-y-4 border-[var(--border)] text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed">
           <p>
-            En <strong className="font-semibold text-[var(--text)]">IJMM Tools</strong> (un producto de <strong className="font-semibold text-[var(--text)]">IJMM SYSTEM</strong>), valoramos y protegemos la privacidad de nuestros usuarios.
+            En <strong className="font-semibold text-[var(--text)]">IJMM Tools</strong> (un producto de <strong className="font-semibold text-[var(--text)]">IJMM System</strong>), valoramos y protegemos la privacidad de nuestros usuarios.
           </p>
           <h2 className="text-base font-bold text-[var(--text)]">1. Procesamiento Local de Datos</h2>
           <p>

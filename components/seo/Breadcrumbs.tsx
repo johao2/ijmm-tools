@@ -23,7 +23,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className }) =>
       "@type": "ListItem",
       position: index + 1,
       name: item.label,
-      item: item.href ? `${BASE_URL}${item.href}` : `${BASE_URL}`,
+      ...(item.href ? { item: `${BASE_URL}${item.href}` } : {}),
     })),
   };
 

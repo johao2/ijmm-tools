@@ -8,7 +8,7 @@ import { getActiveTools, getAllCategories } from "@/lib/tools/registry";
 export const metadata = constructMetadata({
   title: "Directorio de Herramientas",
   description:
-    "Explora todas las herramientas online gratuitas, calculadoras y utilidades digitales disponibles en IJMM Tools por IJMM SYSTEM.",
+    "Explora todas las herramientas online gratuitas, calculadoras y utilidades digitales disponibles en IJMM Tools por IJMM System.",
   canonicalPath: "/tools",
   keywords: ["directorio de herramientas", "herramientas gratis", "calculadoras online", "utilidades digitales"],
 });

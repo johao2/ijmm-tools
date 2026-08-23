@@ -6,7 +6,7 @@ import { constructMetadata } from "@/lib/seo/metadata";
 
 export const metadata = constructMetadata({
   title: "Términos de Uso",
-  description: "Términos de Uso de IJMM Tools, propiedad de IJMM SYSTEM.",
+  description: "Términos de Uso de IJMM Tools, propiedad de IJMM System.",
   canonicalPath: "/terms",
 });
 
@@ -28,7 +28,7 @@ export default function TermsPage() {
 
         <Card padding="lg" className="space-y-4 border-[var(--border)] text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed">
           <p>
-            Bienvenido a <strong className="font-semibold text-[var(--text)]">IJMM Tools</strong>, una plataforma operada por <strong className="font-semibold text-[var(--text)]">IJMM SYSTEM</strong>.
+            Bienvenido a <strong className="font-semibold text-[var(--text)]">IJMM Tools</strong>, una plataforma operada por <strong className="font-semibold text-[var(--text)]">IJMM System</strong>.
           </p>
           <h2 className="text-base font-bold text-[var(--text)]">1. Aceptación de Términos</h2>
           <p>
@@ -36,7 +36,7 @@ export default function TermsPage() {
           </p>
           <h2 className="text-base font-bold text-[var(--text)]">2. Exención de Responsabilidad</h2>
           <p>
-            Todas las herramientas y cálculos se ofrecen &quot;tal cual&quot; con fines informativos y de conveniencia. Aunque trabajamos continuamente para garantizar la máxima precisión matemática, IJMM SYSTEM no ofrece garantías legales sobre decisiones financieras o comerciales críticas basadas en estos cálculos.
+            Todas las herramientas y cálculos se ofrecen &quot;tal cual&quot; con fines informativos y de conveniencia. Aunque trabajamos continuamente para garantizar la máxima precisión matemática, IJMM System no ofrece garantías legales sobre decisiones financieras o comerciales críticas basadas en estos cálculos.
           </p>
         </Card>
       </div>

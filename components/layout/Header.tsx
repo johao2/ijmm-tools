@@ -18,7 +18,7 @@ export const Header: React.FC = () => {
           <div className="relative flex h-9 w-auto items-center overflow-hidden">
             <Image
               src="/Logo_IJMM_SYSTEM.png"
-              alt="Logo IJMM SYSTEM — IJMM Tools"
+              alt="Logo IJMM System — IJMM Tools"
               width={120}
               height={40}
               className="h-8 w-auto object-contain transition-transform group-hover:scale-105"

@@ -18,7 +18,7 @@ export const Footer: React.FC = () => {
             >
               <Image
                 src="/Logo_IJMM_SYSTEM.png"
-                alt="Logo IJMM SYSTEM"
+                alt="Logo IJMM System"
                 width={100}
                 height={32}
                 className="h-7 w-auto object-contain"
@@ -26,7 +26,7 @@ export const Footer: React.FC = () => {
               <span>IJMM <span className="text-[var(--primary)]">Tools</span></span>
             </Link>
             <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-              Un producto desarrollado por <strong className="font-semibold text-[var(--text)]">IJMM SYSTEM</strong>.
+              Un producto desarrollado por <strong className="font-semibold text-[var(--text)]">IJMM System</strong>.
               Herramientas digitales gratuitas, rápidas y orientadas a la utilidad directa.
             </p>
             <p className="text-xs font-medium text-[var(--text)]">A product by IJMM System</p>
@@ -110,7 +110,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom copyright bar */}
         <div className="mt-10 border-t border-[var(--border)] pt-6 text-center text-xs text-[var(--text-muted)]">
-          <p>© {currentYear} IJMM SYSTEM. Todos los derechos reservados.</p>
+          <p>© {currentYear} IJMM System. Todos los derechos reservados.</p>
         </div>
       </Container>
     </footer>

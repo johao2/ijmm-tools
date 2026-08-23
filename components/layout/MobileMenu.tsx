@@ -71,7 +71,7 @@ export const MobileMenu: React.FC = () => {
               >
                 <Image
                   src="/Logo_IJMM_SYSTEM.png"
-                  alt="IJMM SYSTEM"
+                  alt="IJMM System"
                   width={90}
                   height={30}
                   className="h-6 w-auto object-contain"
@@ -107,7 +107,7 @@ export const MobileMenu: React.FC = () => {
 
             {/* Footer inside drawer */}
             <div className="border-t border-[var(--border)] pt-4 text-xs text-[var(--text-muted)]">
-              <p>© {currentYear} IJMM SYSTEM. Todos los derechos reservados.</p>
+              <p>© {currentYear} IJMM System. Todos los derechos reservados.</p>
             </div>
           </div>
         </div>

@@ -39,11 +39,14 @@ export async function generateMetadata({ params }: CategoryPageProps) {
     });
   }
 
+  const hasPublishedTools = getToolsByCategory(category.id).length > 0;
+
   return constructMetadata({
     title: `${category.name} — Herramientas y Calculadoras`,
     description: category.description,
     canonicalPath: `/categories/${category.slug}`,
     keywords: [category.name, `herramientas de ${category.name}`, `calculadoras ${category.name}`],
+    noIndex: !hasPublishedTools,
   });
 }
 

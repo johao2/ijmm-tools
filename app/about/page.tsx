@@ -6,7 +6,7 @@ import { constructMetadata } from "@/lib/seo/metadata";
 
 export const metadata = constructMetadata({
   title: "Acerca de Nosotros",
-  description: "Conoce más sobre IJMM Tools, una plataforma de herramientas digitales desarrollada y mantenida por IJMM SYSTEM.",
+  description: "Conoce más sobre IJMM Tools, una plataforma de herramientas digitales desarrollada y mantenida por IJMM System.",
   canonicalPath: "/about",
 });
 
@@ -30,7 +30,7 @@ export default function AboutPage() {
         <Card padding="lg" className="space-y-4 border-[var(--border)]">
           <h2 className="text-lg font-bold text-[var(--text)]">Nuestra Misión</h2>
           <p className="text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed">
-            IJMM Tools es un proyecto de ingeniería propiedad de <strong className="font-semibold text-[var(--text)]">IJMM SYSTEM</strong>.
+            IJMM Tools es un proyecto de ingeniería propiedad de <strong className="font-semibold text-[var(--text)]">IJMM System</strong>.
             Nuestro objetivo es ofrecer una plataforma moderna de utilidades digitales que proporcione calculadoras, conversores y herramientas de desarrollo confiables
             que se ejecuten directamente en tu navegador sin demoras de servidor ni registros obligatorios.
           </p>

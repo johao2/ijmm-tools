@@ -9,10 +9,10 @@ export interface ConstructMetadataInput {
 }
 
 const SITE_NAME = "IJMM Tools";
-const COMPANY_NAME = "IJMM SYSTEM";
+const COMPANY_NAME = "IJMM System";
 const DEFAULT_TITLE = "IJMM Tools — Herramientas online gratuitas para tus tareas diarias";
 const DEFAULT_DESCRIPTION =
-  "Calcula, convierte, genera y resuelve tareas rápidamente con herramientas gratuitas, rápidas y privadas en tu navegador. Desarrollado por IJMM SYSTEM.";
+  "Calcula, convierte, genera y resuelve tareas rápidamente con herramientas gratuitas, rápidas y privadas en tu navegador. Desarrollado por IJMM System.";
 
 // Use environment URL or fallback domain
 export const BASE_URL =
@@ -38,7 +38,7 @@ export function constructMetadata({
     description: fullDescription,
     keywords: [
       "IJMM Tools",
-      "IJMM SYSTEM",
+      "IJMM System",
       "herramientas online gratuitas",
       "calculadoras gratis",
       "utilidades digitales",
@@ -58,6 +58,11 @@ export function constructMetadata({
       siteName: SITE_NAME,
       locale: "es_ES",
       type: "website",
+    },
+    twitter: {
+      card: "summary",
+      title: fullTitle,
+      description: fullDescription,
     },
     robots: {
       index: !noIndex,

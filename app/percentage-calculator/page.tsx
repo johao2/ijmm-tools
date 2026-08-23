@@ -40,10 +40,10 @@ export default function PercentageCalculatorPage() {
     applicationCategory: "UtilityApplication",
     operatingSystem: "All",
     browserRequirements: "Requiere JavaScript",
-    description: tool?.description || "Calculadora de porcentajes gratuita por IJMM SYSTEM.",
+    description: tool?.description || "Calculadora de porcentajes gratuita por IJMM System.",
     publisher: {
       "@type": "Organization",
-      name: "IJMM SYSTEM",
+      name: "IJMM System",
       url: BASE_URL,
     },
   };
@@ -84,7 +84,7 @@ export default function PercentageCalculatorPage() {
             Calculadora de Porcentajes
           </h1>
           <p className="text-sm text-[var(--text-muted)] sm:text-base max-w-2xl leading-relaxed">
-            Calculadora de porcentajes online gratuita, rápida y privada desarrollada por IJMM SYSTEM.
+            Calculadora de porcentajes online gratuita, rápida y privada desarrollada por IJMM System.
             Calcula el porcentaje de un número, incrementos, decrementos, diferencias porcentuales y descuentos en tiendas.
           </p>
         </div>

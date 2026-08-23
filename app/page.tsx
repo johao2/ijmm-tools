@@ -28,7 +28,7 @@ import { getActiveTools, getAllCategories, getToolsByCategory } from "@/lib/tool
 export const metadata = constructMetadata({
   title: "Herramientas online gratuitas para tus tareas diarias",
   description:
-    "Calcula, convierte, genera y resuelve tareas rápidamente con herramientas gratuitas, rápidas y privadas en tu navegador. Desarrollado por IJMM SYSTEM.",
+    "Calcula, convierte, genera y resuelve tareas rápidamente con herramientas gratuitas, rápidas y privadas en tu navegador. Desarrollado por IJMM System.",
   canonicalPath: "/",
 });
 
@@ -57,7 +57,7 @@ export default function HomePage() {
     description: "Plataforma de herramientas digitales gratuitas, calculadoras, conversores y utilidades para desarrolladores.",
     publisher: {
       "@type": "Organization",
-      name: "IJMM SYSTEM",
+      name: "IJMM System",
       url: BASE_URL,
     },
   };
@@ -73,12 +73,12 @@ export default function HomePage() {
             <Badge variant="primary" className="gap-2 px-3.5 py-1.5">
               <Image
                 src="/Logo_IJMM_SYSTEM.png"
-                alt="IJMM SYSTEM"
+                alt="IJMM System"
                 width={20}
                 height={20}
                 className="h-4 w-auto object-contain"
               />
-              <span>Un producto de IJMM SYSTEM</span>
+              <span>Un producto de IJMM System</span>
             </Badge>
 
             <h1 className="text-3xl font-extrabold tracking-tight text-[var(--text)] sm:text-5xl lg:text-6xl leading-tight">

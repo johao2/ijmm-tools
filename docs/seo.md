@@ -65,5 +65,13 @@ Structured data MUST represent visible page content accurately with zero manipul
 
 ## 6. Sitemap & Robots Configuration
 
-- **`app/sitemap.ts`:** Dynamically pulls `getActiveTools()` from `lib/tools/registry.ts`. Includes ONLY active tools and static public pages.
+- **`app/sitemap.ts`:** Dynamically pulls active tools and categories containing active tools. Planned tools and empty roadmap categories are excluded.
 - **`app/robots.ts`:** Permits crawling of public routes for all legitimate engines and links to `https://ijmmtools.com/sitemap.xml`.
+
+## 7. Social Metadata & Structured Data Safety
+
+- Open Graph and Twitter summary metadata are generated centrally by `constructMetadata()`.
+- Canonicals use the trusted `NEXT_PUBLIC_SITE_URL` origin and repository-defined paths.
+- `JsonLd` escapes HTML-significant characters before writing trusted structured data into a script element.
+- Breadcrumb schema omits an invented URL for the current item when no canonical href is supplied.
+- Empty roadmap categories return `noindex` metadata and remain outside the sitemap.

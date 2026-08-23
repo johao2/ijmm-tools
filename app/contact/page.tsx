@@ -6,7 +6,7 @@ import { constructMetadata } from "@/lib/seo/metadata";
 
 export const metadata = constructMetadata({
   title: "Contacto",
-  description: "Ponte en contacto con el equipo de ingeniería de IJMM SYSTEM detrás de IJMM Tools.",
+  description: "Ponte en contacto con el equipo de ingeniería de IJMM System detrás de IJMM Tools.",
   canonicalPath: "/contact",
 });
 
@@ -28,9 +28,9 @@ export default function ContactPage() {
         </div>
 
         <Card padding="lg" className="space-y-4 border-[var(--border)] text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed">
-          <h2 className="text-base font-bold text-[var(--text)]">Equipo de Ingeniería IJMM SYSTEM</h2>
+          <h2 className="text-base font-bold text-[var(--text)]">Equipo de Ingeniería IJMM System</h2>
           <p>
-            IJMM Tools es mantenido activamente por el equipo de ingeniería de <strong className="font-semibold text-[var(--text)]">IJMM SYSTEM</strong>.
+            IJMM Tools es mantenido activamente por el equipo de ingeniería de <strong className="font-semibold text-[var(--text)]">IJMM System</strong>.
             Apreciamos los comentarios de nuestros usuarios a medida que ampliamos nuestro catálogo de utilidades gratuitas.
           </p>
           <p className="pt-2">
