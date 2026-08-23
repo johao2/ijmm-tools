@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { ExternalLink, Menu, X } from "lucide-react";
+import { CORPORATE_SITE_URL } from "@/lib/config/site";
 import { NAV_LINKS } from "./Navigation";
 
 export const MobileMenu: React.FC = () => {
@@ -64,20 +65,29 @@ export const MobileMenu: React.FC = () => {
           >
             {/* Header section in drawer */}
             <div className="flex items-center justify-between border-b border-[var(--border)] pb-4">
-              <Link
-                href="/"
-                onClick={closeMenu}
-                className="flex items-center gap-2 text-base font-bold text-[var(--text)] tracking-tight"
-              >
+              <div className="flex items-center gap-2">
+                <a
+                  href={CORPORATE_SITE_URL}
+                  onClick={closeMenu}
+                  aria-label="Ir al sitio principal de IJMM System"
+                  className="rounded-(--radius-sm) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                >
                 <Image
                   src="/Logo_IJMM_SYSTEM.png"
                   alt="IJMM System"
-                  width={90}
-                  height={30}
-                  className="h-6 w-auto object-contain"
+                  width={40}
+                  height={40}
+                  className="h-9 w-9 object-contain"
                 />
+                </a>
+                <Link
+                  href="/"
+                  onClick={closeMenu}
+                  className="text-base font-bold tracking-tight text-[var(--text)]"
+                >
                 <span>IJMM <span className="text-[var(--primary)]">Tools</span></span>
-              </Link>
+                </Link>
+              </div>
               <button
                 type="button"
                 onClick={closeMenu}
@@ -91,6 +101,16 @@ export const MobileMenu: React.FC = () => {
             {/* Navigation links */}
             <nav className="mt-6 flex-1" aria-label="Navegación móvil">
               <ul className="space-y-4 text-base font-medium">
+                <li>
+                  <a
+                    href={CORPORATE_SITE_URL}
+                    onClick={closeMenu}
+                    className="flex items-center justify-between rounded-(--radius-md) bg-[var(--surface-secondary)] px-3 py-2 text-[var(--primary)] transition-colors hover:bg-[var(--border)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                  >
+                    <span>Ir al sitio principal de IJMM System</span>
+                    <ExternalLink className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  </a>
+                </li>
                 {NAV_LINKS.map((link) => (
                   <li key={link.href}>
                     <Link

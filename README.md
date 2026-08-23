@@ -66,6 +66,7 @@ Detailed documentation is available in `/docs/`:
 - [`docs/analytics.md`](docs/analytics.md): Provider-independent events and privacy allowlist.
 - [`docs/quality.md`](docs/quality.md): Functional, responsive, accessibility & security audit.
 - [`docs/production-readiness.md`](docs/production-readiness.md): MVP release status, verified routes & remaining external steps.
+- [`docs/brand-integration.md`](docs/brand-integration.md): Official logo source and cross-product navigation contract.
 - [`docs/development.md`](docs/development.md): Developer guide & Tool Registry patterns.
 - [`docs/seo.md`](docs/seo.md): Technical SEO, AEO, and GEO strategy.
 - [`docs/deployment.md`](docs/deployment.md): CI/CD, production hardening & Edge deployment guide.

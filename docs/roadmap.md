@@ -14,6 +14,7 @@
 - [x] Vendor-independent, privacy-preserving analytics layer.
 - [x] Quality hardening across responsive behavior, accessibility, security, and code quality.
 - [x] Local production-readiness validation and deployment configuration.
+- [x] Phase 11 additional: official corporate logo and navigation back to IJMM System from every route.
 - [ ] Authorized production deployment and live-domain verification.
 - [ ] `v1.0.0` tag after live verification.
 

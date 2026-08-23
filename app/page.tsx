@@ -24,6 +24,7 @@ import ToolCard from "@/components/tools/ToolCard";
 import ToolSearch from "@/components/tools/ToolSearch";
 import JsonLd from "@/components/seo/JsonLd";
 import { constructMetadata, BASE_URL } from "@/lib/seo/metadata";
+import { CORPORATE_SITE_URL } from "@/lib/config/site";
 import { getActiveTools, getAllCategories, getToolsByCategory } from "@/lib/tools/registry";
 
 export const metadata = constructMetadata({
@@ -59,7 +60,7 @@ export default function HomePage() {
     publisher: {
       "@type": "Organization",
       name: "IJMM System",
-      url: BASE_URL,
+      url: CORPORATE_SITE_URL,
     },
   };
 
@@ -71,16 +72,22 @@ export default function HomePage() {
       <section className="bg-gradient-to-b from-[var(--surface)] to-[var(--background)] py-12 sm:py-20 border-b border-[var(--border)]">
         <Container size="md" className="space-y-8 text-center">
           <div className="space-y-4 max-w-3xl mx-auto">
-            <Badge variant="primary" className="gap-2 px-3.5 py-1.5">
-              <Image
-                src="/Logo_IJMM_SYSTEM.png"
-                alt="IJMM System"
-                width={20}
-                height={20}
-                className="h-4 w-auto object-contain"
-              />
-              <span>Un producto de IJMM System</span>
-            </Badge>
+            <a
+              href={CORPORATE_SITE_URL}
+              aria-label="Visitar el sitio principal de IJMM System"
+              className="inline-flex rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2"
+            >
+              <Badge variant="primary" className="gap-2 px-3.5 py-1.5 transition-colors hover:bg-blue-100">
+                <Image
+                  src="/Logo_IJMM_SYSTEM.png"
+                  alt=""
+                  width={20}
+                  height={20}
+                  className="h-4 w-4 object-contain"
+                />
+                <span>Un producto de IJMM System</span>
+              </Badge>
+            </a>
 
             <h1 className="text-3xl font-extrabold tracking-tight text-[var(--text)] sm:text-5xl lg:text-6xl leading-tight">
               Herramientas online gratuitas <br className="hidden sm:inline" />
