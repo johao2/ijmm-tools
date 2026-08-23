@@ -1,7 +1,9 @@
 import React from "react";
 import Link from "next/link";
-import Container from "@/components/ui/Container";
 import { ChevronRight } from "lucide-react";
+import ToolShell from "./ToolShell";
+import ToolHeader from "./ToolHeader";
+import ToolContent from "./ToolContent";
 
 export interface BreadcrumbItem {
   label: string;
@@ -22,7 +24,7 @@ export const ToolLayout: React.FC<ToolLayoutProps> = ({
   children,
 }) => {
   return (
-    <Container size="md" className="py-8 sm:py-12">
+    <ToolShell>
       {/* Breadcrumb Navigation */}
       {breadcrumbs && breadcrumbs.length > 0 && (
         <nav aria-label="Breadcrumb" className="mb-6">
@@ -57,18 +59,11 @@ export const ToolLayout: React.FC<ToolLayoutProps> = ({
       )}
 
       {/* Tool Header Section */}
-      <div className="mb-8 space-y-2 text-left">
-        <h1 className="text-2xl font-extrabold tracking-tight text-[var(--text)] sm:text-3xl lg:text-4xl">
-          {title}
-        </h1>
-        <p className="text-sm text-[var(--text-muted)] sm:text-base max-w-2xl leading-relaxed">
-          {description}
-        </p>
-      </div>
+      <ToolHeader title={title} description={description} />
 
       {/* Main Tool Content Workspace */}
-      <div className="w-full">{children}</div>
-    </Container>
+      <ToolContent>{children}</ToolContent>
+    </ToolShell>
   );
 };
 

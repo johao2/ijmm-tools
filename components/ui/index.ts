@@ -3,3 +3,8 @@ export * from "./Input";
 export * from "./Select";
 export * from "./Card";
 export * from "./Container";
+export * from "./Label";
+export * from "./Badge";
+export * from "./Alert";
+export * from "./Divider";
+export * from "./Skeleton";

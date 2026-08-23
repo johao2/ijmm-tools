@@ -1,5 +1,6 @@
 import React, { useId } from "react";
 import { cn } from "@/lib/utils/cn";
+import Label from "./Label";
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -37,12 +38,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full space-y-1.5 text-left">
         {label && (
-          <label
-            htmlFor={inputId}
-            className="block text-sm font-medium text-[var(--text)]"
-          >
+          <Label htmlFor={inputId}>
             {label}
-          </label>
+          </Label>
         )}
         <input
           ref={ref}

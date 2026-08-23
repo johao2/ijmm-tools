@@ -74,7 +74,9 @@ The `ToolRegistry` (`lib/tools/registry.ts`) serves as the **Single Source of Tr
 
 ### 2.4 Design System & Styling Architecture
 - **Token System (`app/globals.css`):** Centralized CSS variables mapped to Tailwind CSS v4 `@theme inline`.
-- **Base Component Library (`components/ui/`):** Lightweight, zero-dependency reusable components (`Container`, `Button`, `Input`, `Select`, `Card`).
+- **Base Component Library (`components/ui/`):** Lightweight reusable components (`Container`, `Button`, `Input`, `Select`, `Label`, `Card`, `Badge`, `Alert`, `Divider`, `Skeleton`) built only with the approved stack.
+- **Tool UI Foundation (`components/tools/`):** `ToolShell`, `ToolHeader`, `ToolContent`, and `ToolResult` provide reusable composition while `ToolLayout` preserves compatibility for existing routes.
+- **Theme Preparation:** Light tokens are the default and dark tokens follow the operating-system preference without client-side theme JavaScript.
 - **Mobile-First Responsive Support:** Tested across 320px, 375px, 430px, 768px, 1024px, 1280px+.
 - **Accessibility & Reduced Motion:** Native keyboard navigation, visible focus rings (`focus-visible:ring-2`), and `prefers-reduced-motion` compliance.
 

@@ -1,5 +1,6 @@
 import React, { useId } from "react";
 import { cn } from "@/lib/utils/cn";
+import Label from "./Label";
 
 export interface SelectOption {
   value: string;
@@ -45,12 +46,9 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <div className="w-full space-y-1.5 text-left">
         {label && (
-          <label
-            htmlFor={selectId}
-            className="block text-sm font-medium text-[var(--text)]"
-          >
+          <Label htmlFor={selectId}>
             {label}
-          </label>
+          </Label>
         )}
         <div className="relative">
           <select

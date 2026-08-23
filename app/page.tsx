@@ -18,6 +18,7 @@ import {
 import Container from "@/components/ui/Container";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import Badge from "@/components/ui/Badge";
 import ToolCard from "@/components/tools/ToolCard";
 import ToolSearch from "@/components/tools/ToolSearch";
 import JsonLd from "@/components/seo/JsonLd";
@@ -69,7 +70,7 @@ export default function HomePage() {
       <section className="bg-gradient-to-b from-[var(--surface)] to-[var(--background)] py-12 sm:py-20 border-b border-[var(--border)]">
         <Container size="md" className="space-y-8 text-center">
           <div className="space-y-4 max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 rounded-full bg-[var(--primary-light)] px-3.5 py-1.5 text-xs font-semibold text-[var(--primary)] border border-blue-200">
+            <Badge variant="primary" className="gap-2 px-3.5 py-1.5">
               <Image
                 src="/Logo_IJMM_SYSTEM.png"
                 alt="IJMM SYSTEM"
@@ -78,7 +79,7 @@ export default function HomePage() {
                 className="h-4 w-auto object-contain"
               />
               <span>Un producto de IJMM SYSTEM</span>
-            </div>
+            </Badge>
 
             <h1 className="text-3xl font-extrabold tracking-tight text-[var(--text)] sm:text-5xl lg:text-6xl leading-tight">
               Herramientas online gratuitas <br className="hidden sm:inline" />

@@ -29,6 +29,7 @@ export const Footer: React.FC = () => {
               Un producto desarrollado por <strong className="font-semibold text-[var(--text)]">IJMM SYSTEM</strong>.
               Herramientas digitales gratuitas, rápidas y orientadas a la utilidad directa.
             </p>
+            <p className="text-xs font-medium text-[var(--text)]">A product by IJMM System</p>
           </div>
 
           {/* Column 2: Platform Directory */}
