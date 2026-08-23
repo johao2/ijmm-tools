@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import ToolOutput from "@/components/tools/ToolOutput";
+import ToolResult from "@/components/tools/ToolResult";
 import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
-import { RotateCcw, Calculator as CalcIcon, AlertCircle } from "lucide-react";
+import Alert from "@/components/ui/Alert";
+import { RotateCcw, Calculator as CalcIcon } from "lucide-react";
 import {
   calculatePercentageOf,
   calculateWhatPercentage,
@@ -218,15 +219,7 @@ export const PercentageCalculatorForm: React.FC = () => {
             />
           </div>
 
-          {errorMessage && (
-            <div
-              role="alert"
-              className="flex items-center gap-2 rounded-(--radius-md) border border-[var(--error)] bg-[var(--error-bg)] p-3 text-xs font-medium text-[var(--error)]"
-            >
-              <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
-              <span>{errorMessage}</span>
-            </div>
-          )}
+          {errorMessage && <Alert variant="error">{errorMessage}</Alert>}
 
           <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-3 pt-2">
             <Button
@@ -254,7 +247,7 @@ export const PercentageCalculatorForm: React.FC = () => {
       </Card>
 
       {result && result.success && (
-        <ToolOutput
+        <ToolResult
           toolId={TOOL_ID}
           label={
             mode === "discount"

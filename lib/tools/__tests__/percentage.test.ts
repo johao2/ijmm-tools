@@ -44,6 +44,7 @@ describe("Percentage Calculator Pure Domain Engine", () => {
       expect(validateInputNumber(0)).toBe(0);
       expect(validateInputNumber("-45.5")).toBe(-45.5);
       expect(validateInputNumber("")).toBeNull();
+      expect(validateInputNumber("   ")).toBeNull();
       expect(validateInputNumber(NaN)).toBeNull();
       expect(validateInputNumber(Infinity)).toBeNull();
       expect(validateInputNumber(undefined)).toBeNull();
@@ -56,6 +57,16 @@ describe("Percentage Calculator Pure Domain Engine", () => {
       assertSuccess(res);
       expect(res.value).toBe(30);
       expect(res.formatted).toBe("30");
+    });
+
+    it.each([
+      [20, 100, 20],
+      [15, 200, 30],
+      [25, 80, 20],
+    ])("calculates %s%% of %s as %s", (percentage, total, expected) => {
+      const res = calculatePercentageOf(percentage, total);
+      assertSuccess(res);
+      expect(res.value).toBe(expected);
     });
 
     it("should calculate decimal percentages accurately", () => {
@@ -98,6 +109,13 @@ describe("Percentage Calculator Pure Domain Engine", () => {
       expect(res.value).toBe(150_000_000_000);
     });
 
+    it("should preserve a finite result when precision scaling would overflow", () => {
+      const res = calculatePercentageOf(100, 1e308);
+      assertSuccess(res);
+      expect(res.value).toBe(1e308);
+      expect(Number.isFinite(res.value)).toBe(true);
+    });
+
     it("should return INVALID_INPUT error for invalid inputs", () => {
       const res = calculatePercentageOf(NaN, 100);
       assertError(res);
@@ -111,6 +129,12 @@ describe("Percentage Calculator Pure Domain Engine", () => {
       assertSuccess(res);
       expect(res.value).toBe(20);
       expect(res.formatted).toBe("20");
+    });
+
+    it("should calculate 50 of 200 as 25 percent", () => {
+      const res = calculateWhatPercentage(50, 200);
+      assertSuccess(res);
+      expect(res.value).toBe(25);
     });
 
     it("should handle decimal inputs", () => {
@@ -164,6 +188,13 @@ describe("Percentage Calculator Pure Domain Engine", () => {
       const res = calculatePercentageIncrease(100, 80);
       assertSuccess(res);
       expect(res.value).toBe(-20);
+    });
+
+    it("should calculate a change from 120 to 100 as approximately -16.6667 percent", () => {
+      const res = calculatePercentageIncrease(120, 100);
+      assertSuccess(res);
+      expect(res.value).toBeCloseTo(-16.6667, 4);
+      expect(res.formatted).toBe("-16.6667");
     });
   });
 

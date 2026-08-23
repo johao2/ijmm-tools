@@ -34,8 +34,15 @@ export type CalculationResult = CalculationSuccess | CalculationError;
  * Avoids IEEE 754 precision glitches like 0.30000000000000004.
  */
 export function roundToPrecision(value: number, decimals: number = 6): number {
+  if (!Number.isFinite(value)) return value;
   const factor = Math.pow(10, decimals);
-  return Math.round((value + Number.EPSILON) * factor) / factor;
+  const scaledValue = value * factor;
+
+  // Preserve large finite values when scaling would overflow.
+  if (!Number.isFinite(scaledValue)) return value;
+
+  const epsilon = value >= 0 ? Number.EPSILON : -Number.EPSILON;
+  return Math.round((value + epsilon) * factor) / factor;
 }
 
 /**
@@ -55,7 +62,13 @@ export function formatNumericResult(value: number): string {
  * Input sanitizer and finite number validator.
  */
 export function validateInputNumber(val: unknown): number | null {
-  if (val === null || val === undefined || val === "") return null;
+  if (
+    val === null ||
+    val === undefined ||
+    (typeof val === "string" && val.trim() === "")
+  ) {
+    return null;
+  }
   const num = typeof val === "number" ? val : Number(val);
   if (typeof num !== "number" || isNaN(num) || !Number.isFinite(num)) {
     return null;
@@ -68,6 +81,9 @@ export function validateInputNumber(val: unknown): number | null {
  */
 function createSuccess(value: number, metadata?: Record<string, unknown>): CalculationSuccess {
   const roundedValue = roundToPrecision(value, 6);
+  if (!Number.isFinite(roundedValue)) {
+    throw new RangeError("A successful calculation must have a finite result.");
+  }
   return {
     success: true,
     value: roundedValue,

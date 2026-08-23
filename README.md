@@ -62,6 +62,7 @@ Detailed documentation is available in `/docs/`:
 - [`docs/design-system.md`](docs/design-system.md): Visual tokens, reusable components & tool UI foundation.
 - [`docs/tool-engine.md`](docs/tool-engine.md): Typed core contracts for tool modules and execution.
 - [`docs/tool-registry.md`](docs/tool-registry.md): Registry lifecycle, integrity checks, categories & routing rules.
+- [`docs/percentage-calculator.md`](docs/percentage-calculator.md): Percentage formulas, UI boundaries & tested edge cases.
 - [`docs/development.md`](docs/development.md): Developer guide & Tool Registry patterns.
 - [`docs/seo.md`](docs/seo.md): Technical SEO, AEO, and GEO strategy.
 - [`docs/deployment.md`](docs/deployment.md): CI/CD, production hardening & Edge deployment guide.
