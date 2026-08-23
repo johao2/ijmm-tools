@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Keep the repository-owned AGENTS.md as the single governance source.
+  agentRules: false,
+
   // Disable X-Powered-By header for production security hardening
   poweredByHeader: false,
 
@@ -25,10 +28,6 @@ const nextConfig: NextConfig = {
           {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=(), payment=()",
-          },
-          {
-            key: "X-XSS-Protection",
-            value: "1; mode=block",
           },
         ],
       },

@@ -18,6 +18,7 @@ import {
 import Container from "@/components/ui/Container";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import { buttonStyles } from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 import ToolCard from "@/components/tools/ToolCard";
 import ToolSearch from "@/components/tools/ToolSearch";
@@ -243,11 +244,9 @@ export default function HomePage() {
             Explora nuestro catálogo completo de utilidades activas y en desarrollo.
           </p>
           <div>
-            <Link href="/tools">
-              <Button variant="primary" size="md">
-                <span>Explorar Todas las Herramientas</span>
-                <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
-              </Button>
+            <Link href="/tools" className={buttonStyles({ variant: "primary", size: "md" })}>
+              <span>Explorar Todas las Herramientas</span>
+              <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
         </Container>

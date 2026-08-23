@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Container from "@/components/ui/Container";
 import Card from "@/components/ui/Card";
-import Button from "@/components/ui/Button";
+import { buttonStyles } from "@/components/ui/Button";
 import Breadcrumbs from "@/components/seo/Breadcrumbs";
 import ToolCard from "@/components/tools/ToolCard";
 import { constructMetadata } from "@/lib/seo/metadata";
@@ -100,16 +100,12 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             </p>
           </div>
           <div className="pt-2 flex items-center justify-center gap-3">
-            <Link href="/categories">
-              <Button variant="outline" size="sm">
-                <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
-                <span>Todas las Categorías</span>
-              </Button>
+            <Link href="/categories" className={buttonStyles({ variant: "outline", size: "sm" })}>
+              <ArrowLeft className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" />
+              <span>Todas las Categorías</span>
             </Link>
-            <Link href="/tools">
-              <Button variant="primary" size="sm">
-                <span>Ver Herramientas Activas</span>
-              </Button>
+            <Link href="/tools" className={buttonStyles({ variant: "primary", size: "sm" })}>
+              <span>Ver Herramientas Activas</span>
             </Link>
           </div>
         </Card>

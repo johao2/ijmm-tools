@@ -34,8 +34,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
         // Fallback for non-secure or legacy browser contexts
         const textarea = document.createElement("textarea");
         textarea.value = value;
-        textarea.style.position = "fixed";
-        textarea.style.opacity = "0";
+        textarea.className = "pointer-events-none fixed opacity-0";
         document.body.appendChild(textarea);
         textarea.select();
         document.execCommand("copy");
