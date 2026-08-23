@@ -141,7 +141,7 @@ export const PercentageCalculatorForm: React.FC = () => {
       trackEvent("tool_error", { toolId: TOOL_ID, mode, errorCode: calcRes.code });
     } else {
       setResult(calcRes);
-      trackEvent("tool_complete", { toolId: TOOL_ID, mode, value: calcRes.value });
+      trackEvent("tool_complete", { toolId: TOOL_ID, mode });
     }
   };
 

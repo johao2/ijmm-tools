@@ -42,7 +42,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
         document.body.removeChild(textarea);
       }
       setCopied(true);
-      trackEvent("result_copy", { toolId, valueLength: value.length });
+      trackEvent("result_copy", { toolId });
       setTimeout(() => setCopied(false), 2000);
     } catch {
       // Graceful fallback if copy fails

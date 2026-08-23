@@ -44,7 +44,7 @@ export const ToolSearch: React.FC<ToolSearchProps> = ({
     setResults(mathingTools);
     setIsOpen(true);
 
-    trackEvent("search_perform", { searchQuery: trimmed });
+    trackEvent("search_perform", { resultCount: mathingTools.length });
 
     if (onSearchChange) {
       onSearchChange(trimmed, mathingTools);

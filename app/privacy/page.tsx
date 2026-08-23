@@ -30,6 +30,9 @@ export default function PrivacyPage() {
           <p>
             En <strong className="font-semibold text-[var(--text)]">IJMM Tools</strong> (un producto de <strong className="font-semibold text-[var(--text)]">IJMM System</strong>), valoramos y protegemos la privacidad de nuestros usuarios.
           </p>
+          <p>
+            La analítica, cuando se conecte un proveedor, medirá únicamente eventos agregados. No enviamos los números introducidos, resultados calculados, contenido copiado ni términos de búsqueda.
+          </p>
           <h2 className="text-base font-bold text-[var(--text)]">1. Procesamiento Local de Datos</h2>
           <p>
             Nuestras herramientas de cálculo (como la Calculadora de Porcentajes) procesan los datos completamente en el navegador del usuario. Tus números e información calculada nunca se transmiten ni se almacenan en servidores externos.

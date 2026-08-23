@@ -21,15 +21,18 @@ export type StandardEventName =
 export interface AnalyticsEventPayload {
   toolId?: string;
   categoryId?: string;
-  searchQuery?: string;
   errorCode?: string;
   mode?: string;
-  [key: string]: unknown;
+  resultCount?: number;
+}
+
+export interface AnalyticsDispatchPayload extends AnalyticsEventPayload {
+  timestamp: number;
 }
 
 export type AnalyticsProviderHandler = (
-  eventName: string,
-  payload?: AnalyticsEventPayload
+  eventName: StandardEventName,
+  payload: AnalyticsDispatchPayload
 ) => void;
 
 // Internal registry of analytics subscribers/adapters
@@ -58,13 +61,19 @@ export function clearAnalyticsProviders(): void {
  * Called by UI components across the platform.
  */
 export function trackEvent(
-  eventName: StandardEventName | string,
+  eventName: StandardEventName,
   payload?: AnalyticsEventPayload
 ): void {
   try {
-    const formattedPayload: AnalyticsEventPayload = {
+    const formattedPayload: AnalyticsDispatchPayload = {
       timestamp: Date.now(),
-      ...payload,
+      ...(payload?.toolId ? { toolId: payload.toolId } : {}),
+      ...(payload?.categoryId ? { categoryId: payload.categoryId } : {}),
+      ...(payload?.errorCode ? { errorCode: payload.errorCode } : {}),
+      ...(payload?.mode ? { mode: payload.mode } : {}),
+      ...(typeof payload?.resultCount === "number"
+        ? { resultCount: payload.resultCount }
+        : {}),
     };
 
     // Development environment debug log

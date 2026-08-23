@@ -78,4 +78,25 @@ describe("Analytics Event Architecture", () => {
     expect(faultyHandler).toHaveBeenCalledTimes(1);
     expect(goodHandler).toHaveBeenCalledTimes(1);
   });
+
+  it("strips undeclared values before dispatching analytics", () => {
+    const mockHandler = vi.fn();
+    registerAnalyticsProvider(mockHandler);
+
+    const unsafePayload = {
+      toolId: "percentage-calculator",
+      value: 123.45,
+      searchQuery: "private query",
+    };
+
+    trackEvent("tool_complete", unsafePayload);
+
+    expect(mockHandler).toHaveBeenCalledWith(
+      "tool_complete",
+      expect.objectContaining({ toolId: "percentage-calculator" })
+    );
+    const dispatchedPayload = mockHandler.mock.calls[0]?.[1];
+    expect(dispatchedPayload).not.toHaveProperty("value");
+    expect(dispatchedPayload).not.toHaveProperty("searchQuery");
+  });
 });
