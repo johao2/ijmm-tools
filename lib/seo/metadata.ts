@@ -16,7 +16,7 @@ const DEFAULT_DESCRIPTION =
 
 // Use environment URL or fallback domain
 export const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://ijmmtools.com";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://ijmm-tools.vercel.app";
 
 /**
  * Constructs production-grade Next.js Metadata objects with OpenGraph,

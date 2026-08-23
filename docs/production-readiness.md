@@ -8,14 +8,14 @@
 
 - Strict TypeScript, automated tests, optimized Next.js build, and dependency audit pass.
 - Homepage, directory, categories, Percentage Calculator, legal pages, custom 404, error recovery, `robots.txt`, and `sitemap.xml` are implemented.
-- Canonical metadata uses `NEXT_PUBLIC_SITE_URL` with `https://ijmmtools.com` as the documented production value.
+- Canonical metadata uses `NEXT_PUBLIC_SITE_URL` with `https://ijmm-tools.vercel.app` as the current verified production value. The planned custom domain must not replace it until DNS is live.
 - Security headers are defined in both Next.js and Vercel configuration.
 - No database, authentication, payment, advertising, analytics vendor, or external credentials are required.
 - The Percentage Calculator processes values locally and analytics strips user content.
 
 ## Deployment state
 
-The repository contains `vercel.json` and a CI workflow, but this environment has no Vercel CLI or deployment credential available. No external deployment was attempted, no account was created, and no unrelated IJMM project was touched.
+The repository is connected to Vercel through GitHub and deploys from `main`. The public production alias is `https://ijmm-tools.vercel.app`. The planned `https://ijmmtools.com` custom domain did not resolve during verification and remains pending DNS configuration.
 
 ## Release state
 

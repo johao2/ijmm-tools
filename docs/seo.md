@@ -18,7 +18,7 @@ IJMM Tools is architected to be technically discoverable, semantically structure
 ## 2. Canonical & URL Strategy
 
 ### 2.1 Single Canonical URL per Tool
-- **Primary SEO Tools:** Primary tools reside at top-level root URLs (e.g. `https://ijmmtools.com/percentage-calculator`).
+- **Primary SEO Tools:** Primary tools reside at top-level root URLs (currently `https://ijmm-tools.vercel.app/percentage-calculator`).
 - **No Duplicate Indexable URLs:** The route `/tools` serves exclusively as the tools directory. Routes such as `/tools/percentage-calculator` do NOT exist and must NOT be created.
 
 ### 2.2 Status Lifecycle Indexing Policy
@@ -66,7 +66,7 @@ Structured data MUST represent visible page content accurately with zero manipul
 ## 6. Sitemap & Robots Configuration
 
 - **`app/sitemap.ts`:** Dynamically pulls active tools and categories containing active tools. Planned tools and empty roadmap categories are excluded.
-- **`app/robots.ts`:** Permits crawling of public routes for all legitimate engines and links to `https://ijmmtools.com/sitemap.xml`.
+- **`app/robots.ts`:** Permits crawling of public routes for all legitimate engines and links to the sitemap on the configured public origin.
 
 ## 7. Social Metadata & Structured Data Safety
 
