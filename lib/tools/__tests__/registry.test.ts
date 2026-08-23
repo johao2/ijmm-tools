@@ -9,6 +9,7 @@ import {
   searchTools,
   getRelatedTools,
   getAllCategories,
+  getPublishedCategories,
   getCategoryBySlug,
   getCategoryById,
   validateRegistry,
@@ -115,5 +116,17 @@ describe("Tool Registry API", () => {
     const calcById = getCategoryById("calculators");
     expect(calcById).toBeDefined();
     expect(calcById?.slug).toBe("calculators");
+  });
+
+  it("should publish only categories that contain active tools", () => {
+    const categories = getPublishedCategories();
+    expect(categories.map((category) => category.id)).toContain("calculators");
+    expect(categories.map((category) => category.id)).not.toContain("developer-tools");
+  });
+
+  it("should enforce root canonical URLs for active tools", () => {
+    getActiveTools().forEach((tool) => {
+      expect(tool.seo.canonicalPath).toBe(`/${tool.slug}`);
+    });
   });
 });

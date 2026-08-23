@@ -123,6 +123,18 @@ export function getAllCategories(): Category[] {
 }
 
 /**
+ * Get categories that currently contain at least one active public tool.
+ * Useful for indexable navigation surfaces such as the sitemap.
+ */
+export function getPublishedCategories(): Category[] {
+  return CATEGORIES.filter((category) =>
+    TOOLS.some(
+      (tool) => tool.categoryId === category.id && tool.status === "active"
+    )
+  );
+}
+
+/**
  * Lookup category by slug.
  */
 export function getCategoryBySlug(slug: string): Category | undefined {
@@ -148,6 +160,26 @@ export function validateRegistry(): { valid: boolean; errors: string[] } {
   const validCategoryIds = new Set(CATEGORIES.map((c) => c.id));
   const validToolIds = new Set(TOOLS.map((t) => t.id));
   const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+  const seenCategoryIds = new Set<string>();
+  const seenCategorySlugs = new Set<string>();
+
+  for (const category of CATEGORIES) {
+    if (seenCategoryIds.has(category.id)) {
+      errors.push(`Duplicate category ID detected: "${category.id}"`);
+    }
+    seenCategoryIds.add(category.id);
+
+    if (seenCategorySlugs.has(category.slug)) {
+      errors.push(`Duplicate category slug detected: "${category.slug}"`);
+    }
+    seenCategorySlugs.add(category.slug);
+
+    if (!slugRegex.test(category.slug)) {
+      errors.push(
+        `Malformed category slug "${category.slug}". Slugs must be lowercase, hyphenated, and URL-safe.`
+      );
+    }
+  }
 
   for (const tool of TOOLS) {
     // 1. Check duplicate IDs
@@ -180,6 +212,15 @@ export function validateRegistry(): { valid: boolean; errors: string[] } {
     if (!["active", "planned", "deprecated"].includes(tool.status)) {
       errors.push(
         `Tool "${tool.id}" has invalid status: "${tool.status}"`
+      );
+    }
+
+    if (
+      tool.status === "active" &&
+      tool.seo.canonicalPath !== `/${tool.slug}`
+    ) {
+      errors.push(
+        `Active tool "${tool.id}" must use root canonical path "/${tool.slug}".`
       );
     }
 

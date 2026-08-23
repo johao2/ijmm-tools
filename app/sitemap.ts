@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { getActiveTools, getAllCategories } from "@/lib/tools/registry";
+import { getActiveTools, getPublishedCategories } from "@/lib/tools/registry";
 import { BASE_URL } from "@/lib/seo/metadata";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -52,7 +52,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   // Active Category routes
-  const categoryRoutes: MetadataRoute.Sitemap = getAllCategories().map((cat) => ({
+  const categoryRoutes: MetadataRoute.Sitemap = getPublishedCategories().map((cat) => ({
     url: `${BASE_URL}/categories/${cat.slug}`,
     lastModified,
     changeFrequency: "weekly",
