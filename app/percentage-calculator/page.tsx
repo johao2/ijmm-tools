@@ -5,6 +5,7 @@ import Card from "@/components/ui/Card";
 import Breadcrumbs from "@/components/seo/Breadcrumbs";
 import JsonLd from "@/components/seo/JsonLd";
 import PercentageCalculatorForm from "@/components/tools/percentage-calculator/PercentageCalculatorForm";
+import AdPlaceholder from "@/components/ads/AdPlaceholder";
 import { constructMetadata, BASE_URL } from "@/lib/seo/metadata";
 import { getToolBySlug, getRelatedTools } from "@/lib/tools/registry";
 import { FAQS_BY_TOOL_ID } from "@/data/faqs";
@@ -93,6 +94,8 @@ export default function PercentageCalculatorPage() {
         <section aria-label="Herramienta Calculadora de Porcentajes" className="mb-12">
           <PercentageCalculatorForm />
         </section>
+
+        <AdPlaceholder placement="middle" />
 
         {/* AEO / GEO Educational Content Section */}
         <article className="space-y-10 border-t border-[var(--border)] pt-10 text-left">
@@ -214,6 +217,8 @@ export default function PercentageCalculatorPage() {
             </section>
           )}
         </article>
+
+        <AdPlaceholder placement="bottom" />
       </Container>
     </>
   );

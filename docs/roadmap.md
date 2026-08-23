@@ -15,6 +15,7 @@
 - [x] Quality hardening across responsive behavior, accessibility, security, and code quality.
 - [x] Local production-readiness validation and deployment configuration.
 - [x] Phase 11 additional: official corporate logo and navigation back to IJMM System from every route.
+- [x] Phase 12 foundation: fail-closed AdSense integration, ads.txt, legal disclosures, and UX-safe placements.
 - [ ] Authorized production deployment and live-domain verification.
 - [ ] `v1.0.0` tag after live verification.
 
@@ -31,9 +32,9 @@ Candidates remain `status: "planned"` and must not receive public pages until co
 
 The next tool will be selected using demand, utility, SEO opportunity, complexity, monetization potential, and strategic fit. No candidate is automatically approved by appearing in the registry.
 
-## Monetization — deferred
+## Monetization — activation pending provider approval
 
-Advertising is not active in the MVP. Monetization requires real traffic evidence, an explicit provider decision, privacy review, reserved layout slots, and separate implementation approval. It must never transmit calculation inputs or degrade tool usability.
+The implementation is production-ready but remains disabled until an AdSense publisher ID, ad slots, and a certified consent solution are configured. Account, identity, tax, and payout approval must be completed by the owner. Advertising must never transmit calculation inputs or degrade tool usability.
 
 ## Outside current scope
 

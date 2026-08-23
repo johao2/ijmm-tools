@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Breadcrumbs from "@/components/seo/Breadcrumbs";
 import Card from "@/components/ui/Card";
@@ -40,6 +41,17 @@ export default function PrivacyPage() {
           <h2 className="text-base font-bold text-[var(--text)]">2. Información que Recopilamos</h2>
           <p>
             No requerimos registro de usuarios ni creación de cuentas personales. Los registros de acceso estándar de la infraestructura web (como la dirección IP y el tipo de navegador) se procesan únicamente por razones técnicas de seguridad y rendimiento de red.
+          </p>
+          <h2 className="text-base font-bold text-[var(--text)]">3. Publicidad y Proveedores</h2>
+          <p>
+            IJMM Tools puede financiar su operación mediante publicidad claramente identificada. Cuando este servicio esté activo, proveedores como Google podrán procesar identificadores, información del dispositivo y datos de interacción publicitaria conforme al consentimiento aplicable. Nunca compartimos con ellos los valores introducidos ni los resultados generados por las herramientas.
+          </p>
+          <h2 className="text-base font-bold text-[var(--text)]">4. Cookies y Consentimiento</h2>
+          <p>
+            Las tecnologías no esenciales se activarán únicamente bajo la configuración y los mecanismos de consentimiento requeridos para la ubicación del visitante. Puedes consultar más detalles en nuestra{" "}
+            <Link href="/cookies" className="font-semibold text-[var(--primary)] hover:underline">
+              política de cookies
+            </Link>.
           </p>
         </Card>
       </div>

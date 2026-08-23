@@ -112,6 +112,14 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2 text-xs">
               <li>
                 <Link
+                  href="/cookies"
+                  className="transition-colors hover:text-[var(--text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] rounded-xs"
+                >
+                  Política de Cookies
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/privacy"
                   className="transition-colors hover:text-[var(--text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] rounded-xs"
                 >

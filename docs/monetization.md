@@ -1,38 +1,46 @@
-# Monetization & Advertising Strategy — IJMM TOOLS
+# Monetization & Advertising Strategy — IJMM Tools
 
 **Owner:** IJMM System
-**Product:** IJMM Tools
+**Phase:** 12 — Monetization foundation
 
----
+## Current status
 
-## 1. Current Status
+The monetization architecture is implemented but fail-closed. No advertising script or slot is rendered until every required production setting is intentionally configured.
 
-Monetization and advertising are deferred. IJMM Tools currently loads no ad scripts, reserves no public ad slots, and sends no user calculation data to advertising providers.
+Activation requires:
 
-The possible future model is:
+1. An approved Google AdSense account and valid `ca-pub-*` client identifier.
+2. Valid ad-unit identifiers for the selected placements.
+3. A Google-certified consent platform configured for regions where it is required.
+4. `NEXT_PUBLIC_ADSENSE_ENABLED=true` and `NEXT_PUBLIC_ADSENSE_CONSENT_READY=true`.
 
-```text
-Free Online Tool ──> Organic Traffic (SEO/AEO/GEO) ──> Ad Impression ──> Revenue ──> R&D New Tools
-```
+Until those gates are satisfied, IJMM Tools behaves exactly as an ad-free site.
 
----
+## Architecture
 
-## 2. Future Advertising Architecture
+- `lib/ads/config.ts` validates all public configuration and exposes a single fail-closed boundary.
+- `components/ads/AdSenseScript.tsx` owns the only advertising script integration.
+- `components/ads/AdPlaceholder.tsx` owns every ad unit, reserves stable space only while active, and isolates provider failures from tool interactions.
+- `/ads.txt` is generated only when a valid publisher identifier exists.
+- Tool inputs, results, copied content, and search terms are never included in advertising calls.
 
-If advertising is explicitly approved after real traffic exists:
-1. **Encapsulated Placement:** Advertising must be managed exclusively through a future `<AdPlaceholder placement="..." />` component.
-2. **Fixed Layout Boundaries:** Ad slots reserve height and width before script injection to prevent Cumulative Layout Shift (CLS).
-3. **Strategic Placements:**
-   - `top`: Banner placed above main tool interaction zone.
-   - `middle`: Placed between calculation UI and explanatory content.
-   - `bottom`: Placed below FAQs and related tools.
-   - `sidebar`: Placed alongside content on desktop viewports.
+## Approved placements
 
----
+- `middle`: after the complete interactive tool, never inside the form or result controls.
+- `bottom`: after educational content and FAQs.
+- `sidebar`: desktop-only future placement when a tool layout supports it without compression.
+- `top`: reserved for future testing and disabled by default.
 
-## 3. UX Preservation Rules
+IJMM Tools does not initially enable vignette ads, forced delays, misleading ad labels, or ad-intent links inserted into educational text.
 
-- Ads must never block tool input fields or calculation buttons.
-- No intrusive popups, interstitials, or forced delays.
-- Clean fallback rendering when ads are disabled or unavailable.
-- No implementation begins without a provider decision, privacy review, and separate approval.
+## Operational activation checklist
+
+1. Make the final public domain operational and verify ownership.
+2. Apply for AdSense using the owner-controlled Google account.
+3. Configure Google's Privacy & Messaging consent solution or another Google-certified CMP.
+4. Create responsive ad units and record their slot IDs in Vercel.
+5. Set the public configuration flags only after consent is ready.
+6. Redeploy and verify `/ads.txt`, reserved space, mobile layout, and calculator isolation.
+7. Review revenue, viewability, Core Web Vitals, and user retention before adding placements.
+
+Account identity, tax, address, and payout verification must be completed by the legal account owner and are never stored in the repository.

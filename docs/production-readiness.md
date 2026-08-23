@@ -10,8 +10,9 @@
 - Homepage, directory, categories, Percentage Calculator, legal pages, custom 404, error recovery, `robots.txt`, and `sitemap.xml` are implemented.
 - Canonical metadata uses `NEXT_PUBLIC_SITE_URL` with `https://ijmm-tools.vercel.app` as the current verified production value. The planned custom domain must not replace it until DNS is live.
 - Security headers are defined in both Next.js and Vercel configuration.
-- No database, authentication, payment, advertising, analytics vendor, or external credentials are required.
+- No database, authentication, payment, or external credentials are required for the core tools. Advertising remains disabled unless all validated AdSense and consent environment gates are supplied.
 - The Percentage Calculator processes values locally and analytics strips user content.
+- Phase 12 provides fail-closed advertising components, `/ads.txt`, and legal disclosures without activating a provider prematurely.
 
 ## Deployment state
 

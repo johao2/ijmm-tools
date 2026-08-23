@@ -83,6 +83,8 @@ The `ToolRegistry` (`lib/tools/registry.ts`) serves as the **Single Source of Tr
 
 ---
 
-### 2.5 Analytics & Future Advertising Boundary
+### 2.5 Analytics & Advertising Boundary
 - Vendor-agnostic event tracker: `trackEvent(eventName, payload)` in `lib/analytics/events.ts`.
-- Advertising is not active. Any future integration must be isolated behind a shared `AdPlaceholder` only after explicit approval.
+- Advertising is isolated behind `AdSenseScript`, `AdPlaceholder`, and validated public configuration in `lib/ads/config.ts`.
+- The integration fails closed: invalid IDs, a disabled flag, or incomplete consent configuration render no script and no ad units.
+- Ad units never receive tool inputs or calculated results.
