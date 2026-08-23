@@ -69,6 +69,7 @@ The `ToolRegistry` (`lib/tools/registry.ts`) serves as the **Single Source of Tr
 - Pure functions in `lib/tools/<tool>.ts`.
 - Zero UI references or DOM manipulations inside mathematical/processing logic.
 - Automated unit testing target `lib/tools/` directly.
+- Shared execution contracts live in `lib/tools/engine.ts`; see `docs/tool-engine.md`.
 
 ---
 

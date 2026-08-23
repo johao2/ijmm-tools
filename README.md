@@ -60,6 +60,7 @@ This executes in deterministic order:
 Detailed documentation is available in `/docs/`:
 - [`docs/architecture.md`](docs/architecture.md): Core system design & layout rules.
 - [`docs/design-system.md`](docs/design-system.md): Visual tokens, reusable components & tool UI foundation.
+- [`docs/tool-engine.md`](docs/tool-engine.md): Typed core contracts for tool modules and execution.
 - [`docs/development.md`](docs/development.md): Developer guide & Tool Registry patterns.
 - [`docs/seo.md`](docs/seo.md): Technical SEO, AEO, and GEO strategy.
 - [`docs/deployment.md`](docs/deployment.md): CI/CD, production hardening & Edge deployment guide.
