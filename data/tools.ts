@@ -59,7 +59,7 @@ export const TOOLS: Tool[] = [
     },
     relatedToolIds: ["json-formatter"],
   },
-  // Planned MVP Candidates (status: "planned" - DO NOT generate public pages)
+  // Generator (Active)
   {
     id: "qr-code-generator",
     name: "Generador de Códigos QR",
@@ -152,13 +152,16 @@ export const TOOLS: Tool[] = [
     name: "Calculadora IVA Ecuador",
     slug: "calculadora-iva-ecuador",
     categoryId: "ecuador-tools",
-    description: "Calcula el IVA (15%) en Ecuador, valor subtotal y monto total de facturas.",
-    shortDescription: "Calcula subtotal, IVA (15%) y total para facturas en Ecuador.",
+    description: "Calcula el IVA en Ecuador: agrega la tarifa a un subtotal o extrae la base imponible y el impuesto desde un total, con tarifa general y opciones especiales.",
+    shortDescription: "Agrega o extrae el IVA de un monto en Ecuador.",
     icon: "Calculator",
-    status: "planned",
+    status: "active",
     seo: {
-      title: "Calculadora IVA Ecuador 15% — IJMM Tools",
-      description: "Calculadora de IVA 15% para Ecuador.",
+      title: "Calculadora de IVA Ecuador 15% Online",
+      description: "Calcula el IVA de Ecuador al 15%, agrega el impuesto a un subtotal o extrae IVA y base imponible desde un total.",
+      keywords: ["calculadora IVA Ecuador", "calcular IVA 15%", "sacar IVA", "extraer IVA", "IVA Ecuador"],
+      canonicalPath: "/calculadora-iva-ecuador",
     },
+    relatedToolIds: ["percentage-calculator"],
   },
 ];

@@ -47,6 +47,12 @@ describe("Tool Registry API", () => {
     expect(tool?.seo.canonicalPath).toBe("/qr-code-generator");
   });
 
+  it("should retrieve the Ecuador VAT calculator as an active root-level tool", () => {
+    const tool = getToolBySlug("calculadora-iva-ecuador");
+    expect(tool?.status).toBe("active");
+    expect(tool?.seo.canonicalPath).toBe("/calculadora-iva-ecuador");
+  });
+
   it("should handle slug lookups case-insensitively", () => {
     const tool = getToolBySlug("PERCENTAGE-CALCULATOR");
     expect(tool).toBeDefined();
@@ -114,6 +120,9 @@ describe("Tool Registry API", () => {
     const resultsQr = searchTools("wifi");
     expect(resultsQr.some((t) => t.id === "qr-code-generator")).toBe(true);
 
+    const resultsVat = searchTools("iva");
+    expect(resultsVat.some((t) => t.id === "calculadora-iva-ecuador")).toBe(true);
+
     // Search also supports including planned tools
     const resultsPlanned = searchTools("json", true);
     expect(resultsPlanned.some((t) => t.id === "json-formatter")).toBe(true);
@@ -122,7 +131,6 @@ describe("Tool Registry API", () => {
   it("should handle related tools lookup safely without broken links", () => {
     const related = getRelatedTools("percentage-calculator");
     expect(Array.isArray(related)).toBe(true);
-    // Planned related tools (e.g. calculadora-iva-ecuador) should be filtered out from active related tools
     related.forEach((tool) => {
       expect(tool.status).toBe("active");
     });
@@ -147,6 +155,7 @@ describe("Tool Registry API", () => {
     expect(categories.map((category) => category.id)).toContain("calculators");
     expect(categories.map((category) => category.id)).toContain("developer-tools");
     expect(categories.map((category) => category.id)).toContain("generators");
+    expect(categories.map((category) => category.id)).toContain("ecuador-tools");
   });
 
   it("should enforce root canonical URLs for active tools", () => {

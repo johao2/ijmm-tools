@@ -44,8 +44,8 @@ npm run verify
 
 The `verify` script deterministically executes:
 1. `npm run typecheck` (`tsc --noEmit` — 0 errors)
-2. `npm test` (`vitest run` — 118/118 unit tests passed, including registry, tool domains, analytics, advertising configuration, and structured-data safety)
-3. `npm run build` (`next build` — 27 production routes compiled via Turbopack, including browser icon assets)
+2. `npm test` (`vitest run` — 143/143 unit tests passed, including registry, tool domains, analytics, advertising configuration, and structured-data safety)
+3. `npm run build` (`next build` — 28 production routes compiled via Turbopack, including browser icon assets)
 4. `npm run audit` (`npm audit` — 0 vulnerabilities)
 
 ---

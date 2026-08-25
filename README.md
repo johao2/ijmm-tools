@@ -37,8 +37,8 @@ npm run verify
 
 This executes in deterministic order:
 1. `npm run typecheck` (`tsc --noEmit`)
-2. `npm test` (`vitest run` — 118/118 unit tests)
-3. `npm run build` (`next build` — 27 production routes, including browser icon assets)
+2. `npm test` (`vitest run` — 143/143 unit tests)
+3. `npm run build` (`next build` — 28 production routes, including browser icon assets)
 4. `npm run audit` (`npm audit` — 0 vulnerabilities)
 
 ---
@@ -66,6 +66,7 @@ Detailed documentation is available in `/docs/`:
 - [`docs/json-formatter.md`](docs/json-formatter.md): JSON processing contract, privacy limits & tested edge cases.
 - [`docs/password-generator.md`](docs/password-generator.md): Cryptographic generation, privacy guarantees & tested security rules.
 - [`docs/qr-code-generator.md`](docs/qr-code-generator.md): QR encoding, Canvas rendering, privacy & bundle impact.
+- [`docs/vat-calculator.md`](docs/vat-calculator.md): Ecuador VAT formulas, verified rates, rounding, privacy & tests.
 - [`docs/analytics.md`](docs/analytics.md): Provider-independent events and privacy allowlist.
 - [`docs/quality.md`](docs/quality.md): Functional, responsive, accessibility & security audit.
 - [`docs/production-readiness.md`](docs/production-readiness.md): MVP release status, verified routes & remaining external steps.

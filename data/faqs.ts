@@ -105,4 +105,30 @@ export const FAQS_BY_TOOL_ID: Record<string, FAQItem[]> = {
       answer: "No. El archivo contiene directamente el texto introducido y no depende de una redirección de IJMM Tools. Sin embargo, un enlace dentro del QR puede dejar de funcionar si su destino cambia.",
     },
   ],
+  "calculadora-iva-ecuador": [
+    {
+      question: "¿Cuál es la tarifa general de IVA en Ecuador?",
+      answer: "La tarifa general vigente es 15%, de acuerdo con la información oficial del SRI revisada el 25 de agosto de 2026. Algunas operaciones tienen tarifas distintas según su naturaleza y fecha.",
+    },
+    {
+      question: "¿Cómo se agrega el IVA a un subtotal?",
+      answer: "Multiplica el subtotal por la tarifa dividida entre 100 para obtener el IVA y suma ambos valores para hallar el total.",
+      formula: "IVA = subtotal × (tarifa / 100); total = subtotal + IVA",
+      example: "Con subtotal de $100 y tarifa de 15%: IVA = $15 y total = $115.",
+    },
+    {
+      question: "¿Cómo se extrae el IVA de un precio total?",
+      answer: "Divide el total entre uno más la tarifa expresada como decimal. La diferencia entre el total y esa base es el IVA incluido.",
+      formula: "Subtotal = total / (1 + tarifa / 100); IVA = total − subtotal",
+      example: "Con un total de $115 y tarifa de 15%: subtotal = $100 e IVA = $15.",
+    },
+    {
+      question: "¿Cuándo se aplican las tarifas de 0%, 5% u 8%?",
+      answer: "La tarifa 0% corresponde a bienes y servicios señalados por la normativa; la de 5% puede aplicar a determinados materiales de construcción; y la de 8% solo a reducciones temporales autorizadas para actividades turísticas. Debes verificar cada operación y fecha en el SRI.",
+    },
+    {
+      question: "¿Cómo redondea los resultados la calculadora?",
+      answer: "La herramienta conserva precisión decimal durante el cálculo y redondea cada resultado monetario al centavo más cercano.",
+    },
+  ],
 };

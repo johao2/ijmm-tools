@@ -7,7 +7,7 @@
 ## Completed locally
 
 - Strict TypeScript, automated tests, optimized Next.js build, and dependency audit pass.
-- Homepage, directory, categories, Percentage Calculator, JSON Formatter, Password Generator, QR Code Generator, legal pages, custom 404, error recovery, `robots.txt`, and `sitemap.xml` are implemented.
+- Homepage, directory, categories, Percentage Calculator, JSON Formatter, Password Generator, QR Code Generator, Ecuador VAT Calculator, legal pages, custom 404, error recovery, `robots.txt`, and `sitemap.xml` are implemented.
 - Canonical metadata uses `NEXT_PUBLIC_SITE_URL` with `https://tools.ijmmsystem.com` as the verified production value.
 - Security headers are defined in both Next.js and Vercel configuration.
 - No database, authentication, payment, or external credentials are required for the core tools. Advertising remains disabled unless all validated AdSense and consent environment gates are supplied.
@@ -33,6 +33,7 @@ After an authorized deployment, verify HTTP status, canonical origin, metadata, 
 - `/json-formatter`
 - `/password-generator`
 - `/qr-code-generator`
+- `/calculadora-iva-ecuador`
 - `/robots.txt`
 - `/sitemap.xml`
 - an unknown route returning the custom 404
