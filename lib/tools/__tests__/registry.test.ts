@@ -41,6 +41,12 @@ describe("Tool Registry API", () => {
     expect(tool?.seo.canonicalPath).toBe("/password-generator");
   });
 
+  it("should retrieve the QR generator as an active root-level tool", () => {
+    const tool = getToolBySlug("qr-code-generator");
+    expect(tool?.status).toBe("active");
+    expect(tool?.seo.canonicalPath).toBe("/qr-code-generator");
+  });
+
   it("should handle slug lookups case-insensitively", () => {
     const tool = getToolBySlug("PERCENTAGE-CALCULATOR");
     expect(tool).toBeDefined();
@@ -104,6 +110,9 @@ describe("Tool Registry API", () => {
 
     const resultsPassword = searchTools("contraseña");
     expect(resultsPassword.some((t) => t.id === "password-generator")).toBe(true);
+
+    const resultsQr = searchTools("wifi");
+    expect(resultsQr.some((t) => t.id === "qr-code-generator")).toBe(true);
 
     // Search also supports including planned tools
     const resultsPlanned = searchTools("json", true);

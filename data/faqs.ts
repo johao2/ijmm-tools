@@ -83,4 +83,26 @@ export const FAQS_BY_TOOL_ID: Record<string, FAQItem[]> = {
       answer: "Sí. Un gestor confiable permite conservar contraseñas largas y únicas sin depender de la memoria. Activa también la autenticación multifactor cuando el servicio la ofrezca.",
     },
   ],
+  "qr-code-generator": [
+    {
+      question: "¿El contenido del código QR se envía a un servidor?",
+      answer: "No. La matriz QR se codifica y dibuja localmente en tu navegador. IJMM Tools no recibe ni almacena los enlaces, textos o credenciales Wi-Fi introducidos.",
+    },
+    {
+      question: "¿Cómo creo un código QR para compartir Wi-Fi?",
+      answer: "Selecciona Red Wi-Fi, escribe el nombre de la red, el tipo de seguridad y la contraseña. Al escanearlo, los dispositivos compatibles podrán preparar la conexión automáticamente.",
+    },
+    {
+      question: "¿Qué nivel de corrección de errores debo usar?",
+      answer: "El nivel medio es adecuado para la mayoría de usos. Los niveles alto y máximo toleran más daño o suciedad, pero crean códigos más densos y admiten menos contenido.",
+    },
+    {
+      question: "¿Puedo cambiar los colores del código QR?",
+      answer: "Sí, siempre que el código sea más oscuro que el fondo y exista suficiente contraste. La herramienta bloquea combinaciones que podrían dificultar el escaneo.",
+    },
+    {
+      question: "¿El código QR descargado caduca?",
+      answer: "No. El archivo contiene directamente el texto introducido y no depende de una redirección de IJMM Tools. Sin embargo, un enlace dentro del QR puede dejar de funcionar si su destino cambia.",
+    },
+  ],
 };

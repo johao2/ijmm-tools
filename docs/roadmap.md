@@ -19,13 +19,13 @@
 - [x] Authorized production deployment and live-domain verification at `tools.ijmmsystem.com`.
 - [x] Phase 13: JSON Formatter / Validator / Minifier, private processing, downloads, SEO content, and full tests.
 - [x] Phase 14: cryptographically secure Password Generator, privacy-first UI, SEO content, and full tests.
+- [x] Phase 15: local QR Code Generator for links, text, and Wi-Fi with PNG download and scan-safety controls.
 - [ ] `v1.0.0` tag after live verification.
 
 ## Next tools — not yet authorized for implementation
 
 Candidates remain `status: "planned"` and must not receive public pages until complete:
 
-- QR Code Generator.
 - Calculadora IVA Ecuador.
 - Unit Converter.
 - Image and PDF utilities.
