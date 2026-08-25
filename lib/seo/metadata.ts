@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { adsenseConfig, isValidAdsenseClientId } from "@/lib/ads/config";
 
 export interface ConstructMetadataInput {
   title?: string;
@@ -47,6 +48,13 @@ export function constructMetadata({
     authors: [{ name: COMPANY_NAME, url: BASE_URL }],
     creator: COMPANY_NAME,
     publisher: COMPANY_NAME,
+    ...(isValidAdsenseClientId(adsenseConfig.clientId)
+      ? {
+          other: {
+            "google-adsense-account": adsenseConfig.clientId,
+          },
+        }
+      : {}),
     metadataBase: new URL(BASE_URL),
     alternates: {
       canonical: canonicalUrl,

@@ -22,6 +22,7 @@ Until those gates are satisfied, IJMM Tools behaves exactly as an ad-free site.
 - `components/ads/AdSenseScript.tsx` owns the only advertising script integration.
 - `components/ads/AdPlaceholder.tsx` owns every ad unit, reserves stable space only while active, and isolates provider failures from tool interactions.
 - `/ads.txt` is generated only when a valid publisher identifier exists.
+- Valid publisher configuration also exposes Google's `google-adsense-account` ownership metadata without loading ad scripts.
 - Tool inputs, results, copied content, and search terms are never included in advertising calls.
 
 ## Approved placements
