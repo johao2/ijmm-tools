@@ -35,7 +35,7 @@ IJMM Tools does not initially enable vignette ads, forced delays, misleading ad 
 
 ## Operational activation checklist
 
-1. Make the final public domain operational and verify ownership.
+1. Keep the verified production domain `https://tools.ijmmsystem.com` operational.
 2. Apply for AdSense using the owner-controlled Google account.
 3. Configure Google's Privacy & Messaging consent solution or another Google-certified CMP.
 4. Create responsive ad units and record their slot IDs in Vercel.

@@ -18,7 +18,7 @@ IJMM Tools is architected to be technically discoverable, semantically structure
 ## 2. Canonical & URL Strategy
 
 ### 2.1 Single Canonical URL per Tool
-- **Primary SEO Tools:** Primary tools reside at top-level root URLs (currently `https://ijmm-tools.vercel.app/percentage-calculator`).
+- **Primary SEO Tools:** Primary tools reside at top-level root URLs (currently `https://tools.ijmmsystem.com/percentage-calculator`).
 - **No Duplicate Indexable URLs:** The route `/tools` serves exclusively as the tools directory. Routes such as `/tools/percentage-calculator` do NOT exist and must NOT be created.
 
 ### 2.2 Status Lifecycle Indexing Policy
@@ -33,7 +33,7 @@ IJMM Tools is architected to be technically discoverable, semantically structure
 Metadata is generated server-side using Next.js Metadata API and `constructMetadata()`:
 - **`title`:** Concise, natural title (e.g. `Percentage Calculator — Free Online Calculator | IJMM Tools`).
 - **`description`:** Factual description explaining utility, free access, and key calculations. Zero keyword lists.
-- **`alternates.canonical`:** Absolute canonical URL pointing to `https://ijmmtools.com/percentage-calculator`.
+- **`alternates.canonical`:** Absolute canonical URL pointing to `https://tools.ijmmsystem.com/percentage-calculator`.
 - **`openGraph`:** Clean OG metadata (title, description, url, siteName: "IJMM Tools", type: "website").
 - **`robots`:** Standard `index: true, follow: true` for active pages.
 

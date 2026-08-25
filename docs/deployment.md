@@ -28,7 +28,7 @@ IJMM Tools is architected for static pre-rendering (SSG/Static Export ready) and
 ## 3. Environment Variables (`.env.example`)
 
 Configured variables:
-- `NEXT_PUBLIC_SITE_URL`: Canonical public origin. Current production value: `https://ijmm-tools.vercel.app`. Replace it with `https://ijmmtools.com` only after that custom domain resolves publicly.
+- `NEXT_PUBLIC_SITE_URL`: Canonical public origin. Current production value: `https://tools.ijmmsystem.com`.
 - `NODE_ENV`: Runtime mode (`production`).
 
 ---
