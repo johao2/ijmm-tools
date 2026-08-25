@@ -7,11 +7,11 @@
 ## Completed locally
 
 - Strict TypeScript, automated tests, optimized Next.js build, and dependency audit pass.
-- Homepage, directory, categories, Percentage Calculator, JSON Formatter, legal pages, custom 404, error recovery, `robots.txt`, and `sitemap.xml` are implemented.
+- Homepage, directory, categories, Percentage Calculator, JSON Formatter, Password Generator, legal pages, custom 404, error recovery, `robots.txt`, and `sitemap.xml` are implemented.
 - Canonical metadata uses `NEXT_PUBLIC_SITE_URL` with `https://tools.ijmmsystem.com` as the verified production value.
 - Security headers are defined in both Next.js and Vercel configuration.
 - No database, authentication, payment, or external credentials are required for the core tools. Advertising remains disabled unless all validated AdSense and consent environment gates are supplied.
-- The Percentage Calculator and JSON Formatter process values locally, and analytics strips user content.
+- All active tools process values locally, generated passwords never leave the browser, and analytics strips user content.
 - Phase 12 provides fail-closed advertising components, `/ads.txt`, and legal disclosures without activating a provider prematurely.
 
 ## Deployment state
@@ -30,6 +30,7 @@ After an authorized deployment, verify HTTP status, canonical origin, metadata, 
 - `/tools`
 - `/percentage-calculator`
 - `/json-formatter`
+- `/password-generator`
 - `/robots.txt`
 - `/sitemap.xml`
 - an unknown route returning the custom 404

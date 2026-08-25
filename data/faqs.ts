@@ -61,4 +61,26 @@ export const FAQS_BY_TOOL_ID: Record<string, FAQItem[]> = {
       answer: "JavaScript no puede representar con exactitud enteros fuera de su rango seguro. Para evitar cambios silenciosos, la herramienta te pide convertir esos identificadores o números en texto usando comillas.",
     },
   ],
+  "password-generator": [
+    {
+      question: "¿Las contraseñas generadas se guardan o se envían a un servidor?",
+      answer: "No. La generación ocurre localmente mediante la función criptográfica segura del navegador. IJMM Tools no recibe, registra ni almacena la contraseña.",
+    },
+    {
+      question: "¿Qué longitud debería tener una contraseña segura?",
+      answer: "Para cuentas importantes recomendamos al menos 16 caracteres. Una longitud de 20 o más caracteres, combinada con varios grupos de símbolos, ofrece un margen de seguridad mayor.",
+    },
+    {
+      question: "¿Puedo reutilizar la misma contraseña en varias cuentas?",
+      answer: "No es recomendable. Utiliza una contraseña única para cada servicio, de modo que una filtración no comprometa tus demás cuentas.",
+    },
+    {
+      question: "¿Para qué sirve excluir caracteres ambiguos?",
+      answer: "Elimina caracteres que pueden confundirse visualmente, como I, l, 1, O y 0. Es útil cuando necesitas copiar una contraseña manualmente.",
+    },
+    {
+      question: "¿Debo guardar la contraseña en un gestor de contraseñas?",
+      answer: "Sí. Un gestor confiable permite conservar contraseñas largas y únicas sin depender de la memoria. Activa también la autenticación multifactor cuando el servicio la ofrezca.",
+    },
+  ],
 };

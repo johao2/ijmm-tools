@@ -35,6 +35,12 @@ describe("Tool Registry API", () => {
     expect(tool?.seo.canonicalPath).toBe("/json-formatter");
   });
 
+  it("should retrieve the password generator as an active root-level tool", () => {
+    const tool = getToolBySlug("password-generator");
+    expect(tool?.status).toBe("active");
+    expect(tool?.seo.canonicalPath).toBe("/password-generator");
+  });
+
   it("should handle slug lookups case-insensitively", () => {
     const tool = getToolBySlug("PERCENTAGE-CALCULATOR");
     expect(tool).toBeDefined();
@@ -96,6 +102,9 @@ describe("Tool Registry API", () => {
     const resultsJson = searchTools("json");
     expect(resultsJson.some((t) => t.id === "json-formatter")).toBe(true);
 
+    const resultsPassword = searchTools("contraseña");
+    expect(resultsPassword.some((t) => t.id === "password-generator")).toBe(true);
+
     // Search also supports including planned tools
     const resultsPlanned = searchTools("json", true);
     expect(resultsPlanned.some((t) => t.id === "json-formatter")).toBe(true);
@@ -128,6 +137,7 @@ describe("Tool Registry API", () => {
     const categories = getPublishedCategories();
     expect(categories.map((category) => category.id)).toContain("calculators");
     expect(categories.map((category) => category.id)).toContain("developer-tools");
+    expect(categories.map((category) => category.id)).toContain("generators");
   });
 
   it("should enforce root canonical URLs for active tools", () => {

@@ -41,21 +41,25 @@ export const TOOLS: Tool[] = [
     },
     relatedToolIds: ["regex-tester"],
   },
-  // Planned MVP Candidates (status: "planned" - DO NOT generate public pages)
+  // Security Generator (Active)
   {
     id: "password-generator",
     name: "Generador de Contraseñas",
     slug: "password-generator",
     categoryId: "generators",
-    description: "Genera contraseñas aleatorias ultra seguras con parámetros personalizados.",
-    shortDescription: "Genera contraseñas fuertes y seguras al instante.",
+    description: "Genera contraseñas aleatorias seguras con longitud y grupos de caracteres personalizables usando criptografía del navegador.",
+    shortDescription: "Genera contraseñas seguras y privadas al instante.",
     icon: "Key",
-    status: "planned",
+    status: "active",
     seo: {
-      title: "Generador de Contraseñas Seguras — IJMM Tools",
-      description: "Genera contraseñas aleatorias seguras online.",
+      title: "Generador de Contraseñas Seguras Online",
+      description: "Genera contraseñas fuertes y aleatorias gratis con criptografía segura. Personaliza longitud y caracteres sin enviar datos a servidores.",
+      keywords: ["generador de contraseñas", "contraseña segura", "password generator", "crear contraseña fuerte", "generador de claves"],
+      canonicalPath: "/password-generator",
     },
+    relatedToolIds: ["json-formatter"],
   },
+  // Planned MVP Candidates (status: "planned" - DO NOT generate public pages)
   {
     id: "qr-code-generator",
     name: "Generador de Códigos QR",
