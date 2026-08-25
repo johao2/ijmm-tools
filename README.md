@@ -38,7 +38,7 @@ npm run verify
 This executes in deterministic order:
 1. `npm run typecheck` (`tsc --noEmit`)
 2. `npm test` (`vitest run` — 118/118 unit tests)
-3. `npm run build` (`next build` — 25 production routes)
+3. `npm run build` (`next build` — 27 production routes, including browser icon assets)
 4. `npm run audit` (`npm audit` — 0 vulnerabilities)
 
 ---

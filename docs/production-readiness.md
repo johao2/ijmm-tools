@@ -13,6 +13,7 @@
 - No database, authentication, payment, or external credentials are required for the core tools. Advertising remains disabled unless all validated AdSense and consent environment gates are supplied.
 - All active tools process values locally, generated passwords never leave the browser, and analytics strips user content.
 - Phase 12 provides fail-closed advertising components, `/ads.txt`, and legal disclosures without activating a provider prematurely.
+- Official IJMM System favicon, modern browser icon, and Apple Touch Icon are generated from the same corporate logo and inherited by every route.
 
 ## Deployment state
 

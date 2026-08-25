@@ -12,6 +12,16 @@ This additional phase aligns IJMM Tools with the main IJMM System brand and guar
 
 - Corporate portal: `https://ijmmsystem.com`.
 - Override for other environments: `NEXT_PUBLIC_CORPORATE_SITE_URL`.
+
+## Browser and device icons
+
+All routes inherit the official IJMM System emblem through Next.js file metadata:
+
+- `app/favicon.ico`: multi-resolution browser fallback (16–256 px).
+- `app/icon.png`: 512 px modern browser icon.
+- `app/apple-icon.png`: 180 px Apple Touch Icon.
+
+These assets are derived from `public/Logo_IJMM_SYSTEM.png`. The emblem is used without the wordmark because browser tabs render at very small sizes; colors and proportions remain those of the official source.
 - The global header and footer are rendered by the root layout, so visitors can return to IJMM System whether they arrive at the IJMM Tools homepage, directory, or directly at a tool URL.
 - Links use the same browser tab to preserve a natural return flow between products.
 
