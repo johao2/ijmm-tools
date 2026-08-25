@@ -39,4 +39,26 @@ export const FAQS_BY_TOOL_ID: Record<string, FAQItem[]> = {
       example: "Artículo de $80 con 20% de descuento: Descuento = $80 × 0.20 = $16, Precio Final = $80 - $16 = $64",
     },
   ],
+  "json-formatter": [
+    {
+      question: "¿Mis datos JSON se envían a un servidor?",
+      answer: "No. El formato, la validación y la minificación se realizan localmente en tu navegador. IJMM Tools no recibe ni almacena el contenido que introduces.",
+    },
+    {
+      question: "¿JSON permite comentarios, comillas simples o comas finales?",
+      answer: "No. El estándar JSON exige comillas dobles para textos y nombres de propiedades, no admite comentarios y tampoco permite una coma después del último elemento.",
+    },
+    {
+      question: "¿Cuál es la diferencia entre formatear y minificar JSON?",
+      answer: "Formatear agrega saltos de línea y sangría para facilitar la lectura. Minificar elimina el espacio innecesario para reducir el tamaño, sin cambiar los datos.",
+    },
+    {
+      question: "¿Un valor simple puede ser JSON válido?",
+      answer: "Sí. Además de objetos y arreglos, un documento JSON puede contener como valor raíz un texto, un número, true, false o null.",
+    },
+    {
+      question: "¿Por qué la herramienta advierte sobre enteros muy grandes?",
+      answer: "JavaScript no puede representar con exactitud enteros fuera de su rango seguro. Para evitar cambios silenciosos, la herramienta te pide convertir esos identificadores o números en texto usando comillas.",
+    },
+  ],
 };

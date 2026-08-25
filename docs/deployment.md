@@ -29,6 +29,7 @@ IJMM Tools is architected for static pre-rendering (SSG/Static Export ready) and
 
 Configured variables:
 - `NEXT_PUBLIC_SITE_URL`: Canonical public origin. Current production value: `https://tools.ijmmsystem.com`.
+- `NEXT_PUBLIC_CORPORATE_SITE_URL`: Main IJMM System portal. Current production value: `https://ijmmsystem.com`.
 - `NODE_ENV`: Runtime mode (`production`).
 
 ---
@@ -43,8 +44,8 @@ npm run verify
 
 The `verify` script deterministically executes:
 1. `npm run typecheck` (`tsc --noEmit` — 0 errors)
-2. `npm test` (`vitest run` — 65/65 unit tests passed, including registry, domain, analytics, advertising configuration, and structured-data safety)
-3. `npm run build` (`next build` — 22 production routes compiled via Turbopack)
+2. `npm test` (`vitest run` — 82/82 unit tests passed, including registry, tool domains, analytics, advertising configuration, and structured-data safety)
+3. `npm run build` (`next build` — 23 production routes compiled via Turbopack)
 4. `npm run audit` (`npm audit` — 0 vulnerabilities)
 
 ---

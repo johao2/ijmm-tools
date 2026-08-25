@@ -10,7 +10,7 @@ This additional phase aligns IJMM Tools with the main IJMM System brand and guar
 
 ## Navigation contract
 
-- Corporate portal: `https://ijmm-system-web.vercel.app`.
+- Corporate portal: `https://ijmmsystem.com`.
 - Override for other environments: `NEXT_PUBLIC_CORPORATE_SITE_URL`.
 - The global header and footer are rendered by the root layout, so visitors can return to IJMM System whether they arrive at the IJMM Tools homepage, directory, or directly at a tool URL.
 - Links use the same browser tab to preserve a natural return flow between products.

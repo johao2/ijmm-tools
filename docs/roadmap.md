@@ -16,14 +16,14 @@
 - [x] Local production-readiness validation and deployment configuration.
 - [x] Phase 11 additional: official corporate logo and navigation back to IJMM System from every route.
 - [x] Phase 12 foundation: fail-closed AdSense integration, ads.txt, legal disclosures, and UX-safe placements.
-- [ ] Authorized production deployment and live-domain verification.
+- [x] Authorized production deployment and live-domain verification at `tools.ijmmsystem.com`.
+- [x] Phase 13: JSON Formatter / Validator / Minifier, private processing, downloads, SEO content, and full tests.
 - [ ] `v1.0.0` tag after live verification.
 
 ## Next tools — not yet authorized for implementation
 
 Candidates remain `status: "planned"` and must not receive public pages until complete:
 
-- JSON Formatter / Validator / Minifier.
 - Password Generator.
 - QR Code Generator.
 - Calculadora IVA Ecuador.
@@ -34,7 +34,7 @@ The next tool will be selected using demand, utility, SEO opportunity, complexit
 
 ## Monetization — activation pending provider approval
 
-The implementation is production-ready but remains disabled until an AdSense publisher ID, ad slots, and a certified consent solution are configured. Account, identity, tax, and payout approval must be completed by the owner. Advertising must never transmit calculation inputs or degrade tool usability.
+The AdSense publisher identity and `ads.txt` ownership are configured. Advertising remains fail-closed while Google reviews the site and until valid ad slots plus a certified consent solution are configured. Advertising must never transmit tool inputs or degrade usability.
 
 ## Outside current scope
 

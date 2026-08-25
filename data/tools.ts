@@ -23,21 +23,25 @@ export const TOOLS: Tool[] = [
     ],
   },
 
-  // Planned MVP Candidates (status: "planned" - DO NOT generate public pages)
+  // Developer Tool (Active)
   {
     id: "json-formatter",
     name: "Formateador JSON",
     slug: "json-formatter",
     categoryId: "developer-tools",
-    description: "Formatea, valida y embellece código JSON en línea.",
-    shortDescription: "Formatea y valida código JSON fácilmente.",
+    description: "Formatea, valida y minifica JSON gratis en tu navegador, con detección de errores y descarga del resultado sin enviar tus datos a un servidor.",
+    shortDescription: "Formatea, valida y minifica JSON de forma privada.",
     icon: "Code",
-    status: "planned",
+    status: "active",
     seo: {
-      title: "Formateador y Validador JSON — IJMM Tools",
-      description: "Formatea y valida JSON online.",
+      title: "Formateador, Validador y Minificador JSON Online",
+      description: "Formatea, valida y minifica JSON gratis. Detecta errores, copia o descarga el resultado y procesa todo localmente en tu navegador.",
+      keywords: ["formateador JSON", "validador JSON", "minificar JSON", "JSON formatter", "JSON online"],
+      canonicalPath: "/json-formatter",
     },
+    relatedToolIds: ["regex-tester"],
   },
+  // Planned MVP Candidates (status: "planned" - DO NOT generate public pages)
   {
     id: "password-generator",
     name: "Generador de Contraseñas",

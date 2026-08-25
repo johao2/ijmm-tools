@@ -37,8 +37,8 @@ npm run verify
 
 This executes in deterministic order:
 1. `npm run typecheck` (`tsc --noEmit`)
-2. `npm test` (`vitest run` — 65/65 unit tests)
-3. `npm run build` (`next build` — 22 production routes)
+2. `npm test` (`vitest run` — 82/82 unit tests)
+3. `npm run build` (`next build` — 23 production routes)
 4. `npm run audit` (`npm audit` — 0 vulnerabilities)
 
 ---
@@ -63,6 +63,7 @@ Detailed documentation is available in `/docs/`:
 - [`docs/tool-engine.md`](docs/tool-engine.md): Typed core contracts for tool modules and execution.
 - [`docs/tool-registry.md`](docs/tool-registry.md): Registry lifecycle, integrity checks, categories & routing rules.
 - [`docs/percentage-calculator.md`](docs/percentage-calculator.md): Percentage formulas, UI boundaries & tested edge cases.
+- [`docs/json-formatter.md`](docs/json-formatter.md): JSON processing contract, privacy limits & tested edge cases.
 - [`docs/analytics.md`](docs/analytics.md): Provider-independent events and privacy allowlist.
 - [`docs/quality.md`](docs/quality.md): Functional, responsive, accessibility & security audit.
 - [`docs/production-readiness.md`](docs/production-readiness.md): MVP release status, verified routes & remaining external steps.

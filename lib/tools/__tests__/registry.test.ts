@@ -29,6 +29,12 @@ describe("Tool Registry API", () => {
     expect(tool?.status).toBe("active");
   });
 
+  it("should retrieve the JSON formatter as an active root-level tool", () => {
+    const tool = getToolBySlug("json-formatter");
+    expect(tool?.status).toBe("active");
+    expect(tool?.seo.canonicalPath).toBe("/json-formatter");
+  });
+
   it("should handle slug lookups case-insensitively", () => {
     const tool = getToolBySlug("PERCENTAGE-CALCULATOR");
     expect(tool).toBeDefined();
@@ -86,13 +92,13 @@ describe("Tool Registry API", () => {
     const resultsEmpty = searchTools("");
     expect(resultsEmpty).toEqual(getActiveTools());
 
-    // Search for planned tools when requested
+    // Active JSON tool is searchable by default
+    const resultsJson = searchTools("json");
+    expect(resultsJson.some((t) => t.id === "json-formatter")).toBe(true);
+
+    // Search also supports including planned tools
     const resultsPlanned = searchTools("json", true);
     expect(resultsPlanned.some((t) => t.id === "json-formatter")).toBe(true);
-
-    // Search for planned tools without includePlanned = false
-    const resultsNoPlanned = searchTools("json", false);
-    expect(resultsNoPlanned.some((t) => t.id === "json-formatter")).toBe(false);
   });
 
   it("should handle related tools lookup safely without broken links", () => {
@@ -121,7 +127,7 @@ describe("Tool Registry API", () => {
   it("should publish only categories that contain active tools", () => {
     const categories = getPublishedCategories();
     expect(categories.map((category) => category.id)).toContain("calculators");
-    expect(categories.map((category) => category.id)).not.toContain("developer-tools");
+    expect(categories.map((category) => category.id)).toContain("developer-tools");
   });
 
   it("should enforce root canonical URLs for active tools", () => {
