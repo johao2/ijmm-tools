@@ -131,4 +131,32 @@ export const FAQS_BY_TOOL_ID: Record<string, FAQItem[]> = {
       answer: "La herramienta conserva precisión decimal durante el cálculo y redondea cada resultado monetario al centavo más cercano.",
     },
   ],
+  "unit-converter": [
+    {
+      question: "¿Qué unidades permite convertir la herramienta?",
+      answer: "Incluye unidades métricas e imperiales de longitud, peso y masa, temperatura, área y volumen, como metros, millas, kilogramos, libras, Celsius, Fahrenheit, litros y galones estadounidenses.",
+    },
+    {
+      question: "¿Cómo se convierten metros a pies?",
+      answer: "Multiplica la cantidad de metros por 3.280839895. La calculadora utiliza la equivalencia exacta de un pie igual a 0.3048 metros.",
+      formula: "pies = metros ÷ 0.3048",
+      example: "1 metro = 3.280839895 pies.",
+    },
+    {
+      question: "¿Cómo se convierten kilogramos a libras?",
+      answer: "Divide los kilogramos entre 0.45359237, que es la cantidad exacta de kilogramos definida para una libra internacional.",
+      formula: "libras = kilogramos ÷ 0.45359237",
+      example: "10 kilogramos ≈ 22.0462262185 libras.",
+    },
+    {
+      question: "¿Cómo se convierten grados Celsius a Fahrenheit?",
+      answer: "Multiplica los grados Celsius por 9/5 y suma 32. Para convertir Fahrenheit a Celsius, resta 32 y multiplica por 5/9.",
+      formula: "°F = (°C × 9/5) + 32",
+      example: "100 °C = 212 °F.",
+    },
+    {
+      question: "¿La herramienta guarda los valores introducidos?",
+      answer: "No. Todas las conversiones se realizan localmente en tu navegador y los valores no se envían ni almacenan en los servidores de IJMM System.",
+    },
+  ],
 };

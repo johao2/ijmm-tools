@@ -53,6 +53,12 @@ describe("Tool Registry API", () => {
     expect(tool?.seo.canonicalPath).toBe("/calculadora-iva-ecuador");
   });
 
+  it("should retrieve the unit converter as an active root-level tool", () => {
+    const tool = getToolBySlug("unit-converter");
+    expect(tool?.status).toBe("active");
+    expect(tool?.seo.canonicalPath).toBe("/unit-converter");
+  });
+
   it("should handle slug lookups case-insensitively", () => {
     const tool = getToolBySlug("PERCENTAGE-CALCULATOR");
     expect(tool).toBeDefined();
@@ -123,6 +129,9 @@ describe("Tool Registry API", () => {
     const resultsVat = searchTools("iva");
     expect(resultsVat.some((t) => t.id === "calculadora-iva-ecuador")).toBe(true);
 
+    const resultsConverter = searchTools("metros a pies");
+    expect(resultsConverter.some((t) => t.id === "unit-converter")).toBe(true);
+
     // Search also supports including planned tools
     const resultsPlanned = searchTools("json", true);
     expect(resultsPlanned.some((t) => t.id === "json-formatter")).toBe(true);
@@ -156,6 +165,7 @@ describe("Tool Registry API", () => {
     expect(categories.map((category) => category.id)).toContain("developer-tools");
     expect(categories.map((category) => category.id)).toContain("generators");
     expect(categories.map((category) => category.id)).toContain("ecuador-tools");
+    expect(categories.map((category) => category.id)).toContain("converters");
   });
 
   it("should enforce root canonical URLs for active tools", () => {

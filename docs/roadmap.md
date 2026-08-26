@@ -21,13 +21,13 @@
 - [x] Phase 14: cryptographically secure Password Generator, privacy-first UI, SEO content, and full tests.
 - [x] Phase 15: local QR Code Generator for links, text, and Wi-Fi with PNG download and scan-safety controls.
 - [x] Phase 16: Ecuador VAT Calculator with add/extract modes, official rate references, exact cent rounding, SEO content, and full tests.
+- [x] Phase 17: Unit Converter for length, mass, temperature, area, and volume with metric/imperial support and full tests.
 - [ ] `v1.0.0` tag after live verification.
 
 ## Next tools — not yet authorized for implementation
 
 Candidates remain `status: "planned"` and must not receive public pages until complete:
 
-- Unit Converter.
 - Image and PDF utilities.
 
 The next tool will be selected using demand, utility, SEO opportunity, complexity, monetization potential, and strategic fit. No candidate is automatically approved by appearing in the registry.

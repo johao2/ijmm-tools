@@ -26,7 +26,7 @@ The application runs locally at `http://localhost:3000`.
 
 ### 2.1 Single Source of Truth
 All tool and category data MUST be defined in the central data catalog:
-- `data/tools.ts`: Master catalog of tools (5 active tools + 5 planned MVP candidates).
+- `data/tools.ts`: Master catalog of tools (6 active tools + 4 planned MVP candidates).
 - `data/categories.ts`: Master catalog of 8 official categories (including `ecuador-tools`).
 - `data/faqs.ts`: Separated dataset for FAQs by tool ID.
 
@@ -108,6 +108,8 @@ The password tool keeps cryptographic selection in `lib/tools/password.ts`. Its 
 The QR tool keeps payload construction, Wi-Fi escaping, contrast validation, and matrix encoding in `lib/tools/qr.ts`. Canvas rendering remains a UI concern and no QR content is included in analytics.
 
 The Ecuador VAT calculator keeps amount parsing, exact cent arithmetic, rate validation, add/extract formulas, and USD formatting in `lib/tools/vat.ts`. Its interface shows regulatory caveats, and analytics never receives financial inputs.
+
+The Unit Converter stores its typed unit catalog, linear conversion factors, temperature formulas, absolute-zero validation, and formatting in `lib/tools/unit-converter.ts`. The client UI sends only the selected category to analytics and never measurement values.
 
 ---
 
