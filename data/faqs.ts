@@ -314,4 +314,98 @@ export const FAQS_BY_TOOL_ID: Record<string, FAQItem[]> = {
       answer: "No. Todas las conversiones se realizan localmente en tu navegador y los valores no se envían ni almacenan en los servidores de IJMM System.",
     },
   ],
+  "calculadora-van-tir": [
+    {
+      question: "¿Qué es el VAN y cómo se interpreta?",
+      answer: "El Valor Actual Neto suma todos los flujos del proyecto llevados al presente con la tasa de descuento. Si el VAN es positivo, el proyecto rinde más que esa tasa; si es negativo, rinde menos; si es 0, rinde exactamente la tasa.",
+      formula: "VAN = Σ FCₜ ÷ (1 + i)ᵗ, desde t = 0 hasta n",
+      example: "Inversión −1000 y flujos 300, 400 y 500 al 10 %: 300/1.1 + 400/1.1² + 500/1.1³ − 1000 = −21.04",
+    },
+    {
+      question: "¿Qué es la TIR?",
+      answer: "La Tasa Interna de Retorno es la tasa de descuento que hace que el VAN sea exactamente 0. Si la TIR es mayor que la tasa exigida, el proyecto conviene.",
+      formula: "Σ FCₜ ÷ (1 + TIR)ᵗ = 0",
+    },
+    {
+      question: "¿Por qué mi resultado no coincide con VNA de Excel?",
+      answer: "La función VNA de Excel descuenta también el primer valor que recibe. Para obtener el VAN con la inversión en el periodo 0 se usa =VNA(tasa; FC1:FCn) + FC0. Con esa fórmula el resultado coincide con esta calculadora. La TIR equivale a =TIR(FC0:FCn).",
+    },
+    {
+      question: "¿Por qué aparecen dos TIR o ninguna?",
+      answer: "Cuando los flujos cambian de signo más de una vez (por ejemplo, una inversión adicional a mitad del proyecto) pueden existir varias TIR, y la calculadora las muestra todas. Si los flujos no cambian de signo, no existe TIR. En esos casos decide con el VAN.",
+    },
+  ],
+  "calculadora-matrices": [
+    {
+      question: "¿Los resultados son exactos?",
+      answer: "Sí. Todos los cálculos se hacen con fracciones exactas, sin redondeo. Por eso la inversa puede mostrar valores como 3/2 o −1/4. También puedes ver el equivalente decimal.",
+    },
+    {
+      question: "¿Cómo escribo la matriz?",
+      answer: "Una fila por línea y los valores separados por espacios o punto y coma. Se aceptan enteros, decimales con punto o coma y fracciones como 1/3.",
+      example: "1 2 3\n0 1 4\n5 6 0",
+    },
+    {
+      question: "¿Cuándo una matriz no tiene inversa?",
+      answer: "Cuando no es cuadrada o cuando su determinante es 0 (matriz singular). En ese caso sus filas son linealmente dependientes y su rango es menor que su tamaño.",
+      formula: "A⁻¹ existe ⇔ det(A) ≠ 0",
+    },
+    {
+      question: "¿Qué método se usa?",
+      answer: "Eliminación gaussiana para el determinante y Gauss-Jordan sobre la matriz aumentada [A | I] para la inversa, el rango y la forma escalonada reducida.",
+    },
+  ],
+  "resolver-ecuaciones": [
+    {
+      question: "¿Cómo se resuelve una ecuación de segundo grado?",
+      answer: "Con la fórmula general. El discriminante indica el tipo de raíces: si es positivo hay dos raíces reales, si es 0 una raíz doble y si es negativo dos raíces complejas conjugadas.",
+      formula: "x = (−b ± √(b² − 4ac)) ÷ 2a",
+      example: "x² − 5x + 6 = 0: Δ = 25 − 24 = 1, x = (5 ± 1) ÷ 2, x₁ = 3 y x₂ = 2",
+    },
+    {
+      question: "¿Por qué el resultado aparece con raíces como 1 + √2?",
+      answer: "Porque es el valor exacto. La raíz se simplifica (√8 = 2√2) y además se muestra el valor decimal con 10 decimales.",
+    },
+    {
+      question: "¿Cómo sé si un sistema de ecuaciones tiene solución?",
+      answer: "Por el teorema de Rouché-Frobenius. Si el rango de la matriz de coeficientes es menor que el de la matriz ampliada, no hay solución. Si ambos rangos son iguales al número de incógnitas, la solución es única. Si son iguales pero menores, hay infinitas soluciones y la calculadora las expresa en función de las variables libres.",
+    },
+  ],
+  "generador-tablas-de-verdad": [
+    {
+      question: "¿Qué símbolos puedo usar?",
+      answer: "Negación: ¬ ~ ! o NOT. Conjunción: ∧ & ^ o AND. Disyunción: ∨ | u OR. Disyunción exclusiva: ⊕ o XOR. Condicional: → -> o =>. Bicondicional: ↔ <-> o <=>. Las variables son letras sueltas (p, q, r…) y también puedes usar 1 y 0 como constantes.",
+    },
+    {
+      question: "¿En qué orden se evalúan los conectivos?",
+      answer: "Primero la negación, luego la conjunción, después la disyunción (y la disyunción exclusiva), luego el condicional y al final el bicondicional. El condicional agrupa por la derecha: p → q → r es p → (q → r). Si tienes dudas, usa paréntesis.",
+    },
+    {
+      question: "¿Qué es una tautología, una contradicción y una contingencia?",
+      answer: "Es tautología si la proposición es verdadera en todas las filas, contradicción si es falsa en todas y contingencia si es verdadera en algunas y falsa en otras.",
+      example: "p ∨ ¬p es tautología; p ∧ ¬p es contradicción; p → q es contingencia.",
+    },
+    {
+      question: "¿Por qué la tabla empieza con V?",
+      answer: "Se sigue la convención de los textos de lógica en español: la primera fila tiene todas las variables verdaderas y la última todas falsas.",
+    },
+  ],
+  "calculadora-dias-habiles": [
+    {
+      question: "¿Qué feriados de Ecuador se incluyen?",
+      answer: "Los feriados nacionales del art. 65 del Código del Trabajo: 1 de enero, lunes y martes de carnaval, viernes santo, 1 y 24 de mayo, 10 de agosto, 9 de octubre, 2 y 3 de noviembre y 25 de diciembre. Se aplican los traslados de la reforma publicada en el Registro Oficial Suplemento 906 del 20 de diciembre de 2016.",
+    },
+    {
+      question: "¿Cómo se trasladan los feriados?",
+      answer: "Si el feriado cae martes, se descansa el lunes anterior; si cae miércoles o jueves, el viernes de esa semana; si cae sábado, el viernes anterior; si cae domingo, el lunes siguiente. El 1 de enero, el 25 de diciembre y el martes de carnaval no se trasladan entre semana. Para el 2 y 3 de noviembre hay reglas especiales porque son días consecutivos.",
+    },
+    {
+      question: "¿El calendario puede cambiar?",
+      answer: "Sí. El Presidente de la República puede fijar o modificar el calendario de feriados y suspender la jornada mediante decreto ejecutivo. Tampoco se incluyen los feriados provinciales o cantonales. Puedes agregar o quitar fechas en la lista antes de calcular.",
+    },
+    {
+      question: "¿Se cuentan la fecha inicial y la final?",
+      answer: "Al contar días hábiles entre dos fechas se incluyen ambas, igual que DIAS.LAB de Excel. Al sumar días hábiles no se cuenta la fecha inicial, igual que DIA.LAB. Antes de un trámite, verifica cómo cuenta los plazos la norma que te aplica.",
+    },
+  ],
 };

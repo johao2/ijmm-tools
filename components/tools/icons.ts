@@ -2,6 +2,7 @@ import type { ElementType } from "react";
 import {
   BarChart3,
   Binary,
+  CalendarDays,
   Calculator,
   Code,
   Divide,
@@ -9,6 +10,7 @@ import {
   Files,
   Globe,
   GraduationCap,
+  Grid3x3,
   Image as ImageIcon,
   Key,
   Landmark,
@@ -19,9 +21,12 @@ import {
   RefreshCw,
   ScanSearch,
   Shield,
+  Sigma,
   Sparkles,
+  Table2,
   Terminal,
   Timer,
+  TrendingUp,
   Wrench,
 } from "lucide-react";
 
@@ -29,6 +34,7 @@ import {
 export const ICONS: Record<string, ElementType> = {
   BarChart3,
   Binary,
+  CalendarDays,
   Calculator,
   Code,
   Divide,
@@ -36,6 +42,7 @@ export const ICONS: Record<string, ElementType> = {
   Files,
   Globe,
   GraduationCap,
+  Grid3x3,
   Image: ImageIcon,
   Key,
   Landmark,
@@ -46,9 +53,12 @@ export const ICONS: Record<string, ElementType> = {
   RefreshCw,
   ScanSearch,
   Shield,
+  Sigma,
   Sparkles,
+  Table2,
   Terminal,
   Timer,
+  TrendingUp,
 };
 
 export function getIcon(name: string): ElementType {

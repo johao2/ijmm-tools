@@ -15,6 +15,11 @@ IJMM Tools se orienta a estudiantes universitarios. Todas las herramientas funci
 | Interés y amortización | `/calculadora-interes-compuesto` | `lib/tools/finance.ts` | Finanzas |
 | Conversor de bases numéricas | `/conversor-bases-numericas` | `lib/tools/number-base.ts` | Programación y sistemas |
 | Temporizador Pomodoro | `/temporizador-pomodoro` | `lib/tools/pomodoro.ts` | Organización y estudio |
+| VAN y TIR | `/calculadora-van-tir` | `lib/tools/investment.ts` | Finanzas |
+| Calculadora de matrices | `/calculadora-matrices` | `lib/tools/matrix.ts`, `lib/tools/fraction.ts` | Matemáticas |
+| Resolver ecuaciones | `/resolver-ecuaciones` | `lib/tools/equations.ts` | Matemáticas |
+| Tablas de verdad | `/generador-tablas-de-verdad` | `lib/tools/truth-table.ts` | Matemáticas |
+| Días hábiles (feriados de Ecuador) | `/calculadora-dias-habiles` | `lib/tools/business-days.ts` | Organización y estudio |
 
 Las páginas usan la plantilla común `components/tools/ToolPage.tsx` (migas de pan, datos estructurados WebApplication y FAQPage, anuncios, preguntas frecuentes y herramientas relacionadas). Los íconos se resuelven con `components/tools/icons.ts`.
 
@@ -25,6 +30,10 @@ Las páginas usan la plantilla común `components/tools/ToolPage.tsx` (migas de 
 - **Estadística:** varianza muestral (n − 1) y poblacional (n); cuartiles por interpolación lineal (equivalente a CUARTIL.INC de Excel); hasta 6 decimales.
 - **Amortización:** método francés; la última cuota ajusta los centavos para dejar el saldo en 0.
 - **Bases numéricas:** aritmética `BigInt`, sin pérdida de precisión.
+- **Matrices y ecuaciones:** fracciones exactas con `BigInt` (`fraction.ts`); determinante por eliminación gaussiana, inversa/rango/RREF por Gauss-Jordan. Raíces cuadráticas en forma exacta a ± b√r (raíz simplificada) y decimal a 10 decimales. Sistemas clasificados por Rouché-Frobenius; hasta 8×8.
+- **VAN/TIR:** VAN = Σ FCₜ/(1+i)ᵗ con t = 0…n (Excel: VNA(i;FC₁:FCₙ)+FC₀). TIR por malla + bisección (1e-12) entre −99 % y 10 000 %; devuelve todas las raíces; 4 decimales. Recuperación con interpolación lineal (indicado en la interfaz).
+- **Tablas de verdad:** precedencia ¬ > ∧ > ∨/⊕ > → > ↔; → y ↔ asocian por la derecha; filas desde V V V; máx. 6 variables.
+- **Días hábiles:** entre fechas incluye ambas (DIAS.LAB); sumar no cuenta la inicial (DIA.LAB). Feriados de Ecuador según art. 65 CT y reforma R. O. S. 906 (20-dic-2016), verificada con el texto oficial: martes→lunes; miércoles/jueves→viernes (excepto 1-ene, 25-dic, martes de carnaval); sábado→viernes; domingo→lunes; 2-3 de noviembre por la Disposición General Primera a)–e). Pruebas contra calendarios oficiales 2023, 2024 y 2025. Los decretos ejecutivos pueden cambiar el calendario: la interfaz permite quitar o agregar fechas.
 
 ## Detector de similitud
 
@@ -50,4 +59,3 @@ Segunda sección del detector (`components/tools/similarity/SourceSearch.tsx`) r
 
 - Asistente de redacción académica con IA (función de pago; requiere servidor y aviso de privacidad).
 - Detección de paráfrasis con IA como indicador “posible paráfrasis”, fuera del porcentaje exacto.
-- Fase 2: ecuaciones, matrices, tablas de verdad, VAN/TIR, días hábiles.
