@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 :root {
+  /* Diseño claro en todos los dispositivos, igual que IJMM System e IJMM POS */
+  color-scheme: light;
+
   /* Brand Colors - IJMM System Tech Palette */
   --primary: #1d4ed8;            /* Blue 700 - Professional tech blue */
   --primary-hover: #1e40af;      /* Blue 800 */
@@ -68,37 +71,6 @@
   --duration-fast: 150ms;
   --duration-normal: 200ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --primary: #60a5fa;
-    --primary-hover: #93c5fd;
-    --primary-light: #172554;
-    --background: #020617;
-    --surface: #0f172a;
-    --surface-secondary: #1e293b;
-    --text: #f8fafc;
-    --text-muted: #94a3b8;
-    --text-inverse: #0f172a;
-    --foreground: var(--text);
-    --muted: var(--text-muted);
-    --primary-foreground: #0f172a;
-    --border: #334155;
-    --border-focus: #60a5fa;
-    --success: #4ade80;
-    --success-bg: #052e16;
-    --warning: #fbbf24;
-    --warning-bg: #451a03;
-    --error: #f87171;
-    --error-bg: #450a0a;
-    --info: #38bdf8;
-    --info-bg: #082f49;
-    --focus-ring: #60a5fa;
-    --shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / 0.4);
-    --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.45), 0 1px 2px -1px rgb(0 0 0 / 0.35);
-  }
 }
 
 @theme inline {
