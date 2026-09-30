@@ -1,6 +1,161 @@
 import { FAQItem } from "@/lib/tools/types";
 
 export const FAQS_BY_TOOL_ID: Record<string, FAQItem[]> = {
+  "calculadora-promedio-ponderado": [
+    {
+      question: "¿Qué es un promedio ponderado?",
+      answer: "Es un promedio en el que cada nota pesa distinto según su porcentaje. Se multiplica cada nota por su peso, se suman los resultados y se divide entre la suma de los pesos.",
+      formula: "Promedio = Σ (nota × peso) ÷ Σ pesos",
+      example: "Deberes 8 (30%), parcial 6 (30%) y final 9 (40%): (8×30 + 6×30 + 9×40) ÷ 100 = 7.8",
+    },
+    {
+      question: "¿Cómo sé qué nota necesito en el examen final?",
+      answer: "Resta a la nota que quieres obtener los puntos que ya acumulaste y divide lo que falta entre el peso del examen final.",
+      formula: "Nota necesaria = (Objetivo − puntos acumulados) ÷ peso del final",
+      example: "Si ya tienes 3.6 puntos del 60% evaluado y el final vale 40%, para llegar a 7 necesitas (7 − 3.6) ÷ 0.40 = 8.5",
+    },
+    {
+      question: "¿Qué pasa si los porcentajes no suman 100%?",
+      answer: "La calculadora muestra tu promedio parcial sobre lo evaluado hasta ahora. Los pesos nunca pueden superar el 100%.",
+    },
+    {
+      question: "¿Sirve para notas sobre 10, 20 o 100?",
+      answer: "Sí. Elige la escala de tu universidad y todas las notas se validan dentro de ese rango.",
+    },
+  ],
+  "generador-citas-apa": [
+    {
+      question: "¿Qué cambió en APA 7 respecto a APA 6?",
+      answer: "APA 7 incluye hasta 20 autores en la referencia, ya no pide el lugar de publicación de los libros, presenta el DOI como enlace https://doi.org/ y usa “et al.” desde tres autores en la cita dentro del texto.",
+    },
+    {
+      question: "¿Se usa “y” o “&” entre autores?",
+      answer: "En la versión en español de APA 7 se usa “y”. Algunas universidades piden “&”; puedes activar esa opción en el generador.",
+    },
+    {
+      question: "¿Qué pongo si la fuente no tiene fecha?",
+      answer: "Deja el año vacío y la referencia mostrará “(s. f.)”, que significa sin fecha.",
+    },
+    {
+      question: "¿El generador pone el título en minúsculas?",
+      answer: "No lo cambia automáticamente. En APA 7 los títulos de libros y artículos van en tipo oración: solo la primera palabra y los nombres propios con mayúscula. Escríbelo así antes de generar.",
+    },
+  ],
+  "contador-de-palabras": [
+    {
+      question: "¿Cómo se calcula el tiempo de lectura?",
+      answer: "Se estima con una velocidad promedio de 200 palabras por minuto para lectura silenciosa y 130 palabras por minuto para exponer en voz alta.",
+      formula: "Minutos = palabras ÷ 200",
+    },
+    {
+      question: "¿Cuántas páginas ocupa mi texto?",
+      answer: "Es una aproximación: unas 275 palabras por página a doble espacio (formato APA, letra de 12 puntos) y unas 550 a espacio simple. El número real depende de la fuente, los márgenes y los títulos.",
+    },
+    {
+      question: "¿Mi texto se guarda en algún servidor?",
+      answer: "No. El conteo se hace en tu navegador y el texto no se envía a IJMM System.",
+    },
+  ],
+  "detector-de-similitud": [
+    {
+      question: "¿Cómo funciona el detector de similitud?",
+      answer: "Divide cada documento en secuencias de palabras consecutivas (por defecto 5) y busca las que se repiten en los otros documentos. Ignora mayúsculas, tildes y signos de puntuación, y resalta los fragmentos coincidentes.",
+    },
+    {
+      question: "¿Es lo mismo que Turnitin?",
+      answer: "No. Esta herramienta compara los documentos que tú subes entre sí; no busca en internet ni en bases de datos de revistas o universidades. Sirve para detectar trabajos copiados entre compañeros o revisar versiones de tu propio trabajo antes de entregar.",
+    },
+    {
+      question: "¿Qué formatos acepta?",
+      answer: "Archivos .docx (Word) y .txt, o texto pegado directamente. Para un PDF, copia su texto y pégalo en el recuadro.",
+    },
+    {
+      question: "¿Mis documentos se suben a internet?",
+      answer: "No. La comparación se hace completamente en tu navegador; los documentos no se envían ni se guardan en ningún servidor.",
+    },
+    {
+      question: "¿Qué porcentaje de similitud es aceptable?",
+      answer: "Depende de cada universidad y docente. Una coincidencia alta no siempre es plagio: las citas textuales bien referenciadas y las frases técnicas comunes también coinciden. Revisa cada fragmento resaltado.",
+    },
+  ],
+  "calculadora-estadistica": [
+    {
+      question: "¿Cuál es la diferencia entre desviación estándar muestral y poblacional?",
+      answer: "La poblacional divide la suma de cuadrados entre n y se usa cuando tienes todos los datos de la población. La muestral divide entre n − 1 y se usa cuando los datos son una muestra; es la más común en investigación.",
+      formula: "s = √( Σ (x − x̄)² ÷ (n − 1) )",
+    },
+    {
+      question: "¿Cómo se calculan los cuartiles?",
+      answer: "Con interpolación lineal, el mismo método que usa la función CUARTIL.INC de Excel. Por eso los resultados coinciden con los de Excel.",
+    },
+    {
+      question: "¿Qué pasa si ningún valor se repite?",
+      answer: "No hay moda. Si varios valores se repiten el mismo número máximo de veces, la distribución es multimodal y se muestran todas las modas.",
+    },
+    {
+      question: "¿Cómo ingreso los datos?",
+      answer: "Pégalos separados por saltos de línea, espacios, punto y coma o comas. Puedes copiarlos directamente desde una columna de Excel.",
+    },
+  ],
+  "regla-de-tres": [
+    {
+      question: "¿Cuándo uso la regla de tres directa?",
+      answer: "Cuando las dos magnitudes aumentan o disminuyen juntas: más cuadernos, más dinero.",
+      formula: "x = (B × C) ÷ A",
+      example: "Si 3 cuadernos cuestan $6, 5 cuadernos cuestan (6 × 5) ÷ 3 = $10",
+    },
+    {
+      question: "¿Cuándo uso la regla de tres inversa?",
+      answer: "Cuando una magnitud aumenta y la otra disminuye: más obreros, menos días de trabajo.",
+      formula: "x = (A × B) ÷ C",
+      example: "Si 4 obreros tardan 6 días, 8 obreros tardan (4 × 6) ÷ 8 = 3 días",
+    },
+  ],
+  "calculadora-interes-compuesto": [
+    {
+      question: "¿Cuál es la diferencia entre interés simple y compuesto?",
+      answer: "En el interés simple los intereses se calculan siempre sobre el capital inicial. En el compuesto los intereses se suman al capital en cada periodo y generan nuevos intereses.",
+      formula: "Simple: I = C × r × t · Compuesto: M = C × (1 + r/n)^(n × t)",
+    },
+    {
+      question: "¿Qué es la tasa efectiva anual?",
+      answer: "Es la tasa que realmente se gana o se paga en un año cuando los intereses se capitalizan varias veces. Una tasa nominal del 12% capitalizable mensualmente equivale a una tasa efectiva de 12.68%.",
+    },
+    {
+      question: "¿Qué es el método francés de amortización?",
+      answer: "Es el sistema de cuota fija que usan la mayoría de bancos: todas las cuotas son iguales; al principio se paga más interés y al final más capital.",
+      formula: "Cuota = C × i ÷ (1 − (1 + i)^−n)",
+    },
+  ],
+  "conversor-bases-numericas": [
+    {
+      question: "¿Cómo se convierte de decimal a binario?",
+      answer: "Divide el número entre 2 sucesivamente y anota los residuos. El binario es la lista de residuos leída de abajo hacia arriba.",
+      example: "13 → 13÷2=6 r1, 6÷2=3 r0, 3÷2=1 r1, 1÷2=0 r1 → 1101",
+    },
+    {
+      question: "¿Puedo escribir prefijos como 0x o 0b?",
+      answer: "Sí. El conversor acepta 0b para binario, 0o para octal y 0x para hexadecimal, además de espacios o guiones bajos para separar dígitos.",
+    },
+    {
+      question: "¿Convierte números con decimales?",
+      answer: "No; convierte números enteros, positivos o negativos, de cualquier tamaño y sin perder precisión.",
+    },
+  ],
+  "temporizador-pomodoro": [
+    {
+      question: "¿Qué es la técnica Pomodoro?",
+      answer: "Es un método de estudio que alterna bloques de concentración (normalmente 25 minutos) con descansos cortos de 5 minutos. Cada 4 bloques se toma un descanso más largo de 15 a 30 minutos.",
+    },
+    {
+      question: "¿Puedo cambiar los tiempos?",
+      answer: "Sí. Puedes configurar la duración del enfoque, de los descansos y cuántos bloques hay antes del descanso largo.",
+    },
+    {
+      question: "¿Sigue funcionando si cambio de pestaña?",
+      answer: "Sí. El tiempo se calcula con el reloj del sistema, así que el conteo sigue siendo exacto aunque cambies de pestaña. Mantén la página abierta para escuchar el aviso.",
+    },
+  ],
   "percentage-calculator": [
     {
       question: "¿Qué es un porcentaje?",

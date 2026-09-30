@@ -61,7 +61,7 @@ export default function JsonFormatterPage() {
         <Breadcrumbs
           items={[
             { label: "Inicio", href: "/" },
-            { label: "Herramientas para desarrolladores", href: "/categories/developer-tools" },
+            { label: "Programación y sistemas", href: "/categories/developer-tools" },
             { label: "Formateador JSON" },
           ]}
           className="mb-6"

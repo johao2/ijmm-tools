@@ -1,17 +1,10 @@
 import React from "react";
 import Link from "next/link";
 import {
-  Calculator,
-  Code,
-  FileText,
-  Image as ImageIcon,
-  Sparkles,
-  RefreshCw,
-  Shield,
-  Globe,
   ArrowRight,
 } from "lucide-react";
 import Container from "@/components/ui/Container";
+import { getIcon } from "@/components/tools/icons";
 import Card from "@/components/ui/Card";
 import Breadcrumbs from "@/components/seo/Breadcrumbs";
 import { constructMetadata } from "@/lib/seo/metadata";
@@ -23,17 +16,6 @@ export const metadata = constructMetadata({
     "Explora todas las categorías de herramientas digitales en IJMM Tools: calculadoras, herramientas de desarrollo, PDF, imagen y utilidades tributarias.",
   canonicalPath: "/categories",
 });
-
-const CATEGORY_ICON_MAP: Record<string, React.ElementType> = {
-  calculators: Calculator,
-  "developer-tools": Code,
-  "pdf-tools": FileText,
-  "image-tools": ImageIcon,
-  generators: Sparkles,
-  converters: RefreshCw,
-  "security-tools": Shield,
-  "ecuador-tools": Globe,
-};
 
 export default function CategoriesOverviewPage() {
   const categories = getAllCategories();
@@ -58,7 +40,7 @@ export default function CategoriesOverviewPage() {
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((cat) => {
-          const IconComp = CATEGORY_ICON_MAP[cat.id] || Calculator;
+          const IconComp = getIcon(cat.icon);
           const activeCount = getToolsByCategory(cat.id).length;
 
           return (

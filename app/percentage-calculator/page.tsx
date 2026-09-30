@@ -65,7 +65,7 @@ export default function PercentageCalculatorPage() {
 
   const breadcrumbItems = [
     { label: "Inicio", href: "/" },
-    { label: "Calculadoras", href: "/categories/calculators" },
+    { label: "Matemáticas", href: "/categories/calculators" },
     { label: "Calculadora de Porcentajes" },
   ];
 

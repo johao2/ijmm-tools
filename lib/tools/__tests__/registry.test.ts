@@ -145,9 +145,28 @@ describe("Tool Registry API", () => {
     });
   });
 
+  it("should publish the student tools with root-level canonical paths", () => {
+    const studentTools = [
+      "calculadora-promedio-ponderado",
+      "generador-citas-apa",
+      "contador-de-palabras",
+      "detector-de-similitud",
+      "calculadora-estadistica",
+      "regla-de-tres",
+      "calculadora-interes-compuesto",
+      "conversor-bases-numericas",
+      "temporizador-pomodoro",
+    ];
+    for (const slug of studentTools) {
+      const tool = getToolBySlug(slug);
+      expect(tool?.status).toBe("active");
+      expect(tool?.seo.canonicalPath).toBe(`/${slug}`);
+    }
+  });
+
   it("should retrieve categories data correctly", () => {
     const categories = getAllCategories();
-    expect(categories.length).toBe(8);
+    expect(categories.length).toBe(13);
     expect(categories.some((c) => c.id === "ecuador-tools")).toBe(true);
 
     const calcCat = getCategoryBySlug("calculators");

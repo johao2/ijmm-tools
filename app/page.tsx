@@ -7,15 +7,9 @@ import {
   UserX,
   Sparkles,
   ArrowRight,
-  Calculator,
-  Code,
-  FileText,
-  Image as ImageIcon,
-  RefreshCw,
-  Shield,
-  Globe,
 } from "lucide-react";
 import Container from "@/components/ui/Container";
+import { getIcon } from "@/components/tools/icons";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import { buttonStyles } from "@/components/ui/Button";
@@ -28,24 +22,13 @@ import { CORPORATE_SITE_URL } from "@/lib/config/site";
 import { getActiveTools, getAllCategories, getToolsByCategory } from "@/lib/tools/registry";
 
 export const metadata = constructMetadata({
-  title: "Herramientas online gratuitas para tus tareas diarias",
+  title: "Herramientas gratuitas para estudiantes universitarios",
   description:
-    "Calcula, convierte, genera y resuelve tareas rápidamente con herramientas gratuitas, rápidas y privadas en tu navegador. Desarrollado por IJMM System.",
+    "Herramientas gratuitas para estudiantes universitarios: promedio ponderado, citas APA 7, estadística, interés compuesto, detector de similitud entre documentos y más. Desarrollado por IJMM System.",
   canonicalPath: "/",
 });
 
 // Category Icon Mapping
-const CATEGORY_ICON_MAP: Record<string, React.ElementType> = {
-  calculators: Calculator,
-  "developer-tools": Code,
-  "pdf-tools": FileText,
-  "image-tools": ImageIcon,
-  generators: Sparkles,
-  converters: RefreshCw,
-  "security-tools": Shield,
-  "ecuador-tools": Globe,
-};
-
 export default function HomePage() {
   const activeTools = getActiveTools();
   const categories = getAllCategories();
@@ -56,7 +39,7 @@ export default function HomePage() {
     "@type": "WebSite",
     name: "IJMM Tools",
     url: BASE_URL,
-    description: "Plataforma de herramientas digitales gratuitas, calculadoras, conversores y utilidades para desarrolladores.",
+    description: "Herramientas digitales gratuitas para estudiantes universitarios: notas, escritura académica, estadística, finanzas y programación.",
     publisher: {
       "@type": "Organization",
       name: "IJMM System",
@@ -90,18 +73,18 @@ export default function HomePage() {
             </a>
 
             <h1 className="text-3xl font-extrabold tracking-tight text-[var(--text)] sm:text-5xl lg:text-6xl leading-tight">
-              Herramientas online gratuitas <br className="hidden sm:inline" />
-              <span className="text-[var(--primary)]">para tus tareas diarias</span>
+              Herramientas gratuitas <br className="hidden sm:inline" />
+              <span className="text-[var(--primary)]">para estudiantes universitarios</span>
             </h1>
 
             <p className="mx-auto max-w-2xl text-sm sm:text-base text-[var(--text-muted)] leading-relaxed">
-              Calcula, convierte, genera y resuelve tareas rápidamente con utilidades gratuitas y privadas que se ejecutan directamente en tu navegador.
+              Promedios, citas APA, estadística, finanzas, revisión de similitud entre documentos y más. Resultados exactos, gratis y privados: todo se calcula en tu navegador.
             </p>
           </div>
 
           {/* Prominent Global Search Bar */}
           <div className="mx-auto max-w-xl">
-            <ToolSearch placeholder="Buscar herramienta gratuita (ej. porcentaje, calculadoras)..." />
+            <ToolSearch placeholder="Buscar herramienta (ej. promedio, citas APA, desviación estándar)..." />
           </div>
         </Container>
       </section>
@@ -115,7 +98,7 @@ export default function HomePage() {
                 Herramientas destacadas
               </h2>
               <p className="text-xs sm:text-sm text-[var(--text-muted)] mt-1">
-                Explora nuestras calculadoras y utilidades digitales listas para usar en producción.
+                Las más útiles para tus tareas, proyectos y tesis.
               </p>
             </div>
             <Link
@@ -150,7 +133,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {categories.map((cat) => {
-              const IconComp = CATEGORY_ICON_MAP[cat.id] || Calculator;
+              const IconComp = getIcon(cat.icon);
               const activeCount = getToolsByCategory(cat.id).length;
 
               return (

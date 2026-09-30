@@ -1,22 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import {
-  Percent,
-  Calculator,
-  Code,
-  FileText,
-  Image as ImageIcon,
-  Sparkles,
-  RefreshCw,
-  Shield,
-  Globe,
-  Key,
-  QrCode,
-  Files,
-  Terminal,
-  ArrowRight,
-  Wrench,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { getIcon } from "@/components/tools/icons";
 import Card from "@/components/ui/Card";
 import { Tool } from "@/lib/tools/types";
 import { getCategoryById } from "@/lib/tools/registry";
@@ -27,25 +12,8 @@ export interface ToolCardProps {
   className?: string;
 }
 
-// Icon mapping helper
-const ICON_MAP: Record<string, React.ElementType> = {
-  Percent,
-  Calculator,
-  Code,
-  FileText,
-  Image: ImageIcon,
-  Sparkles,
-  RefreshCw,
-  Shield,
-  Globe,
-  Key,
-  QrCode,
-  Files,
-  Terminal,
-};
-
 export const ToolCard: React.FC<ToolCardProps> = ({ tool, className }) => {
-  const IconComponent = ICON_MAP[tool.icon] || Wrench;
+  const IconComponent = getIcon(tool.icon);
   const category = getCategoryById(tool.categoryId);
 
   return (
