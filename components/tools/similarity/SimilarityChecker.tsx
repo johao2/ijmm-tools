@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AlertTriangle, CheckCircle2, FileUp, Info, Plus, Trash2 } from "lucide-react";
 import Alert from "@/components/ui/Alert";
 import Button from "@/components/ui/Button";
@@ -10,7 +10,11 @@ import Select from "@/components/ui/Select";
 import Textarea from "@/components/ui/Textarea";
 import { trackEvent } from "@/lib/analytics/events";
 import { readTextFile } from "@/lib/files/docx";
-import { compareDocuments, highlightSegments, recommendations, type SimilarityResult } from "@/lib/tools/similarity";
+import ExclusionControls from "@/components/tools/similarity/ExclusionControls";
+import HighlightedText, { SourceBadge } from "@/components/tools/similarity/HighlightedText";
+import SimilarityReport from "@/components/tools/similarity/SimilarityReport";
+import { compareDocuments, recommendations, type SimilarityResult } from "@/lib/tools/similarity";
+import { applyExclusions, hasExclusions, NO_EXCLUSIONS, sha256Hex, type ExclusionOptions } from "@/lib/tools/similarity-filters";
 
 const TOOL_ID = "detector-de-similitud";
 
@@ -18,6 +22,8 @@ interface Doc {
   id: number;
   name: string;
   text: string;
+  /** Archivo del que salió el texto (para la huella del informe) */
+  file?: { name: string; hash: string; text: string };
 }
 
 let nextId = 3;
@@ -32,6 +38,7 @@ export default function SimilarityChecker() {
   const [result, setResult] = useState<SimilarityResult | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
   const [selected, setSelected] = useState(0);
+  const [options, setOptions] = useState<ExclusionOptions>(NO_EXCLUSIONS);
   const fileInputs = useRef<Record<number, HTMLInputElement | null>>({});
 
   useEffect(() => {
@@ -47,8 +54,8 @@ export default function SimilarityChecker() {
     if (!file) return;
     setFileError(null);
     try {
-      const text = await readTextFile(file);
-      update(id, { text, name: file.name.replace(/\.(docx|txt|md)$/i, "") });
+      const [text, hash] = await Promise.all([readTextFile(file), file.arrayBuffer().then(sha256Hex)]);
+      update(id, { text, name: file.name.replace(/\.(docx|pdf|txt|md)$/i, ""), file: { name: file.name, hash, text } });
     } catch (err) {
       setFileError((err as Error).message);
     }
@@ -66,6 +73,13 @@ export default function SimilarityChecker() {
   const names = docs.map((d) => d.name || `Documento ${d.id}`);
   const recs = result?.success && limitValid ? recommendations(result, names, limitNumber) : [];
   const selectedDoc = result?.success ? result.documents[selected] : null;
+  const filtered = useMemo(
+    () => (result?.success ? result.documents.map((d) => applyExclusions(docs[d.index]?.text ?? "", d.sources, options)) : []),
+    [result, options, docs]
+  );
+  const excluding = hasExclusions(options);
+  const selectedFiltered = filtered[selected];
+  const goToSource = (i: number) => document.getElementById(`fuente-doc-${i + 1}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
 
   return (
     <div className="space-y-6">
@@ -131,10 +145,11 @@ export default function SimilarityChecker() {
             {result.documents.map((d) => (
               <Card key={d.index} variant="outline" padding="md" className="space-y-1">
                 <p className="truncate text-xs font-semibold text-[var(--text-muted)]">{names[d.index]}</p>
-                <p className={`text-3xl font-extrabold ${d.matchedWords ? "text-[var(--warning)]" : "text-[var(--success)]"}`}>{d.similarity}%</p>
+                <p className={`text-3xl font-extrabold ${filtered[d.index]?.matchedWords ? "text-[var(--warning)]" : "text-[var(--success)]"}`}>{filtered[d.index]?.similarity ?? d.similarity}%</p>
                 <p className="text-xs text-[var(--text-muted)]">
-                  {d.matchedWords} de {d.words} palabras coinciden · {d.spans.length} fragmento(s) · el más largo: {d.longestMatchWords} palabras
+                  {filtered[d.index]?.matchedWords ?? d.matchedWords} de {d.words} palabras coinciden · {d.spans.length} fragmento(s) · el más largo: {d.longestMatchWords} palabras
                 </p>
+                {excluding && <p className="text-xs text-[var(--text-muted)]">Sin exclusiones: {d.similarity}% ({d.matchedWords} palabras)</p>}
               </Card>
             ))}
           </div>
@@ -164,8 +179,12 @@ export default function SimilarityChecker() {
               </table>
             </div>
             <p className="text-xs text-[var(--text-muted)]">
-              Método: se cuentan como coincidencia las secuencias de {result.ngram} o más palabras consecutivas idénticas, sin distinguir mayúsculas, tildes ni signos de puntuación. El porcentaje es palabras coincidentes ÷ palabras totales del documento.
+              Método: se cuentan como coincidencia las secuencias de {result.ngram} o más palabras consecutivas idénticas, sin distinguir mayúsculas, tildes ni signos de puntuación. El porcentaje es palabras coincidentes ÷ palabras totales del documento. Esta tabla no aplica exclusiones.
             </p>
+          </Card>
+
+          <Card padding="md">
+            <ExclusionControls value={options} onChange={setOptions} />
           </Card>
 
           <Card variant="outline" padding="md" className="space-y-3">
@@ -184,18 +203,42 @@ export default function SimilarityChecker() {
             </ul>
           </Card>
 
-          {selectedDoc && (
+          {selectedDoc && selectedFiltered && (
             <Card variant="outline" padding="md" className="space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h2 className="text-sm font-bold text-[var(--text)]">Fragmentos coincidentes resaltados</h2>
-                <div className="w-64">
-                  <Select aria-label="Documento a revisar" value={String(selected)} onChange={(e) => setSelected(Number(e.target.value))} options={names.map((n, i) => ({ value: String(i), label: n }))} />
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="w-64">
+                    <Select aria-label="Documento a revisar" value={String(selected)} onChange={(e) => setSelected(Number(e.target.value))} options={names.map((n, i) => ({ value: String(i), label: n }))} />
+                  </div>
+                  <SimilarityReport
+                    toolId={TOOL_ID}
+                    data={{
+                      mode: `Comparación entre documentos (${docs.length} documentos cargados)`,
+                      documentName: names[selected],
+                      text: docs[selected]?.text ?? "",
+                      file: docs[selected]?.file && docs[selected].file.text === docs[selected].text ? { name: docs[selected].file.name, hash: docs[selected].file.hash } : undefined,
+                      ngram: result.ngram,
+                      options,
+                      filtered: selectedFiltered,
+                      sources: selectedDoc.sources.map((src) => ({ title: names[src.index], detail: `Documento cargado · ${src.matchedWords} palabras coincidentes en total` })),
+                      institutionLimit: limitValid ? limitNumber : undefined,
+                      notes: ["Solo se compararon los documentos cargados entre sí; no se consultó internet ni repositorios."],
+                    }}
+                  />
                 </div>
               </div>
+              {selectedDoc.sources.length > 0 && (
+                <ul className="flex flex-wrap gap-3 text-xs text-[var(--text)]">
+                  {selectedDoc.sources.map((src, i) => (
+                    <li key={src.index} id={`fuente-doc-${i + 1}`} className="flex scroll-mt-24 items-center gap-1.5">
+                      <SourceBadge index={i} /> {names[src.index]}: {selectedFiltered.sources[i]?.similarity}% ({selectedFiltered.sources[i]?.matchedWords} palabras atribuidas)
+                    </li>
+                  ))}
+                </ul>
+              )}
               <div className="max-h-[32rem] overflow-auto whitespace-pre-wrap rounded-(--radius-md) bg-[var(--surface-secondary)] p-4 text-sm leading-relaxed text-[var(--text)]">
-                {highlightSegments(docs[selected]?.text ?? "", selectedDoc.spans).map((seg, i) =>
-                  seg.match ? <mark key={i} className="rounded bg-amber-200 px-0.5 text-slate-900">{seg.text}</mark> : <span key={i}>{seg.text}</span>
-                )}
+                <HighlightedText text={docs[selected]?.text ?? ""} segments={selectedFiltered.segments} onSourceClick={goToSource} />
               </div>
             </Card>
           )}

@@ -43,6 +43,8 @@ export interface DocumentReport {
   /** Fragmento coincidente más largo, en palabras */
   longestMatchWords: number;
   spans: MatchSpan[];
+  /** Coincidencias de este documento con cada uno de los otros (ordenadas de mayor a menor) */
+  sources: { index: number; matchedWords: number; spans: MatchSpan[] }[];
 }
 
 export type SimilarityResult =
@@ -107,6 +109,7 @@ export function compareDocuments(texts: string[], ngram = 5): SimilarityResult {
   const keyLists = tokenLists.map((t) => shingleKeys(t, ngram));
   const keySets = keyLists.map((k) => new Set(k));
   const overall = tokenLists.map((t) => new Uint8Array(t.length));
+  const bySource: DocumentReport["sources"][] = texts.map(() => []);
   const pairs: PairResult[] = [];
 
   for (let a = 0; a < texts.length; a++) {
@@ -115,6 +118,8 @@ export function compareDocuments(texts: string[], ngram = 5): SimilarityResult {
       const coveredB = coveredWords(keyLists[b], keySets[a], ngram, tokenLists[b].length);
       coveredA.forEach((v, i) => { if (v) overall[a][i] = 1; });
       coveredB.forEach((v, i) => { if (v) overall[b][i] = 1; });
+      bySource[a].push({ index: b, matchedWords: sum(coveredA), spans: spansFrom(coveredA, tokenLists[a]) });
+      bySource[b].push({ index: a, matchedWords: sum(coveredB), spans: spansFrom(coveredB, tokenLists[b]) });
       let shared = 0;
       for (const key of keySets[a]) if (keySets[b].has(key)) shared++;
       const aMatched = sum(coveredA);
@@ -147,6 +152,7 @@ export function compareDocuments(texts: string[], ngram = 5): SimilarityResult {
         similarity: pct(matchedWords, tokens.length),
         longestMatchWords: spans.reduce((max, span) => Math.max(max, span.words), 0),
         spans,
+        sources: bySource[index].filter((x) => x.matchedWords > 0).sort((x, y) => y.matchedWords - x.matchedWords || x.index - y.index),
       };
     }),
   };

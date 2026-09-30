@@ -122,3 +122,25 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Informe de similitud: solo visible al imprimir / guardar como PDF */
+#print-report {
+  display: none;
+}
+
+@media print {
+  body > *:not(#print-report) {
+    display: none !important;
+  }
+  body {
+    background: #ffffff !important;
+  }
+  #print-report {
+    display: block;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  @page {
+    margin: 14mm;
+  }
+}

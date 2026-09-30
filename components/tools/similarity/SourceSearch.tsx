@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AlertTriangle, ExternalLink, FileUp, Globe, Info } from "lucide-react";
 import Alert from "@/components/ui/Alert";
 import Button from "@/components/ui/Button";
@@ -11,7 +11,10 @@ import Select from "@/components/ui/Select";
 import Textarea from "@/components/ui/Textarea";
 import { trackEvent } from "@/lib/analytics/events";
 import { readTextFile } from "@/lib/files/docx";
-import { highlightSegments } from "@/lib/tools/similarity";
+import ExclusionControls from "@/components/tools/similarity/ExclusionControls";
+import HighlightedText, { SourceBadge } from "@/components/tools/similarity/HighlightedText";
+import SimilarityReport from "@/components/tools/similarity/SimilarityReport";
+import { applyExclusions, hasExclusions, NO_EXCLUSIONS, sha256Hex, type ExclusionOptions } from "@/lib/tools/similarity-filters";
 import type { SourceCheckResult } from "@/lib/source-search/check";
 import type { AnalysisLevel, ProviderId } from "@/lib/source-search/providers";
 
@@ -44,6 +47,8 @@ export default function SourceSearch() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<(SourceCheckResult & { remaining: number }) | null>(null);
   const [analyzedText, setAnalyzedText] = useState("");
+  const [options, setOptions] = useState<ExclusionOptions>(NO_EXCLUSIONS);
+  const [fileInfo, setFileInfo] = useState<{ name: string; hash: string; text: string } | null>(null);
   const fileInput = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -81,7 +86,9 @@ export default function SourceSearch() {
     if (!file) return;
     setError(null);
     try {
-      setText(await readTextFile(file));
+      const [content, hash] = await Promise.all([readTextFile(file), file.arrayBuffer().then(sha256Hex)]);
+      setText(content);
+      setFileInfo({ name: file.name, hash, text: content });
       setResult(null);
     } catch (err) {
       setError((err as Error).message);
@@ -90,6 +97,9 @@ export default function SourceSearch() {
 
   const limitNumber = limit.trim() ? Number(limit.replace(",", ".")) : undefined;
   const hasLimit = limitNumber !== undefined && Number.isFinite(limitNumber) && limitNumber >= 0 && limitNumber <= 100;
+  const filtered = useMemo(() => (result ? applyExclusions(analyzedText, result.sources, options) : null), [result, analyzedText, options]);
+  const excluding = hasExclusions(options);
+  const goToSource = (i: number) => document.getElementById(`fuente-web-${i + 1}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
 
   if (!status) return <Alert variant="info">Cargando…</Alert>;
   if (status.providers.length === 0) {
@@ -138,20 +148,53 @@ export default function SourceSearch() {
 
       {error && <Alert variant="error">{error}</Alert>}
 
-      {result && (
+      {result && filtered && (
         <div className="space-y-6">
-          <Card variant="outline" padding="md" className="space-y-2">
-            <p className="text-xs font-semibold text-[var(--text-muted)]">Coincidencia con fuentes encontradas</p>
-            <p className={`text-4xl font-extrabold ${result.matchedWords ? "text-[var(--warning)]" : "text-[var(--success)]"}`}>{result.similarity}%</p>
-            <p className="text-sm text-[var(--text-muted)]">
-              {result.matchedWords} de {result.words} palabras de tu documento coinciden con {result.sources.length} fuente(s). Se consultaron {result.phrasesSearched} frases del documento.
-            </p>
-            {hasLimit && (
-              <p className={`text-sm font-semibold ${result.similarity > (limitNumber as number) ? "text-[var(--warning)]" : "text-[var(--success)]"}`}>
-                {result.similarity > (limitNumber as number) ? "Por encima" : "Dentro"} del límite de {limitNumber}% indicado.
-              </p>
-            )}
-            <p className="text-xs text-[var(--text-muted)]">Te quedan {result.remaining} revisión(es) en internet hoy.</p>
+          <Card variant="outline" padding="md" className="space-y-3">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div className="space-y-1">
+                <p className="text-xs font-semibold text-[var(--text-muted)]">{excluding ? "Coincidencia con exclusiones" : "Coincidencia con fuentes encontradas"}</p>
+                <p className={`text-4xl font-extrabold ${filtered.matchedWords ? "text-[var(--warning)]" : "text-[var(--success)]"}`}>{filtered.similarity}%</p>
+                <p className="text-sm text-[var(--text-muted)]">
+                  {filtered.matchedWords} de {filtered.words} palabras de tu documento coinciden con {result.sources.length} fuente(s). Se consultaron {result.phrasesSearched} frases del documento.
+                </p>
+                {excluding && (
+                  <p className="text-sm text-[var(--text-muted)]">
+                    Total sin exclusiones: <strong>{filtered.rawSimilarity}%</strong> ({filtered.rawMatchedWords} palabras). Excluidas: {filtered.excluded.quotes} entre comillas, {filtered.excluded.bibliography} de bibliografía y {filtered.excluded.short} en coincidencias cortas.
+                  </p>
+                )}
+                {hasLimit && (
+                  <p className={`text-sm font-semibold ${filtered.similarity > (limitNumber as number) ? "text-[var(--warning)]" : "text-[var(--success)]"}`}>
+                    {filtered.similarity > (limitNumber as number) ? "Por encima" : "Dentro"} del límite de {limitNumber}% indicado.
+                  </p>
+                )}
+                <p className="text-xs text-[var(--text-muted)]">Te quedan {result.remaining} revisión(es) en internet hoy.</p>
+              </div>
+              <SimilarityReport
+                toolId={TOOL_ID}
+                data={{
+                  mode: "Búsqueda de coincidencias en internet y repositorios académicos",
+                  documentName: fileInfo && fileInfo.text === analyzedText ? fileInfo.name : "Texto pegado",
+                  text: analyzedText,
+                  file: fileInfo && fileInfo.text === analyzedText ? { name: fileInfo.name, hash: fileInfo.hash } : undefined,
+                  ngram: result.ngram,
+                  options,
+                  filtered,
+                  sources: result.sources.map((s) => ({ title: s.title, url: s.url, detail: `${PROVIDER_NAMES[s.provider]}${s.year ? ` · ${s.year}` : ""} · ${LEVEL_NAMES[s.level]}` })),
+                  institutionLimit: hasLimit ? limitNumber : undefined,
+                  notes: [
+                    `Se consultaron ${result.phrasesSearched} frases del documento en: ${result.providers.map((p) => PROVIDER_NAMES[p]).join(", ")}. Solo se incluyen fuentes públicas indexadas por esos servicios.`,
+                    "Las fuentes comparadas solo con su resumen o con el extracto del buscador pueden tener más coincidencias que las indicadas.",
+                    ...result.errors,
+                  ],
+                }}
+              />
+            </div>
+            {!filtered.bibliographyFound && options.excludeBibliography && <p className="text-xs text-[var(--text-muted)]">No se encontró un título “Referencias” o “Bibliografía” en su propia línea.</p>}
+          </Card>
+
+          <Card padding="md">
+            <ExclusionControls value={options} onChange={setOptions} />
           </Card>
 
           {result.errors.map((e) => (
@@ -161,9 +204,11 @@ export default function SourceSearch() {
           {result.sources.length > 0 && (
             <div className="space-y-3">
               <h2 className="text-sm font-bold text-[var(--text)]">Fuentes con coincidencias</h2>
-              {result.sources.map((s) => (
-                <Card key={s.url} variant="outline" padding="md" className="space-y-2">
+              {result.sources.map((s, i) => (
+                <Card key={s.url} id={`fuente-web-${i + 1}`} variant="outline" padding="md" className="scroll-mt-24 space-y-2">
                   <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div className="flex min-w-0 gap-2">
+                    <SourceBadge index={i} />
                     <div className="min-w-0">
                       <a href={s.url} target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-1 break-all text-sm font-bold text-[var(--primary)] hover:underline">
                         {s.title} <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
@@ -171,9 +216,11 @@ export default function SourceSearch() {
                       <p className="break-all text-xs text-[var(--text-muted)]">{s.url}</p>
                       <p className="text-xs text-[var(--text-muted)]">{PROVIDER_NAMES[s.provider]}{s.year ? ` · ${s.year}` : ""} · {LEVEL_NAMES[s.level]}</p>
                     </div>
+                    </div>
                     <div className="text-right">
-                      <p className="text-2xl font-extrabold text-[var(--warning)]">{s.similarity}%</p>
-                      <p className="text-xs text-[var(--text-muted)]">{s.matchedWords} de {result.words} palabras</p>
+                      <p className="text-2xl font-extrabold text-[var(--warning)]">{filtered.sources[i].similarity}%</p>
+                      <p className="text-xs text-[var(--text-muted)]">{filtered.sources[i].matchedWords} de {result.words} palabras atribuidas</p>
+                      {filtered.sources[i].matchedWords !== s.matchedWords && <p className="text-xs text-[var(--text-muted)]">{s.similarity}% ({s.matchedWords} palabras) en total</p>}
                     </div>
                   </div>
                   {s.sourceExcerpts.length > 0 && (
@@ -230,10 +277,9 @@ export default function SourceSearch() {
           {result.spans.length > 0 && (
             <Card variant="outline" padding="md" className="space-y-2">
               <h2 className="text-sm font-bold text-[var(--text)]">Tu documento con las coincidencias resaltadas</h2>
+              <p className="text-xs text-[var(--text-muted)]">Cada color y número corresponde a una fuente; pulsa un fragmento para ir a ella. Lo subrayado en gris coincide, pero está excluido por los filtros.</p>
               <div className="max-h-[32rem] overflow-auto whitespace-pre-wrap rounded-(--radius-md) bg-[var(--surface-secondary)] p-4 text-sm leading-relaxed text-[var(--text)]">
-                {highlightSegments(analyzedText, result.spans).map((seg, i) =>
-                  seg.match ? <mark key={i} className="rounded bg-amber-200 px-0.5 text-slate-900">{seg.text}</mark> : <span key={i}>{seg.text}</span>
-                )}
+                <HighlightedText text={analyzedText} segments={filtered.segments} onSourceClick={goToSource} />
               </div>
             </Card>
           )}
