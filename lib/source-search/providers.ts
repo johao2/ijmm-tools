@@ -37,10 +37,27 @@ export function configuredProviders(): ProviderId[] {
 
 const TIMEOUT_MS = 12_000;
 
+const RETRY_DELAY_MS = 800;
+
+/** Fallas pasajeras del servicio (saturación, límite momentáneo, error interno): se reintenta una vez. */
+const isTransientStatus = (status: number) => status === 429 || status >= 500;
+/** Tiempo de espera agotado o error de red. */
+const isTransientError = (err: unknown) => ["TimeoutError", "AbortError", "TypeError"].includes((err as Error).name);
+
 async function getJson(url: string, headers: Record<string, string> = {}): Promise<unknown> {
-  const res = await fetch(url, { headers: { Accept: "application/json", ...headers }, signal: AbortSignal.timeout(TIMEOUT_MS), cache: "no-store" });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return res.json();
+  for (let attempt = 1; ; attempt++) {
+    let res: Response;
+    try {
+      res = await fetch(url, { headers: { Accept: "application/json", ...headers }, signal: AbortSignal.timeout(TIMEOUT_MS), cache: "no-store" });
+    } catch (err) {
+      if (attempt >= 2 || !isTransientError(err)) throw err;
+      await new Promise((r) => setTimeout(r, RETRY_DELAY_MS));
+      continue;
+    }
+    if (res.ok) return res.json();
+    if (attempt >= 2 || !isTransientStatus(res.status)) throw new Error(`HTTP ${res.status}`);
+    await new Promise((r) => setTimeout(r, RETRY_DELAY_MS));
+  }
 }
 
 const asString = (v: unknown) => (typeof v === "string" ? v : "");

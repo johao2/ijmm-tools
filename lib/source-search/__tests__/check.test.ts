@@ -11,6 +11,7 @@ const pageText = "Portal educativo. La fotosíntesis es el proceso mediante el c
 
 vi.mock("@/lib/source-search/providers", () => ({
   configuredProviders: () => ["brave", "core"],
+  PROVIDER_LABELS: { brave: "Internet (Brave Search)", core: "Repositorios académicos (CORE)", openalex: "Publicaciones académicas (OpenAlex)" },
   searchBrave: vi.fn(async () => [
     { provider: "brave", url: "https://ejemplo.edu/fotosintesis#top", title: "Fotosíntesis", text: "extracto breve", level: "snippet", fetchPage: true },
     { provider: "brave", url: "https://otra.org/nada", title: "Sin relación", text: "texto que no coincide con nada del documento analizado aquí", level: "snippet", fetchPage: true },
@@ -44,7 +45,7 @@ describe("checkSources", () => {
     expect(r.unverified.map((u) => u.url)).toEqual(["https://otra.org/nada"]);
 
     // Las fallas de un servicio se informan, no se ocultan
-    expect(r.errors.some((e) => e.includes("core"))).toBe(true);
+    expect(r.errors.some((e) => e.includes("CORE"))).toBe(true);
   });
 
   it("es determinista", async () => {

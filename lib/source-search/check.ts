@@ -4,6 +4,7 @@ import { matchAgainstSource, selectQueryPhrases } from "@/lib/source-search/text
 import {
   configuredProviders,
   fetchPageText,
+  PROVIDER_LABELS,
   searchBrave,
   searchCore,
   searchOpenAlex,
@@ -53,6 +54,8 @@ export const MAX_WORDS = 15_000;
 const MAX_PHRASES = 20;
 /** Frases que se consultan en cada servicio (CORE y OpenAlex son más lentos y tienen límites de uso más bajos) */
 const PHRASES_PER_PROVIDER: Record<ProviderId, number> = { brave: 20, core: 8, openalex: 6 };
+/** Consultas simultáneas por servicio: cada servicio avanza en su propia cola, sin esperar a los demás */
+const CONCURRENCY_PER_PROVIDER: Record<ProviderId, number> = { brave: 5, core: 4, openalex: 3 };
 const MAX_PAGE_FETCHES = 12;
 const TIME_BUDGET_MS = 45_000;
 
@@ -92,7 +95,12 @@ export async function checkSources(text: string, ngram = 5): Promise<SourceCheck
     const step = phrases.length / n;
     return Array.from({ length: n }, (_, i) => ({ phrase: phrases[Math.floor(i * step)], provider }));
   });
-  const results = await inBatches(jobs, 6, ({ phrase, provider }) => searchers[provider](phrase));
+  const results: PromiseSettledResult<Candidate[]>[] = new Array(jobs.length);
+  await Promise.all(providers.map(async (provider) => {
+    const idx = jobs.flatMap((j, i) => (j.provider === provider ? [i] : []));
+    const settled = await inBatches(idx, CONCURRENCY_PER_PROVIDER[provider], (i) => searchers[provider](jobs[i].phrase));
+    settled.forEach((r, k) => { results[idx[k]] = r; });
+  }));
   const failures = new Map<ProviderId, number>();
   const candidates = new Map<string, Candidate>();
   results.forEach((r, i) => {
@@ -107,7 +115,10 @@ export async function checkSources(text: string, ngram = 5): Promise<SourceCheck
       if (!existing || c.text.length > existing.text.length) candidates.set(key, c);
     }
   });
-  for (const [provider, count] of failures) errors.push(`${count} consulta(s) a ${provider} fallaron; los resultados de ese servicio pueden estar incompletos.`);
+  for (const [provider, count] of failures) {
+    const total = jobs.filter((j) => j.provider === provider).length;
+    errors.push(`${PROVIDER_LABELS[provider]}: ${count} de ${total} consultas no respondieron (el servicio estuvo lento o saturado, incluso tras reintentar). Las demás fuentes se analizaron normalmente; puedes repetir la revisión más tarde.`);
+  };
 
   // 2. Descarga de páginas web para comparar contra su texto completo
   const webCandidates = [...candidates.values()].filter((c) => c.fetchPage).slice(0, MAX_PAGE_FETCHES);
