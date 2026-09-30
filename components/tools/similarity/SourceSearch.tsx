@@ -15,10 +15,14 @@ import ExclusionControls from "@/components/tools/similarity/ExclusionControls";
 import HighlightedText, { SourceBadge } from "@/components/tools/similarity/HighlightedText";
 import SimilarityReport from "@/components/tools/similarity/SimilarityReport";
 import { applyExclusions, hasExclusions, NO_EXCLUSIONS, sha256Hex, type ExclusionOptions } from "@/lib/tools/similarity-filters";
+import { queryBudget } from "@/lib/source-search/text";
+import { tokenize } from "@/lib/tools/similarity";
 import type { SourceCheckResult } from "@/lib/source-search/check";
 import type { AnalysisLevel, ProviderId } from "@/lib/source-search/providers";
 
 const TOOL_ID = "detector-de-similitud";
+/** Fuentes visibles antes de pulsar “Ver todas” */
+const VISIBLE_SOURCES = 20;
 
 const PROVIDER_NAMES: Record<ProviderId, string> = {
   brave: "Internet",
@@ -48,6 +52,7 @@ export default function SourceSearch() {
   const [result, setResult] = useState<(SourceCheckResult & { remaining: number }) | null>(null);
   const [analyzedText, setAnalyzedText] = useState("");
   const [options, setOptions] = useState<ExclusionOptions>(NO_EXCLUSIONS);
+  const [showAllSources, setShowAllSources] = useState(false);
   const [fileInfo, setFileInfo] = useState<{ name: string; hash: string; text: string } | null>(null);
   const fileInput = useRef<HTMLInputElement | null>(null);
 
@@ -72,6 +77,7 @@ export default function SourceSearch() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message ?? "No se pudo completar la búsqueda.");
       setAnalyzedText(text);
+      setShowAllSources(false);
       setResult(data);
       trackEvent("tool_complete", { toolId: TOOL_ID, mode: "internet", resultCount: data.sources.length });
     } catch (err) {
@@ -99,7 +105,16 @@ export default function SourceSearch() {
   const hasLimit = limitNumber !== undefined && Number.isFinite(limitNumber) && limitNumber >= 0 && limitNumber <= 100;
   const filtered = useMemo(() => (result ? applyExclusions(analyzedText, result.sources, options) : null), [result, analyzedText, options]);
   const excluding = hasExclusions(options);
-  const goToSource = (i: number) => document.getElementById(`fuente-web-${i + 1}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+  const wordCount = useMemo(() => tokenize(text).length, [text]);
+  const tooLong = status ? wordCount > status.maxWords : false;
+  const tooShort = wordCount > 0 && wordCount < 50;
+  const estimate = status ? queryBudget(wordCount) : null;
+  const queriesText = (q: SourceCheckResult["queries"]) =>
+    (Object.entries(q) as [ProviderId, number][]).map(([p, n]) => `${PROVIDER_NAMES[p]}: ${n}`).join(" · ");
+  const goToSource = (i: number) => {
+    if (i >= VISIBLE_SOURCES) setShowAllSources(true);
+    window.setTimeout(() => document.getElementById(`fuente-web-${i + 1}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
+  };
 
   if (!status) return <Alert variant="info">Cargando…</Alert>;
   if (status.providers.length === 0) {
@@ -123,6 +138,12 @@ export default function SourceSearch() {
           </Button>
         </div>
         <Textarea aria-label="Texto a revisar en internet" className="min-h-56 font-sans" value={text} onChange={(e) => { setText(e.target.value); setResult(null); }} placeholder="Pega aquí tu trabajo o sube el archivo." />
+        <p className={`text-xs ${tooLong || tooShort ? "font-semibold text-[var(--error)]" : "text-[var(--text-muted)]"}`}>
+          {wordCount.toLocaleString("es")} palabras
+          {tooLong && ` · supera el máximo de ${status.maxWords.toLocaleString("es")}; divide el documento por capítulos`}
+          {tooShort && " · mínimo 50 palabras"}
+          {!tooLong && !tooShort && wordCount > 0 && estimate && ` · se consultarán hasta ${Math.max(...status.providers.map((p) => estimate[p]))} frases repartidas por todo el documento`}
+        </p>
         <div className="flex flex-wrap items-end gap-4">
           <div className="w-56">
             <Select label="Sensibilidad" value={ngram} onChange={(e) => setNgram(e.target.value)} options={[
@@ -141,8 +162,8 @@ export default function SourceSearch() {
           checked={consent}
           onChange={(e) => setConsent(e.target.checked)}
         />
-        <Button type="button" size="lg" onClick={run} disabled={!consent || loading || !text.trim()} isLoading={loading}>
-          <Globe className="h-4 w-4" aria-hidden="true" /> {loading ? "Buscando fuentes… (hasta 1 minuto)" : "Buscar en internet y repositorios"}
+        <Button type="button" size="lg" onClick={run} disabled={!consent || loading || !text.trim() || tooLong || tooShort} isLoading={loading}>
+          <Globe className="h-4 w-4" aria-hidden="true" /> {loading ? `Buscando fuentes… (${wordCount > 10000 ? "hasta 1 minuto" : "unos 15 a 40 segundos"})` : "Buscar en internet y repositorios"}
         </Button>
       </Card>
 
@@ -156,7 +177,10 @@ export default function SourceSearch() {
                 <p className="text-xs font-semibold text-[var(--text-muted)]">{excluding ? "Coincidencia con exclusiones" : "Coincidencia con fuentes encontradas"}</p>
                 <p className={`text-4xl font-extrabold ${filtered.matchedWords ? "text-[var(--warning)]" : "text-[var(--success)]"}`}>{filtered.similarity}%</p>
                 <p className="text-sm text-[var(--text-muted)]">
-                  {filtered.matchedWords} de {filtered.words} palabras de tu documento coinciden con {result.sources.length} fuente(s). Se consultaron {result.phrasesSearched} frases del documento.
+                  {filtered.matchedWords} de {filtered.words} palabras de tu documento coinciden con {result.sources.length} fuente(s).
+                </p>
+                <p className="text-xs text-[var(--text-muted)]">
+                  Consultas — {queriesText(result.queries)} · {result.pagesAnalyzed} páginas web comparadas completas{result.bibliographySkipped ? " · bibliografía no consultada" : ""} · {result.seconds.toLocaleString("es")} s
                 </p>
                 {excluding && (
                   <p className="text-sm text-[var(--text-muted)]">
@@ -183,7 +207,7 @@ export default function SourceSearch() {
                   sources: result.sources.map((s) => ({ title: s.title, url: s.url, detail: `${PROVIDER_NAMES[s.provider]}${s.year ? ` · ${s.year}` : ""} · ${LEVEL_NAMES[s.level]}` })),
                   institutionLimit: hasLimit ? limitNumber : undefined,
                   notes: [
-                    `Se consultaron ${result.phrasesSearched} frases del documento en: ${result.providers.map((p) => PROVIDER_NAMES[p]).join(", ")}. Solo se incluyen fuentes públicas indexadas por esos servicios.`,
+                    `Se consultaron ${result.phrasesSearched} frases distintas del documento, repartidas por todo el texto (${queriesText(result.queries)}); ${result.pagesAnalyzed} páginas web se compararon con su texto completo.${result.bibliographySkipped ? " La bibliografía no se usó para consultar." : ""} Solo se incluyen fuentes públicas indexadas por esos servicios.`,
                     "Las fuentes comparadas solo con su resumen o con el extracto del buscador pueden tener más coincidencias que las indicadas.",
                     ...result.errors,
                   ],
@@ -204,7 +228,7 @@ export default function SourceSearch() {
           {result.sources.length > 0 && (
             <div className="space-y-3">
               <h2 className="text-sm font-bold text-[var(--text)]">Fuentes con coincidencias</h2>
-              {result.sources.map((s, i) => (
+              {result.sources.slice(0, showAllSources ? undefined : VISIBLE_SOURCES).map((s, i) => (
                 <Card key={s.url} id={`fuente-web-${i + 1}`} variant="outline" padding="md" className="scroll-mt-24 space-y-2">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="flex min-w-0 gap-2">
@@ -239,6 +263,12 @@ export default function SourceSearch() {
                 </Card>
               ))}
             </div>
+          )}
+
+          {result.sources.length > VISIBLE_SOURCES && (
+            <Button type="button" variant="outline" onClick={() => setShowAllSources((v) => !v)}>
+              {showAllSources ? `Mostrar solo las ${VISIBLE_SOURCES} principales` : `Ver las ${result.sources.length} fuentes`}
+            </Button>
           )}
 
           {result.unverified.length > 0 && (

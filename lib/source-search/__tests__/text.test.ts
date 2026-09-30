@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { abstractFromInvertedIndex, htmlToText, matchAgainstSource, selectQueryPhrases } from "@/lib/source-search/text";
+import { abstractFromInvertedIndex, documentKeys, htmlToText, matchAgainstSource, prioritizeForFetch, queryBudget, selectQueryPhrases } from "@/lib/source-search/text";
 import { tokenize } from "@/lib/tools/similarity";
 
 const doc =
@@ -66,5 +66,50 @@ describe("matchAgainstSource", () => {
 
   it("maneja fuentes vacías", () => {
     expect(matchAgainstSource(docTokens, "", 5).matchedWords).toBe(0);
+  });
+});
+
+describe("queryBudget", () => {
+  it("escala las consultas con la longitud del documento, con topes", () => {
+    expect(queryBudget(1000)).toEqual({ brave: 20, core: 8, openalex: 6 });
+    expect(queryBudget(6000)).toEqual({ brave: 20, core: 8, openalex: 6 });
+    expect(queryBudget(12000)).toEqual({ brave: 40, core: 10, openalex: 7 });
+    expect(queryBudget(40000)).toEqual({ brave: 60, core: 15, openalex: 10 });
+  });
+});
+
+describe("selectQueryPhrases con tramo excluido", () => {
+  it("no elige frases dentro del tramo excluido", () => {
+    const start = doc.length;
+    const text = `${doc}
+Referencias
+Pérez Gómez realizó estudios extensos sobre ecosistemas andinos ecuatorianos durante varias décadas completas midiendo radiación temperatura humedad altitud cobertura vegetal especies nativas páramos bosques nublados Pérez Gómez comparó registros históricos climáticos provinciales`;
+    const phrases = selectQueryPhrases(text, 50, 9, { start, end: text.length });
+    expect(phrases.some((p) => p.includes("Pérez"))).toBe(false);
+    expect(selectQueryPhrases(text, 50, 9).some((p) => p.includes("Pérez"))).toBe(true);
+  });
+});
+
+describe("documentKeys", () => {
+  it("da el mismo resultado que calcular las claves en cada comparación", () => {
+    const tokens = tokenize(doc);
+    const source = doc.slice(0, 200);
+    expect(matchAgainstSource(tokens, source, 5, documentKeys(tokens, 5))).toEqual(matchAgainstSource(tokens, source, 5));
+  });
+});
+
+describe("prioritizeForFetch", () => {
+  it("elige primero la mejor fuente de cada parte del documento y luego las más repetidas", () => {
+    const set = (...p: string[]) => new Set(p);
+    const items = [
+      { key: "copia1-fotosintesis", phrases: set("f1", "f2", "f3", "f4") },
+      { key: "copia2-fotosintesis", phrases: set("f1", "f2", "f3") },
+      { key: "copia3-fotosintesis", phrases: set("f2", "f3", "f4") },
+      { key: "wiki-riego", phrases: set("r1", "r2") },
+      { key: "blog-riego", phrases: set("r1") },
+    ];
+    expect(prioritizeForFetch(items, 2)).toEqual(["copia1-fotosintesis", "wiki-riego"]);
+    expect(prioritizeForFetch(items, 5)).toEqual(["copia1-fotosintesis", "wiki-riego", "copia2-fotosintesis", "copia3-fotosintesis", "blog-riego"]);
+    expect(prioritizeForFetch([], 3)).toEqual([]);
   });
 });

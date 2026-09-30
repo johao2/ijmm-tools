@@ -8,13 +8,29 @@ const SPANISH_STOPWORDS = new Set(
   "a al algo como con de del el ella en entre era es esa ese eso esta este esto fue ha hay la las le les lo los mas me mi muy más no nos o para pero por que qué se ser si sin sobre son su sus también te tu un una uno y ya the and of to in is it for on that with as are".split(" ")
 );
 
+export type QueryProvider = "brave" | "core" | "openalex";
+
+/**
+ * Consultas por servicio según la longitud del documento: más frases en trabajos largos para cubrir
+ * todo el texto (aprox. 1 frase cada 300 palabras en internet), con topes por costo y tiempo.
+ */
+export function queryBudget(words: number): Record<QueryProvider, number> {
+  const brave = Math.min(60, Math.max(20, Math.ceil(words / 300)));
+  return {
+    brave,
+    core: Math.min(16, Math.max(8, Math.ceil(brave / 4))),
+    openalex: Math.min(10, Math.max(6, Math.ceil(brave / 6))),
+  };
+}
+
 /**
  * Elige frases del documento para buscar como coincidencia exacta.
  * Prioriza frases con más palabras de contenido (menos genéricas) y las reparte por todo el texto.
  * @param words longitud de cada frase en palabras
  * @param max número máximo de frases
+ * @param exclude tramo que no se consulta (la bibliografía siempre coincide y gastaría consultas)
  */
-export function selectQueryPhrases(text: string, max = 20, words = 9): string[] {
+export function selectQueryPhrases(text: string, max = 20, words = 9, exclude?: { start: number; end: number } | null): string[] {
   const tokens = tokenize(text);
   if (tokens.length < words) return [];
   // Ventanas sin solaparse que empiezan y terminan dentro de una misma oración
@@ -23,6 +39,7 @@ export function selectQueryPhrases(text: string, max = 20, words = 9): string[] 
     const slice = tokens.slice(i, i + words);
     const between = text.slice(slice[0].start, slice[words - 1].end);
     if (/[.!?;:\n]/.test(between)) continue;
+    if (exclude && slice[0].start < exclude.end && slice[words - 1].end > exclude.start) continue;
     const content = slice.filter((t) => t.norm.length > 3 && !SPANISH_STOPWORDS.has(t.norm)).length;
     const numeric = slice.filter((t) => /^\d+$/.test(t.norm)).length;
     if (content < 4 || numeric > 2) continue;
@@ -106,7 +123,41 @@ function spansFrom(covered: Uint8Array, tokens: Token[]): MatchSpan[] {
  * Compara el documento contra el texto de una fuente con secuencias de `ngram` palabras idénticas
  * (sin distinguir mayúsculas, tildes ni puntuación). Resultado exacto y determinista.
  */
-export function matchAgainstSource(docTokens: Token[], sourceText: string, ngram = 5): SourceMatch {
+/**
+ * Elige qué páginas descargar (hay un límite por tiempo). Selección voraz: en cada paso toma la página que
+ * aporta más frases del documento aún no cubiertas, para que cada parte del trabajo tenga su mejor fuente;
+ * cuando ya no hay frases nuevas, sigue con las páginas encontradas por más frases.
+ */
+export function prioritizeForFetch(items: { key: string; phrases: Set<string> }[], limit: number): string[] {
+  const covered = new Set<string>();
+  const remaining = [...items];
+  const picked: string[] = [];
+  while (picked.length < limit && remaining.length) {
+    let best = 0;
+    let bestNew = -1;
+    remaining.forEach((it, i) => {
+      let fresh = 0;
+      for (const p of it.phrases) if (!covered.has(p)) fresh++;
+      if (fresh > bestNew || (fresh === bestNew && it.phrases.size > remaining[best].phrases.size)) {
+        best = i;
+        bestNew = fresh;
+      }
+    });
+    const [chosen] = remaining.splice(best, 1);
+    chosen.phrases.forEach((p) => covered.add(p));
+    picked.push(chosen.key);
+  }
+  return picked;
+}
+
+/** Claves de n-gramas del documento; calcularlas una sola vez acelera la comparación con muchas fuentes. */
+export function documentKeys(docTokens: Token[], ngram: number): string[] {
+  const keys: string[] = [];
+  for (let i = 0; i + ngram <= docTokens.length; i++) keys.push(docTokens.slice(i, i + ngram).map((t) => t.norm).join(" "));
+  return keys;
+}
+
+export function matchAgainstSource(docTokens: Token[], sourceText: string, ngram = 5, docKeys?: string[]): SourceMatch {
   const covered = new Uint8Array(docTokens.length);
   const sourceTokens = tokenize(sourceText);
   if (sourceTokens.length < ngram || docTokens.length < ngram) {
@@ -118,9 +169,9 @@ export function matchAgainstSource(docTokens: Token[], sourceText: string, ngram
     if (!sourceKeys.has(key)) sourceKeys.set(key, i);
   }
   const sourceCovered = new Uint8Array(sourceTokens.length);
-  for (let i = 0; i + ngram <= docTokens.length; i++) {
-    const key = docTokens.slice(i, i + ngram).map((t) => t.norm).join(" ");
-    const at = sourceKeys.get(key);
+  const keys = docKeys ?? documentKeys(docTokens, ngram);
+  for (let i = 0; i < keys.length; i++) {
+    const at = sourceKeys.get(keys[i]);
     if (at === undefined) continue;
     for (let k = 0; k < ngram; k++) {
       covered[i + k] = 1;

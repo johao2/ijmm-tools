@@ -49,8 +49,22 @@ describe("checkSources", () => {
   });
 
   it("es determinista", async () => {
-    const a = await checkSources(doc, 5);
-    const b = await checkSources(doc, 5);
+    const { seconds: _a, ...a } = await checkSources(doc, 5);
+    const { seconds: _b, ...b } = await checkSources(doc, 5);
     expect(a).toEqual(b);
+  });
+
+  it("informa las consultas por servicio y no consulta la bibliografía", async () => {
+    const withBibliography = `${doc}
+
+Referencias
+Ministerio del Ambiente del Ecuador. Guía de especies nativas andinas y adaptaciones fisiológicas frente a la radiación solar intensa.`;
+    const r = await checkSources(withBibliography, 5);
+    expect(r.bibliographySkipped).toBe(true);
+    expect(r.queries.brave).toBe(r.phrasesSearched);
+    expect(r.queries.core).toBe(r.phrasesSearched);
+    const { searchBrave } = await import("@/lib/source-search/providers");
+    const asked = (searchBrave as unknown as { mock: { calls: string[][] } }).mock.calls.map((c) => c[0]);
+    expect(asked.some((p) => /Ministerio|Guía de especies/.test(p))).toBe(false);
   });
 });
