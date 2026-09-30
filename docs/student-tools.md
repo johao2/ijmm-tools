@@ -35,8 +35,19 @@ Las páginas usan la plantilla común `components/tools/ToolPage.tsx` (migas de 
 - Las recomendaciones (`recommendations()`) se generan solo a partir de los datos medidos y de las reglas de citación APA 7.
 - Lee `.docx` sin dependencias (ZIP + `DecompressionStream`) y `.txt`. Los PDF se deben pegar como texto.
 
+## Búsqueda de coincidencias en internet y repositorios
+
+Segunda sección del detector (`components/tools/similarity/SourceSearch.tsx`) respaldada por `POST /api/source-check`.
+
+- **Excepción de privacidad aprobada por el propietario:** el texto sale del navegador solo con consentimiento explícito (casilla obligatoria). No se guarda ni se registra; los buscadores reciben solo las frases consultadas. La política de privacidad lo indica.
+- **Flujo (`lib/source-search/check.ts`):** selección de hasta 20 frases distintivas de 9 palabras (`selectQueryPhrases`) → búsqueda por frase exacta en cada servicio configurado → descarga del texto de páginas web candidatas (máx. 12, protegido contra redes internas, 2 MB, 10 s, 3 redirecciones) → comparación exacta con `matchAgainstSource` (mismo método de n-gramas) → porcentaje global y por fuente con conteo exacto y enlace directo.
+- **Nivel de análisis por fuente:** texto completo (páginas web y CORE con fullText), solo resumen (OpenAlex) o solo extracto del buscador; la interfaz lo indica. Las fuentes sugeridas sin coincidencia verificable se listan aparte y no suman al porcentaje.
+- **Servicios (`lib/source-search/providers.ts`, solo servidor):** Brave Search (`BRAVE_SEARCH_API_KEY`), CORE v3 (`CORE_API_KEY`), OpenAlex (`OPENALEX_API_KEY`). Sin ninguna clave la sección muestra “Próximamente”. Los fallos de un servicio se informan al usuario.
+- **Límites:** 50 a 15 000 palabras; `SOURCE_CHECK_DAILY_LIMIT` revisiones por IP y día (contador en memoria por instancia: protección básica, no facturación); `maxDuration = 60`.
+- **Pendiente de verificar con claves reales:** nombres de campos de CORE v3 (`fullText`, `links`, `downloadUrl`, `doi`); el conector es defensivo, pero debe probarse en vivo.
+
 ## Pendiente
 
 - Asistente de redacción académica con IA (función de pago; requiere servidor y aviso de privacidad).
-- Búsqueda de similitud contra internet (función premium; requiere servicio de búsqueda pagado).
+- Detección de paráfrasis con IA como indicador “posible paráfrasis”, fuera del porcentaje exacto.
 - Fase 2: ecuaciones, matrices, tablas de verdad, VAN/TIR, días hábiles.

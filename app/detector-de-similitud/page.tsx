@@ -1,5 +1,6 @@
 import ToolPage from "@/components/tools/ToolPage";
 import SimilarityChecker from "@/components/tools/similarity/SimilarityChecker";
+import SourceSearch from "@/components/tools/similarity/SourceSearch";
 import { constructMetadata } from "@/lib/seo/metadata";
 import { getToolBySlug } from "@/lib/tools/registry";
 
@@ -16,8 +17,8 @@ export default function Page() {
   return (
     <ToolPage
       slug="detector-de-similitud"
-      intro="Compara deberes, proyectos o capítulos de tesis entre sí y encuentra los fragmentos que coinciden. Obtienes el porcentaje exacto de cada documento con el conteo de palabras que lo respalda, los fragmentos resaltados y recomendaciones. Todo ocurre en tu navegador."
-      howTo={["Pega el texto de cada documento o sube archivos .docx o .txt (hasta 10 documentos).", "Elige la sensibilidad: cuántas palabras seguidas idénticas cuentan como coincidencia.", "Si tu institución fija un porcentaje máximo, escríbelo para comparar los resultados con ese límite.", "Pulsa “Comparar documentos” y revisa los porcentajes, la tabla por pares, las recomendaciones y los fragmentos resaltados."]}
+      intro="Revisa la similitud de deberes, proyectos y tesis de dos formas: compara varios documentos entre sí (en tu navegador) o busca coincidencias en internet y en repositorios académicos con enlace directo a cada fuente. Cada porcentaje se muestra con el conteo exacto de palabras que lo respalda, junto a los fragmentos resaltados y recomendaciones."
+      howTo={["Pega el texto de cada documento o sube archivos .docx o .txt (hasta 10 documentos).", "Elige la sensibilidad: cuántas palabras seguidas idénticas cuentan como coincidencia.", "Si tu institución fija un porcentaje máximo, escríbelo para comparar los resultados con ese límite.", "Pulsa “Comparar documentos” y revisa los porcentajes, la tabla por pares, las recomendaciones y los fragmentos resaltados.", "Para buscar en internet y repositorios, pega o sube tu trabajo en la segunda sección, acepta el envío del texto y pulsa “Buscar en internet y repositorios”."]}
       sections={[
     {
       title: "Método y exactitud",
@@ -32,7 +33,8 @@ export default function Page() {
       title: "Alcance",
       content: (
         <>
-          <p>La herramienta compara únicamente los documentos que cargas. No consulta internet, revistas científicas ni repositorios de universidades, por lo que sus resultados no equivalen a los de servicios como Turnitin.</p>
+          <p>La comparación entre documentos analiza únicamente los documentos que cargas. La búsqueda en internet consulta la web y repositorios de acceso abierto (CORE y OpenAlex) con frases de tu documento y compara cada fuente encontrada con el mismo método exacto.</p>
+          <p>Ninguna de las dos incluye trabajos entregados en plataformas privadas como Turnitin, revistas de pago ni documentos escaneados sin texto. Si no se encuentran coincidencias, no se garantiza que no existan en fuentes que los buscadores no indexan.</p>
           <p>No existe un porcentaje de similitud reglamentario universal: cada universidad o docente define su propio criterio.</p>
         </>
       ),
@@ -41,13 +43,22 @@ export default function Page() {
       title: "Privacidad",
       content: (
         <>
-          <p>Los documentos se leen y comparan en tu navegador. No se suben ni se guardan en ningún servidor.</p>
+          <p>La comparación entre documentos ocurre en tu navegador. En la búsqueda en internet, el texto se envía a nuestros servidores solo con tu consentimiento, se usa para consultar frases en los buscadores y se descarta al terminar: no se guarda.</p>
         </>
       ),
     },
       ]}
     >
-      <SimilarityChecker />
+      <div className="space-y-12">
+        <section className="space-y-4">
+          <h2 className="text-xl font-bold text-[var(--text)]">1. Comparar documentos entre sí</h2>
+          <SimilarityChecker />
+        </section>
+        <section className="space-y-4">
+          <h2 className="text-xl font-bold text-[var(--text)]">2. Buscar coincidencias en internet y repositorios académicos</h2>
+          <SourceSearch />
+        </section>
+      </div>
     </ToolPage>
   );
 }

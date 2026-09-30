@@ -36,7 +36,7 @@ export default function PrivacyPage() {
           </p>
           <h2 className="text-base font-bold text-[var(--text)]">1. Procesamiento Local de Datos</h2>
           <p>
-            Nuestras herramientas de cálculo (como la Calculadora de Porcentajes) procesan los datos completamente en el navegador del usuario. Tus números e información calculada nunca se transmiten ni se almacenan en servidores externos.
+            Nuestras herramientas de cálculo (como la Calculadora de Porcentajes) procesan los datos completamente en el navegador del usuario. Tus números e información calculada nunca se transmiten ni se almacenan en servidores externos. La única excepción es la búsqueda de coincidencias en internet del Detector de Similitud: solo si el usuario lo acepta expresamente, el texto se envía a nuestros servidores para extraer frases y consultarlas en servicios de búsqueda (Brave Search, CORE y OpenAlex). El texto no se almacena y se descarta al terminar la revisión; los servicios de búsqueda reciben únicamente las frases consultadas.
           </p>
           <h2 className="text-base font-bold text-[var(--text)]">2. Información que Recopilamos</h2>
           <p>

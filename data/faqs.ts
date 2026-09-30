@@ -63,7 +63,7 @@ export const FAQS_BY_TOOL_ID: Record<string, FAQItem[]> = {
     },
     {
       question: "¿Es lo mismo que Turnitin?",
-      answer: "No. Esta herramienta compara los documentos que tú subes entre sí; no busca en internet ni en bases de datos de revistas o universidades. Sirve para detectar trabajos copiados entre compañeros o revisar versiones de tu propio trabajo antes de entregar.",
+      answer: "No. Puedes comparar tus documentos entre sí y buscar coincidencias en internet y en repositorios académicos de acceso abierto, con enlace a cada fuente. No tenemos acceso a la base privada de Turnitin (trabajos entregados por estudiantes) ni a revistas de pago, por lo que los resultados pueden diferir.",
     },
     {
       question: "¿Qué formatos acepta?",
@@ -71,7 +71,7 @@ export const FAQS_BY_TOOL_ID: Record<string, FAQItem[]> = {
     },
     {
       question: "¿Mis documentos se suben a internet?",
-      answer: "No. La comparación se hace completamente en tu navegador; los documentos no se envían ni se guardan en ningún servidor.",
+      answer: "La comparación entre documentos se hace completamente en tu navegador. La búsqueda en internet solo se realiza si aceptas enviar el texto: se procesa en nuestros servidores para consultar frases en los buscadores y no se guarda.",
     },
     {
       question: "¿Qué porcentaje de similitud es aceptable?",
