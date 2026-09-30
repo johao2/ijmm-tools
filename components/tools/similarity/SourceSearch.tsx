@@ -107,9 +107,9 @@ export default function SourceSearch() {
           <p className="text-xs text-[var(--text-muted)]">
             Fuentes activas: {status.providers.map((p) => PROVIDER_NAMES[p]).join(" · ")} · Hasta {status.maxWords.toLocaleString("es")} palabras · {status.dailyLimit} revisiones por día
           </p>
-          <input ref={fileInput} type="file" accept=".docx,.txt,.md,text/plain" className="hidden" onChange={(e) => { loadFile(e.target.files?.[0]); e.target.value = ""; }} />
+          <input ref={fileInput} type="file" accept=".docx,.pdf,.txt,.md,application/pdf,text/plain" className="hidden" onChange={(e) => { loadFile(e.target.files?.[0]); e.target.value = ""; }} />
           <Button type="button" variant="outline" size="sm" onClick={() => fileInput.current?.click()}>
-            <FileUp className="h-4 w-4" aria-hidden="true" /> Subir .docx/.txt
+            <FileUp className="h-4 w-4" aria-hidden="true" /> Subir .docx/.pdf/.txt
           </Button>
         </div>
         <Textarea aria-label="Texto a revisar en internet" className="min-h-56 font-sans" value={text} onChange={(e) => { setText(e.target.value); setResult(null); }} placeholder="Pega aquí tu trabajo o sube el archivo." />

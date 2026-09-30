@@ -33,7 +33,7 @@ Las páginas usan la plantilla común `components/tools/ToolPage.tsx` (migas de 
 - Porcentaje por documento = palabras dentro de alguna coincidencia ÷ palabras del documento (1 decimal). Siempre se muestra junto al conteo exacto, el número de fragmentos y el fragmento más largo.
 - No aplica umbrales propios: no existe un porcentaje reglamentario universal. Si el usuario ingresa el límite de su institución, las recomendaciones lo comparan contra ese valor.
 - Las recomendaciones (`recommendations()`) se generan solo a partir de los datos medidos y de las reglas de citación APA 7.
-- Lee `.docx` sin dependencias (ZIP + `DecompressionStream`) y `.txt`. Los PDF se deben pegar como texto.
+- Lee `.docx` sin dependencias (ZIP + `DecompressionStream`), `.txt` y `.pdf`. El PDF usa `pdfjs-dist` (única dependencia añadida: el navegador no ofrece extracción de texto de PDF y un lector propio fallaría con fuentes CID/ToUnicode). Se carga con `import()` solo al elegir un PDF; el worker (~1,3 MB) se copia a `public/` en `predev`/`prebuild` y no entra en el bundle inicial. `lib/files/pdf-text.ts` (probado) une líneas, repara guiones de fin de línea y detecta PDF escaneados sin texto.
 
 ## Búsqueda de coincidencias en internet y repositorios
 

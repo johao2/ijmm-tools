@@ -67,10 +67,14 @@ export async function extractDocxText(buffer: ArrayBuffer): Promise<string> {
   return documentXmlToText(decoder.decode(xml));
 }
 
-/** Lee un archivo .txt o .docx elegido por el usuario. */
+/** Lee un archivo .txt, .docx o .pdf elegido por el usuario. */
 export async function readTextFile(file: File): Promise<string> {
   const name = file.name.toLowerCase();
   if (name.endsWith(".docx")) return extractDocxText(await file.arrayBuffer());
+  if (name.endsWith(".pdf") || file.type === "application/pdf") {
+    const { extractPdfText } = await import("@/lib/files/pdf");
+    return extractPdfText(await file.arrayBuffer());
+  }
   if (name.endsWith(".txt") || name.endsWith(".md") || file.type.startsWith("text/")) return file.text();
-  throw new Error("Formato no compatible. Usa archivos .docx o .txt, o pega el texto.");
+  throw new Error("Formato no compatible. Usa archivos .docx, .pdf o .txt, o pega el texto.");
 }

@@ -18,7 +18,7 @@ export default function Page() {
     <ToolPage
       slug="detector-de-similitud"
       intro="Revisa la similitud de deberes, proyectos y tesis de dos formas: compara varios documentos entre sí (en tu navegador) o busca coincidencias en internet y en repositorios académicos con enlace directo a cada fuente. Cada porcentaje se muestra con el conteo exacto de palabras que lo respalda, junto a los fragmentos resaltados y recomendaciones."
-      howTo={["Pega el texto de cada documento o sube archivos .docx o .txt (hasta 10 documentos).", "Elige la sensibilidad: cuántas palabras seguidas idénticas cuentan como coincidencia.", "Si tu institución fija un porcentaje máximo, escríbelo para comparar los resultados con ese límite.", "Pulsa “Comparar documentos” y revisa los porcentajes, la tabla por pares, las recomendaciones y los fragmentos resaltados.", "Para buscar en internet y repositorios, pega o sube tu trabajo en la segunda sección, acepta el envío del texto y pulsa “Buscar en internet y repositorios”."]}
+      howTo={["Pega el texto de cada documento o sube archivos .docx, .pdf o .txt (hasta 10 documentos).", "Elige la sensibilidad: cuántas palabras seguidas idénticas cuentan como coincidencia.", "Si tu institución fija un porcentaje máximo, escríbelo para comparar los resultados con ese límite.", "Pulsa “Comparar documentos” y revisa los porcentajes, la tabla por pares, las recomendaciones y los fragmentos resaltados.", "Para buscar en internet y repositorios, pega o sube tu trabajo en la segunda sección, acepta el envío del texto y pulsa “Buscar en internet y repositorios”."]}
       sections={[
     {
       title: "Método y exactitud",

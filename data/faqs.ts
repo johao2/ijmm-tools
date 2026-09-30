@@ -67,7 +67,7 @@ export const FAQS_BY_TOOL_ID: Record<string, FAQItem[]> = {
     },
     {
       question: "¿Qué formatos acepta?",
-      answer: "Archivos .docx (Word) y .txt, o texto pegado directamente. Para un PDF, copia su texto y pégalo en el recuadro.",
+      answer: "Archivos .docx (Word), .pdf y .txt, o texto pegado directamente. Los archivos se leen en tu navegador. Un PDF escaneado como imagen no tiene texto que leer: primero hay que pasarlo por OCR.",
     },
     {
       question: "¿Mis documentos se suben a internet?",

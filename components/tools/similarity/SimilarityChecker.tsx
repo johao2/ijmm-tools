@@ -79,7 +79,7 @@ export default function SimilarityChecker() {
                   fileInputs.current[doc.id] = el;
                 }}
                 type="file"
-                accept=".docx,.txt,.md,text/plain"
+                accept=".docx,.pdf,.txt,.md,application/pdf,text/plain"
                 className="hidden"
                 onChange={(e) => {
                   loadFile(doc.id, e.target.files?.[0]);
@@ -87,7 +87,7 @@ export default function SimilarityChecker() {
                 }}
               />
               <Button type="button" variant="outline" size="sm" onClick={() => fileInputs.current[doc.id]?.click()}>
-                <FileUp className="h-4 w-4" aria-hidden="true" /> Subir .docx/.txt
+                <FileUp className="h-4 w-4" aria-hidden="true" /> Subir .docx/.pdf/.txt
               </Button>
               <Button type="button" variant="ghost" size="sm" aria-label={`Quitar documento ${index + 1}`} disabled={docs.length <= 2} onClick={() => { setDocs((l) => l.filter((d) => d.id !== doc.id)); setResult(null); }}>
                 <Trash2 className="h-4 w-4" aria-hidden="true" />
