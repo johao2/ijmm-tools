@@ -28,7 +28,7 @@ Las páginas usan la plantilla común `components/tools/ToolPage.tsx` (migas de 
 
 ## Detector de similitud
 
-- Compara solo los documentos cargados entre sí (2 a 10). No consulta internet ni bases académicas; no equivale a Turnitin y la página lo indica.
+- Sección 1 (comparación entre documentos): compara solo los documentos cargados entre sí (2 a 10), 100 % en el navegador. La búsqueda en internet es la sección 2 (ver abajo). Ninguna equivale a Turnitin y la página lo indica.
 - Coincidencia = secuencias de n palabras consecutivas idénticas (n = 4, 5 o 7), normalizando mayúsculas, tildes y puntuación.
 - Porcentaje por documento = palabras dentro de alguna coincidencia ÷ palabras del documento (1 decimal). Siempre se muestra junto al conteo exacto, el número de fragmentos y el fragmento más largo.
 - No aplica umbrales propios: no existe un porcentaje reglamentario universal. Si el usuario ingresa el límite de su institución, las recomendaciones lo comparan contra ese valor.
