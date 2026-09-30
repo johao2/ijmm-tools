@@ -65,7 +65,8 @@ export async function searchBrave(phrase: string): Promise<Candidate[]> {
 export async function searchCore(phrase: string): Promise<Candidate[]> {
   const key = process.env.CORE_API_KEY;
   if (!key) return [];
-  const url = `https://api.core.ac.uk/v3/search/works/?q=${encodeURIComponent(`"${phrase}"`)}&limit=3`;
+  // CORE falla con frases entre comillas; se busca sin comillas y la coincidencia exacta se verifica después
+  const url = `https://api.core.ac.uk/v3/search/works/?q=${encodeURIComponent(phrase)}&limit=3`;
   const data = (await getJson(url, { Authorization: `Bearer ${key}` })) as { results?: Record<string, unknown>[] };
   return (data.results ?? []).map((w) => {
     const links = Array.isArray(w.links) ? (w.links as { type?: string; url?: string }[]) : [];

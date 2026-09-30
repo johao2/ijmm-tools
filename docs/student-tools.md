@@ -44,7 +44,7 @@ Segunda sección del detector (`components/tools/similarity/SourceSearch.tsx`) r
 - **Nivel de análisis por fuente:** texto completo (páginas web y CORE con fullText), solo resumen (OpenAlex) o solo extracto del buscador; la interfaz lo indica. Las fuentes sugeridas sin coincidencia verificable se listan aparte y no suman al porcentaje.
 - **Servicios (`lib/source-search/providers.ts`, solo servidor):** Brave Search (`BRAVE_SEARCH_API_KEY`), CORE v3 (`CORE_API_KEY`), OpenAlex (`OPENALEX_API_KEY`). Sin ninguna clave la sección muestra “Próximamente”. Los fallos de un servicio se informan al usuario.
 - **Límites:** 50 a 15 000 palabras; `SOURCE_CHECK_DAILY_LIMIT` revisiones por IP y día (contador en memoria por instancia: protección básica, no facturación); `maxDuration = 60`.
-- **Pendiente de verificar con claves reales:** nombres de campos de CORE v3 (`fullText`, `links`, `downloadUrl`, `doi`); el conector es defensivo, pero debe probarse en vivo.
+- **Probado con claves reales:** CORE rechaza frases entre comillas (HTTP 500), por eso se consulta sin comillas y la coincidencia exacta la verifica `matchAgainstSource`. Frases por servicio: Brave 20, CORE 8, OpenAlex 6. OpenAlex presentó tiempos de espera (504) en las pruebas; el fallo se informa como aviso.
 
 ## Pendiente
 

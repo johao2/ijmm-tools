@@ -51,6 +51,8 @@ export interface SourceCheckResult {
 
 export const MAX_WORDS = 15_000;
 const MAX_PHRASES = 20;
+/** Frases que se consultan en cada servicio (CORE y OpenAlex son más lentos y tienen límites de uso más bajos) */
+const PHRASES_PER_PROVIDER: Record<ProviderId, number> = { brave: 20, core: 8, openalex: 6 };
 const MAX_PAGE_FETCHES = 12;
 const TIME_BUDGET_MS = 45_000;
 
@@ -66,6 +68,8 @@ function normalizeUrl(url: string): string {
   try {
     const u = new URL(url);
     u.hash = "";
+    // Parámetros de seguimiento o de resaltado que no cambian el contenido (evita fuentes duplicadas)
+    for (const k of [...u.searchParams.keys()]) if (k === "s" || k.startsWith("utm_")) u.searchParams.delete(k);
     return u.toString().replace(/\/$/, "");
   } catch {
     return url;
@@ -82,7 +86,12 @@ export async function checkSources(text: string, ngram = 5): Promise<SourceCheck
 
   // 1. Búsqueda de frases exactas en cada servicio configurado
   const searchers: Record<ProviderId, (p: string) => Promise<Candidate[]>> = { brave: searchBrave, core: searchCore, openalex: searchOpenAlex };
-  const jobs = phrases.flatMap((phrase) => providers.map((provider) => ({ phrase, provider })));
+  const jobs = providers.flatMap((provider) => {
+    // Reparte las frases de cada servicio a lo largo de todo el documento
+    const n = Math.min(PHRASES_PER_PROVIDER[provider], phrases.length);
+    const step = phrases.length / n;
+    return Array.from({ length: n }, (_, i) => ({ phrase: phrases[Math.floor(i * step)], provider }));
+  });
   const results = await inBatches(jobs, 6, ({ phrase, provider }) => searchers[provider](phrase));
   const failures = new Map<ProviderId, number>();
   const candidates = new Map<string, Candidate>();
