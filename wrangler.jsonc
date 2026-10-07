@@ -3,7 +3,7 @@
   "name": "ijmm-tools",
   "main": ".open-next/worker.js",
   // Dominio del sitio (Cloudflare crea el registro DNS)
-  "routes": [{ "pattern": "prueba-tools.ijmmsystem.com", "custom_domain": true }],
+  "routes": [{ "pattern": "tools.ijmmsystem.com", "custom_domain": true }],
   "workers_dev": false,
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
