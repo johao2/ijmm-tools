@@ -10,7 +10,6 @@ const doc =
 const pageText = "Portal educativo. La fotosíntesis es el proceso mediante el cual las plantas transforman la energía de la luz solar en energía química que almacenan en forma de glucosa. Fin.";
 
 vi.mock("@/lib/source-search/providers", () => ({
-  configuredProviders: () => ["brave", "core"],
   PROVIDER_LABELS: { brave: "Internet (Brave Search)", core: "Repositorios académicos (CORE)", openalex: "Publicaciones académicas (OpenAlex)" },
   searchBrave: vi.fn(async () => [
     { provider: "brave", url: "https://ejemplo.edu/fotosintesis#top", title: "Fotosíntesis", text: "extracto breve", level: "snippet", fetchPage: true },
@@ -24,12 +23,13 @@ vi.mock("@/lib/source-search/providers", () => ({
 }));
 
 const { checkSources } = await import("@/lib/source-search/check");
+const PROVIDERS: ("brave" | "core" | "openalex")[] = ["brave", "core"];
 
 describe("checkSources", () => {
   beforeEach(() => vi.clearAllMocks());
 
   it("compara cada fuente con su texto completo y reporta conteos exactos", async () => {
-    const r = await checkSources(doc, 5);
+    const r = await checkSources(doc, 5, PROVIDERS);
     expect(r.providers).toEqual(["brave", "core"]);
     expect(r.phrasesSearched).toBeGreaterThan(0);
 
@@ -49,8 +49,8 @@ describe("checkSources", () => {
   });
 
   it("es determinista", async () => {
-    const { seconds: _a, ...a } = await checkSources(doc, 5);
-    const { seconds: _b, ...b } = await checkSources(doc, 5);
+    const { seconds: _a, ...a } = await checkSources(doc, 5, PROVIDERS);
+    const { seconds: _b, ...b } = await checkSources(doc, 5, PROVIDERS);
     expect(a).toEqual(b);
   });
 
@@ -59,7 +59,7 @@ describe("checkSources", () => {
 
 Referencias
 Ministerio del Ambiente del Ecuador. Guía de especies nativas andinas y adaptaciones fisiológicas frente a la radiación solar intensa.`;
-    const r = await checkSources(withBibliography, 5);
+    const r = await checkSources(withBibliography, 5, PROVIDERS);
     expect(r.bibliographySkipped).toBe(true);
     expect(r.queries.brave).toBe(r.phrasesSearched);
     expect(r.queries.core).toBe(r.phrasesSearched);

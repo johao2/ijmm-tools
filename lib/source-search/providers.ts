@@ -1,9 +1,9 @@
-import "server-only";
 import { abstractFromInvertedIndex, htmlToText } from "@/lib/source-search/text";
 
 /**
- * Conectores a servicios de búsqueda. Solo se ejecutan en el servidor:
- * las claves viven en variables de entorno y nunca llegan al navegador.
+ * Conectores a servicios de búsqueda. Se ejecutan en el navegador: cada consulta pasa por el proxy del sitio
+ * (/api/source-check/buscar y /pagina), que agrega las claves privadas y devuelve la respuesta tal cual.
+ * Así el análisis (que consume procesador) ocurre en el equipo del usuario y el servidor solo reenvía.
  */
 
 export type ProviderId = "brave" | "core" | "openalex";
@@ -27,15 +27,15 @@ export const PROVIDER_LABELS: Record<ProviderId, string> = {
   openalex: "Publicaciones académicas (OpenAlex)",
 };
 
-export function configuredProviders(): ProviderId[] {
-  const list: ProviderId[] = [];
-  if (process.env.BRAVE_SEARCH_API_KEY) list.push("brave");
-  if (process.env.CORE_API_KEY) list.push("core");
-  if (process.env.OPENALEX_API_KEY) list.push("openalex");
-  return list;
+export const PROVIDER_IDS: ProviderId[] = ["brave", "core", "openalex"];
+
+/** Pase temporal que entrega el servidor al iniciar una revisión (limita el uso del proxy). */
+let sessionToken = "";
+export function setSearchSession(token: string) {
+  sessionToken = token;
 }
 
-const TIMEOUT_MS = 12_000;
+const TIMEOUT_MS = 15_000;
 
 const RETRY_DELAY_MS = 800;
 
@@ -60,14 +60,13 @@ async function getJson(url: string, headers: Record<string, string> = {}): Promi
   }
 }
 
+const searchUrl = (provider: ProviderId, phrase: string) => `/api/source-check/buscar?p=${provider}&q=${encodeURIComponent(phrase)}&t=${encodeURIComponent(sessionToken)}`;
+
 const asString = (v: unknown) => (typeof v === "string" ? v : "");
 
 /** Brave Search: búsqueda web por frase exacta. */
 export async function searchBrave(phrase: string): Promise<Candidate[]> {
-  const key = process.env.BRAVE_SEARCH_API_KEY;
-  if (!key) return [];
-  const url = `https://api.search.brave.com/res/v1/web/search?q=${encodeURIComponent(`"${phrase}"`)}&count=5&extra_snippets=true`;
-  const data = (await getJson(url, { "X-Subscription-Token": key })) as { web?: { results?: Record<string, unknown>[] } };
+  const data = (await getJson(searchUrl("brave", phrase))) as { web?: { results?: Record<string, unknown>[] } };
   return (data.web?.results ?? []).map((r) => ({
     provider: "brave" as const,
     url: asString(r.url),
@@ -80,11 +79,7 @@ export async function searchBrave(phrase: string): Promise<Candidate[]> {
 
 /** CORE: repositorios institucionales y revistas de acceso abierto, con texto completo. */
 export async function searchCore(phrase: string): Promise<Candidate[]> {
-  const key = process.env.CORE_API_KEY;
-  if (!key) return [];
-  // CORE falla con frases entre comillas; se busca sin comillas y la coincidencia exacta se verifica después
-  const url = `https://api.core.ac.uk/v3/search/works/?q=${encodeURIComponent(phrase)}&limit=3`;
-  const data = (await getJson(url, { Authorization: `Bearer ${key}` })) as { results?: Record<string, unknown>[] };
+  const data = (await getJson(searchUrl("core", phrase))) as { results?: Record<string, unknown>[] };
   return (data.results ?? []).map((w) => {
     const links = Array.isArray(w.links) ? (w.links as { type?: string; url?: string }[]) : [];
     const display = links.find((l) => l.type === "display")?.url;
@@ -104,10 +99,7 @@ export async function searchCore(phrase: string): Promise<Candidate[]> {
 
 /** OpenAlex: catálogo académico mundial. Devuelve el resumen (el texto completo no se entrega por API). */
 export async function searchOpenAlex(phrase: string): Promise<Candidate[]> {
-  const key = process.env.OPENALEX_API_KEY;
-  if (!key) return [];
-  const url = `https://api.openalex.org/works?search=${encodeURIComponent(`"${phrase}"`)}&per-page=3&select=id,doi,display_name,publication_year,primary_location,open_access,abstract_inverted_index&api_key=${encodeURIComponent(key)}`;
-  const data = (await getJson(url)) as { results?: Record<string, unknown>[] };
+  const data = (await getJson(searchUrl("openalex", phrase))) as { results?: Record<string, unknown>[] };
   return (data.results ?? []).map((w) => {
     const location = (w.primary_location ?? {}) as { landing_page_url?: string };
     const oa = (w.open_access ?? {}) as { oa_url?: string };
@@ -133,52 +125,28 @@ export function isBlockedHost(hostname: string): boolean {
   return false;
 }
 
-const MAX_BYTES = 2_000_000;
+/** Cabecera con el tipo de contenido original de la página descargada por el proxy. */
+export const SOURCE_TYPE_HEADER = "X-Source-Content-Type";
 
 /**
- * Descarga una página pública y devuelve su texto. Solo http/https, sin redes internas,
- * máximo 3 redirecciones, 2 MB y 10 s. Devuelve null si no es HTML o texto.
+ * Descarga una página pública (a través del proxy) y devuelve su texto. Devuelve null si no es HTML o texto,
+ * si la dirección no es pública o si la página no responde.
  */
 export async function fetchPageText(rawUrl: string): Promise<string | null> {
-  let url = rawUrl;
-  for (let hop = 0; hop < 4; hop++) {
-    let parsed: URL;
-    try {
-      parsed = new URL(url);
-    } catch {
-      return null;
-    }
-    if (!["http:", "https:"].includes(parsed.protocol) || isBlockedHost(parsed.hostname)) return null;
-    const res = await fetch(parsed, {
-      redirect: "manual",
-      signal: AbortSignal.timeout(10_000),
-      headers: { "User-Agent": "IJMM-Tools-SimilarityChecker/1.0 (+https://tools.ijmmsystem.com)", Accept: "text/html,text/plain" },
-      cache: "no-store",
-    });
-    if (res.status >= 300 && res.status < 400) {
-      const location = res.headers.get("location");
-      if (!location) return null;
-      url = new URL(location, parsed).toString();
-      continue;
-    }
-    if (!res.ok || !res.body) return null;
-    const type = res.headers.get("content-type") ?? "";
-    if (!/text\/html|text\/plain|application\/xhtml/.test(type)) return null;
-    const reader = res.body.getReader();
-    const chunks: Uint8Array[] = [];
-    let size = 0;
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      size += value.length;
-      if (size > MAX_BYTES) {
-        await reader.cancel();
-        break;
-      }
-      chunks.push(value);
-    }
-    const body = new TextDecoder("utf-8").decode(Buffer.concat(chunks));
-    return type.includes("text/plain") ? body : htmlToText(body);
+  let parsed: URL;
+  try {
+    parsed = new URL(rawUrl);
+  } catch {
+    return null;
   }
-  return null;
+  if (!["http:", "https:"].includes(parsed.protocol) || isBlockedHost(parsed.hostname)) return null;
+  const res = await fetch(`/api/source-check/pagina?u=${encodeURIComponent(parsed.toString())}&t=${encodeURIComponent(sessionToken)}`, {
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+    cache: "no-store",
+  });
+  if (!res.ok) return null;
+  const type = res.headers.get(SOURCE_TYPE_HEADER) ?? "";
+  if (!/text\/html|text\/plain|application\/xhtml/.test(type)) return null;
+  const body = new TextDecoder("utf-8").decode(await res.arrayBuffer());
+  return type.includes("text/plain") ? body : htmlToText(body);
 }

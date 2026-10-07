@@ -17,7 +17,7 @@
 
 ## Deployment state
 
-The repository is connected to Vercel through GitHub and deploys from `main`. The official production domain is `https://tools.ijmmsystem.com`; `https://ijmm-tools.vercel.app` remains a platform alias.
+Production runs on Cloudflare Workers (worker `ijmm-tools`) with the custom domain `https://tools.ijmmsystem.com`, deployed with `npm run deploy` (see `docs/deployment.md`). Vercel was retired in October 2026 to keep hosting, DNS and email on a single provider.
 
 ## Release state
 

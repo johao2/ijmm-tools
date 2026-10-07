@@ -39,7 +39,7 @@ IJMM Tools does not initially enable vignette ads, forced delays, misleading ad 
 1. Keep the verified production domain `https://tools.ijmmsystem.com` operational.
 2. Apply for AdSense using the owner-controlled Google account.
 3. Configure Google's Privacy & Messaging consent solution or another Google-certified CMP.
-4. Create responsive ad units and record their slot IDs in Vercel.
+4. Create responsive ad units and record their slot IDs in `.env.production` (public values).
 5. Set the public configuration flags only after consent is ready.
 6. Redeploy and verify `/ads.txt`, reserved space, mobile layout, and calculator isolation.
 7. Review revenue, viewability, Core Web Vitals, and user retention before adding placements.

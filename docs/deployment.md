@@ -9,7 +9,8 @@
 ## 1. Overview & Deployment Strategy
 
 IJMM Tools is architected for static pre-rendering (SSG/Static Export ready) and Edge runtime execution.
-- **Primary Hosting Target:** Vercel / Cloudflare Pages / AWS Amplify / Standalone Node.js server.
+- **Hosting:** Cloudflare Workers (free plan) through OpenNext (`wrangler.jsonc`, `open-next.config.ts`). Deploy with `npm run deploy`; `scripts/cf-build.mjs` hides local `.env` files during the build so only the public values in `.env.production` are bundled. Server secrets (`BRAVE_SEARCH_API_KEY`, `CORE_API_KEY`, `OPENALEX_API_KEY`, optional `SOURCE_CHECK_SECRET`, `SOURCE_CHECK_DAILY_LIMIT`) are set with `npx wrangler secret put`.
+- **CPU budget:** the free plan allows ~10 ms of CPU per request. The similarity detector therefore runs its search orchestration and exact comparison in the browser; the server only proxies search queries and page downloads (`/api/source-check/buscar`, `/api/source-check/pagina`) with a signed, IP-bound 3-minute session issued by `POST /api/source-check`.
 - **State Strategy:** Pure client-side computation with Zero backend database dependencies.
 
 ---

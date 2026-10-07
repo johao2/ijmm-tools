@@ -33,6 +33,7 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 !.env.example
+!.env.production
 
 # vercel
 .vercel
@@ -43,3 +44,8 @@ next-env.d.ts
 
 # worker de pdf.js (se copia en predev/prebuild)
 /public/pdf.worker.min.mjs
+
+# cloudflare
+/.open-next
+/.wrangler
+.dev.vars*

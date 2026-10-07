@@ -69,16 +69,21 @@ export default function SourceSearch() {
     setLoading(true);
     trackEvent("tool_start", { toolId: TOOL_ID, mode: "internet" });
     try {
+      // 1. El servidor valida el límite diario y entrega un pase temporal (el documento no se envía)
       const res = await fetch("/api/source-check", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, ngram: Number(ngram), consent }),
+        body: JSON.stringify({ words: wordCount, consent }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message ?? "No se pudo completar la búsqueda.");
+      const session = await res.json();
+      if (!res.ok) throw new Error(session.message ?? "No se pudo completar la búsqueda.");
+      // 2. La búsqueda y la comparación se hacen en este navegador; el servidor solo reenvía consultas y páginas
+      const [{ checkSources }, { setSearchSession }] = await Promise.all([import("@/lib/source-search/check"), import("@/lib/source-search/providers")]);
+      setSearchSession(session.token);
+      const data = await checkSources(text, Number(ngram), session.providers);
       setAnalyzedText(text);
       setShowAllSources(false);
-      setResult(data);
+      setResult({ ...data, remaining: session.remaining });
       trackEvent("tool_complete", { toolId: TOOL_ID, mode: "internet", resultCount: data.sources.length });
     } catch (err) {
       setError((err as Error).message);
@@ -157,8 +162,8 @@ export default function SourceSearch() {
           </div>
         </div>
         <Checkbox
-          label="Acepto que el texto se envíe a los servidores de IJMM Tools y a los buscadores indicados solo para realizar esta revisión."
-          helperText="El texto no se guarda: se usa para buscar frases y se descarta al terminar. Los buscadores reciben únicamente las frases consultadas."
+          label="Acepto que se envíen frases de mi texto a los buscadores indicados solo para realizar esta revisión."
+          helperText="Tu documento completo no sale de tu equipo: la comparación se hace en tu navegador. Solo se envían las frases que se buscan, y no se guardan."
           checked={consent}
           onChange={(e) => setConsent(e.target.checked)}
         />

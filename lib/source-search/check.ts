@@ -1,9 +1,7 @@
-import "server-only";
 import { tokenize, type MatchSpan } from "@/lib/tools/similarity";
 import { documentKeys, matchAgainstSource, prioritizeForFetch, queryBudget, selectQueryPhrases } from "@/lib/source-search/text";
 import { findBibliographyRange } from "@/lib/tools/similarity-filters";
 import {
-  configuredProviders,
   fetchPageText,
   PROVIDER_LABELS,
   searchBrave,
@@ -64,7 +62,7 @@ export const MAX_WORDS = 40_000;
 const CONCURRENCY_PER_PROVIDER: Record<ProviderId, number> = { brave: 5, core: 4, openalex: 3 };
 /** Páginas web que se descargan para comparar su texto completo (más en documentos largos) */
 const pageFetchLimit = (braveQueries: number) => Math.min(40, 12 + Math.floor(braveQueries / 2));
-/** La función del servidor tiene 60 s; se reserva margen para comparar y responder */
+/** Tiempo total de la revisión (el pase del proxy dura 3 minutos) */
 const TIME_BUDGET_MS = 45_000;
 /** No se inician nuevas consultas después de este tiempo */
 const SEARCH_DEADLINE_MS = 25_000;
@@ -103,10 +101,12 @@ function normalizeUrl(url: string): string {
   }
 }
 
-/** Busca el documento en internet y repositorios, y mide la coincidencia exacta con cada fuente encontrada. */
-export async function checkSources(text: string, ngram = 5): Promise<SourceCheckResult> {
+/**
+ * Busca el documento en internet y repositorios, y mide la coincidencia exacta con cada fuente encontrada.
+ * Se ejecuta en el navegador: solo las frases de búsqueda y las direcciones a descargar pasan por el proxy del sitio.
+ */
+export async function checkSources(text: string, ngram: number, providers: ProviderId[]): Promise<SourceCheckResult> {
   const started = Date.now();
-  const providers = configuredProviders();
   const docTokens = tokenize(text);
   const budget = queryBudget(docTokens.length);
   // La bibliografía no se consulta: siempre coincide con internet y gastaría consultas
