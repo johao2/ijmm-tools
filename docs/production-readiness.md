@@ -9,7 +9,7 @@
 - Strict TypeScript, automated tests, optimized Next.js build, and dependency audit pass.
 - Homepage, directory, categories, Percentage Calculator, JSON Formatter, Password Generator, QR Code Generator, Ecuador VAT Calculator, Unit Converter, legal pages, custom 404, error recovery, `robots.txt`, and `sitemap.xml` are implemented.
 - Canonical metadata uses `NEXT_PUBLIC_SITE_URL` with `https://tools.ijmmsystem.com` as the verified production value.
-- Security headers are defined in both Next.js and Vercel configuration.
+- Security headers are defined in the Next.js configuration.
 - No database, authentication, payment, or external credentials are required for the core tools. Advertising remains disabled unless all validated AdSense and consent environment gates are supplied.
 - All active tools process values locally, generated passwords never leave the browser, and analytics strips user content.
 - Phase 12 provides fail-closed advertising components, `/ads.txt`, and legal disclosures without activating a provider prematurely.
@@ -17,7 +17,7 @@
 
 ## Deployment state
 
-Production runs on Cloudflare Workers (worker `ijmm-tools`) with the custom domain `https://tools.ijmmsystem.com`, deployed with `npm run deploy` (see `docs/deployment.md`). Vercel was retired in October 2026 to keep hosting, DNS and email on a single provider.
+Production runs on Cloudflare Workers (worker `ijmm-tools`) with the custom domain `https://tools.ijmmsystem.com`, deployed with `npm run deploy` (see `docs/deployment.md`). Hosting, DNS and email live on a single provider (Cloudflare).
 
 ## Release state
 
